@@ -102,33 +102,38 @@ function DesktopNavGroup({
 
       {open && (
         <div
-          className="absolute left-1/2 top-full z-50 mt-1.5 min-w-[11rem] -translate-x-1/2 rounded-xl border border-[var(--card-border)] bg-[var(--surface-1)] py-1.5 shadow-lg"
-          role="menu"
+          className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-1.5"
+          role="presentation"
         >
-          {group.items.map((item) => {
-            const active = isNavActive(pathname, item.href);
+          <div
+            className="min-w-[11rem] rounded-xl border border-[var(--card-border)] bg-[var(--surface-1)] py-1.5 shadow-lg"
+            role="menu"
+          >
+            {group.items.map((item) => {
+              const active = isNavActive(pathname, item.href);
 
-            const Icon = item.icon;
+              const Icon = item.icon;
 
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                {...navLinkProps(item)}
-                role="menuitem"
-                className={`flex items-center gap-2.5 px-3.5 py-2.5 text-sm transition-colors ${
-                  active
-                    ? "bg-indigo-50 font-medium text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300"
-                    : "text-[var(--fg)] hover:bg-[var(--surface-2)]"
-                }`}
-                aria-current={active ? "page" : undefined}
-              >
-                <Icon className="h-4 w-4 shrink-0 opacity-80" aria-hidden />
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  {...navLinkProps(item)}
+                  role="menuitem"
+                  className={`flex items-center gap-2.5 px-3.5 py-2.5 text-sm transition-colors ${
+                    active
+                      ? "bg-indigo-50 font-medium text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300"
+                      : "text-[var(--fg)] hover:bg-[var(--surface-2)]"
+                  }`}
+                  aria-current={active ? "page" : undefined}
+                >
+                  <Icon className="h-4 w-4 shrink-0 opacity-80" aria-hidden />
 
-                {item.label}
-              </a>
-            );
-          })}
+                  {item.label}
+                </a>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
