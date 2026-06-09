@@ -1,0 +1,109 @@
+## 문제
+연속확률변수 $X $가 갖는 값의 범위는 $0 \leq X \leq a$이고, $X $의 확률밀도함수의 그래프가 그림과 같다.
+
+![](/images/docx2mdx/231128-20260602-130905/media/image10.webp)
+
+$P(X \leq b) - P(X \geq b) = \frac{1}{4}$, $P(X \leq \sqrt{5}) = \frac{1}{2}$일 때, $a + b + c$의 값은? (단, $a$, $b$, $c$는 상수이다.) \[4점\]
+
+① $\frac{11}{2}$ ② $6$ ③ $\frac{13}{2}$ ④ $7$ ⑤ $\frac{15}{2}$
+
+
+## 힌트
+그래프는 $x=0$, $x=a$에서 높이 $0$, $x=b$에서 높이 $c$인 삼각형이에요. 전체 넓이가 $1$이므로 $\dfrac{1}{2}ac=1$부터 시작하세요.
+
+
+## 힌트
+$P(X\le b)+P(X\ge b)=1$과 $P(X\le b)-P(X\ge b)=\dfrac{1}{4}$를 연립하면 $P(X\le b)=\dfrac{5}{8}$이에요. $0$부터 $b$까지의 넓이 $\dfrac{1}{2}bc$와 맞춰 보세요.
+
+
+## 힌트
+$P(X\le\sqrt{5})=\dfrac{1}{2}$이고 $P(X\le b)>\dfrac{1}{2}$이므로 $\sqrt{5}<b$예요. $(0,0)$과 $(b,c)$를 잇는 직선 $y=\dfrac{c}{b}x$ 아래 $0\le x\le\sqrt{5}$의 넓이를 $\dfrac{1}{2}$에 맞추면 $b$와 $c$의 관계를 구할 수 있어요.
+
+
+## 풀이
+확률밀도함수의 그래프는 $x=0$, $x=a$에서 $0$, $x=b$에서 $c$인 삼각형이에요.
+
+
+
+전체 넓이가 $1$이므로
+
+
+
+$$
+
+\frac{1}{2}ac=1 \quad\Rightarrow\quad ac=2
+
+$$
+
+
+
+$P(X\le b)+P(X\ge b)=1$이고 $P(X\le b)-P(X\ge b)=\dfrac{1}{4}$이므로
+
+
+
+$$
+
+P(X\le b)=\frac{5}{8},\qquad P(X\ge b)=\frac{3}{8}
+
+$$
+
+
+
+$0\le x\le b$ 구간의 넓이는
+
+
+
+$$
+
+\frac{1}{2}bc=\frac{5}{8} \quad\Rightarrow\quad bc=\frac{5}{4}
+
+$$
+
+
+
+$P(X\le b)=\dfrac{5}{8}>\dfrac{1}{2}$이므로 $\sqrt{5}<b$이고, $(0,0)$과 $(b,c)$를 지나는 직선은 $y=\dfrac{c}{b}x$예요.
+
+
+
+$P(X\le\sqrt{5})=\dfrac{1}{2}$에서 $0\le x\le\sqrt{5}$의 넓이는
+
+
+
+$$
+
+\frac{1}{2}\times\sqrt{5}\times\left(\frac{c}{b}\times\sqrt{5}\right)
+=\frac{5c}{2b}=\frac{1}{2}
+
+$$
+
+
+
+따라서 $b=5c$이고,
+
+
+
+$$
+
+bc=5c^{2}=\frac{5}{4} \quad\Rightarrow\quad c=\frac{1}{2}\quad(c>0)
+
+$$
+
+
+
+$$
+
+b=\frac{5}{2},\qquad a=\frac{2}{c}=4
+
+$$
+
+
+
+$$
+
+a+b+c=4+\frac{5}{2}+\frac{1}{2}=7
+
+$$
+
+
+
+따라서 정답은 **④**예요.

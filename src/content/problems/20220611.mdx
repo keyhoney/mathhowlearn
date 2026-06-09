@@ -1,0 +1,107 @@
+## 문제
+닫힌구간 $\lbrack 0,\ 1\rbrack$에서 연속인 함수 $f(x)$가
+
+$$
+f(0) = 0, \,\, f(1) = 1, \,\, \displaystyle \int_{0}^{1}\ f(x) dx= \frac{1}{6}
+$$
+
+을 만족시킨다. 실수 전체의 집합에서 정의된 함수 $g(x)$가 다음 조건을 만족시킬 때, $\displaystyle \int_{- 3}^{2}\ g(x)  dx$의 값은? \[4점\]
+
+> **조건**
+>
+> **(가)**
+> $ g(x) = \begin{cases}
+>   -f(x+1) + 1 & ( -1 < x < 0 ) \\
+>   f(x) & ( 0 \leq x \leq 1 )
+> \end{cases}$
+>
+> **(나)** 모든 실수 $x$에 대하여 $g(x + 2) = g(x)$이다.
+
+① $\frac{5}{2}$ ② $\frac{17}{6}$ ③ $\frac{19}{6}$ ④ $\frac{7}{2}$ ⑤ $\frac{23}{6}$
+
+## 힌트
+조건 (가)에서 $-1 < x < 0$일 때와 $0 \leq x \leq 1$일 때 $g(x)$ 식이 달라요. 구간 $[-1,\ 1]$에서의 적분은 두 구간으로 나눠서 각각 계산해 보세요.
+
+## 힌트
+$\displaystyle \int_{-1}^{0} \{ -f(x + 1) + 1 \}\, dx$에는 치환 $t = x + 1$을 쓰면 $f(t)$에 대한 적분 구간이 $[0,\ 1]$로 옮겨져요. 문제에 주어진 $\displaystyle \int_{0}^{1} f(x)\, dx$를 바로 쓸 수 있어요.
+
+## 힌트
+조건 (나)는 $g$의 주기가 $2$라는 뜻이에요. 적분 구간을 길이 $2$만큼 평행이동해도 적분값이 같다는 성질로, $\displaystyle \int_{-3}^{-1} g(x)\, dx$나 $\displaystyle \int_{1}^{2} g(x)\, dx$를 이미 구한 구간으로 옮겨 보세요.
+
+## 힌트
+$\displaystyle \int_{-3}^{2} g(x)\, dx$는 예를 들어 $[-3,-1]$, $[-1,1]$, $[1,2]$로 잘라 더하면, 각 조각을 주기 $2$와 $[-1,1]$ 안에서의 적분값으로 바꿀 수 있어요.
+
+## 풀이
+조건 (가)에 따라
+
+$x \in (-1,\ 0)$일 때 $g(x) = -f(x + 1) + 1$,
+
+$x \in [0,\ 1]$일 때 $g(x) = f(x)$이에요.
+
+먼저 $\displaystyle \int_{-1}^{0} g(x)\, dx$를 구할게요.
+
+치환 $t = x + 1$을 쓰면 $dt = dx$이고,
+
+$x = -1$일 때 $t = 0$,
+
+$x = 0$일 때 $t = 1$이에요.
+
+$\displaystyle \int_{-1}^{0} \{ -f(x + 1) + 1 \}\, dx $
+
+$= \displaystyle\int_{0}^{1} \{ -f(t) + 1 \}\, dt $
+
+$= - \displaystyle\int_{0}^{1} f(t)\, dt + \displaystyle\int_{0}^{1} 1\, dt$
+
+$\displaystyle = - \frac{1}{6} + 1 = \frac{5}{6}$
+
+이에요.
+
+또
+
+$\displaystyle \int_{0}^{1} g(x)\, dx = \int_{0}^{1} f(x)\, dx = \frac{1}{6}$
+
+이에요.
+
+그러므로 한 주기에 해당하는 구간에서
+
+$\displaystyle \int_{-1}^{1} g(x)\, dx $
+
+$ = \displaystyle \int_{-1}^{0} g(x)\, dx + \int_{0}^{1} g(x)\, dx $
+
+$= \frac{5}{6} + \frac{1}{6} = 1$
+
+이에요.
+
+조건 (나)에서 $g(x + 2) = g(x)$이므로 $g$는 주기 $2$를 가져요.
+
+따라서 임의의 실수 $a$에 대해 $\displaystyle \int_{a}^{a + 2} g(x)\, dx$는 $a$에 의존하지 않고 같아요.
+
+$\displaystyle \int_{-3}^{-1} g(x)\, dx$에서 $u = x + 2$로 치환하면 $du = dx$,
+
+$x = -3$일 때 $u = -1$,
+
+$x = -1$일 때 $u = 1$이므로
+
+$\displaystyle \int_{-3}^{-1} g(x)\, dx = \int_{-1}^{1} g(u)\, du = 1$
+
+이에요.
+
+$\displaystyle \int_{1}^{2} g(x)\, dx$는 $v = x - 2$로 치환하면 $dv = dx$, $x = 1$일 때 $v = -1$, $x = 2$일 때 $v = 0$이므로
+
+$\displaystyle \int_{1}^{2} g(x)\, dx $
+
+$ = \displaystyle \int_{-1}^{0} g(v)\, dv = \frac{5}{6}$
+
+이에요.
+
+구간 $[-3,\ 2]$를 나누면
+
+$\displaystyle \int_{-3}^{2} g(x)\, dx $
+
+$ = \displaystyle\int_{-3}^{-1} g(x)\, dx + \int_{-1}^{1} g(x)\, dx + \int_{1}^{2} g(x)\, dx$
+
+$\displaystyle = 1 + 1 + \frac{5}{6} = \frac{17}{6}$
+
+이에요. (앞의 두 항은 각각 $\displaystyle \int_{-1}^{1} g(x)\, dx$와 같으므로 $2 \times 1 + \frac{5}{6}$으로 묶어서 생각해도 돼요.)
+
+따라서 정답은 **②**이에요.

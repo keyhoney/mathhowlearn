@@ -1,0 +1,95 @@
+## 문제
+지역 $A$에 살고 있는 성인들의 $1$인 하루 물 사용량을 확률변수 $X$, 지역 $B$에 살고 있는 성인들의 $1$인 하루 물 사용량을 확률변수 $Y$라 하자. 두 확률변수 $X,\ Y$는 정규분포를 따르고 다음 조건을 만족시킨다.
+
+> **조건**
+> 
+> **(가)** 두 확률변수 $X,\ Y$의 평균은 각각 $220$과 $240$이다.
+>
+> **(나)** 확률변수 $Y$의 표준편차는 확률변수 $X$의 표준편차의 $1.5$배이다.
+
+지역 $A$에 살고 있는 성인 중 임의추출한 $n$명의 $1$인 하루 물 사용량의 표본평균을 $\overline{X}$, 지역 $B$에 살고 있는 성인 중 임의추출한 $9n$명의 $1$인 하루 물 사용량의 표본평균을 $\overline{Y}$라 하자.\
+$P(\overline{X} \leq 215) $ $= 0.1587$ 일 때, $P(\overline{Y} \geq 235)$의 값을 아래의 표준정규분포표를 이용하여 구한 것은?\
+(단, 물 사용량의 단위는 $L$이다.) \[3점\]
+
+**표준정규분포표**
+
+| $z$ | $P(0 \leq Z \leq z)$ |
+| --- | -------------------- |
+| $0.5$ | $0.1915$ |
+| $1.0$ | $0.3413$ |
+| $1.5$ | $0.4332$ |
+| $2.0$ | $0.4772$ |
+
+① $0.6915$ ② $0.7745$ ③ $0.8185$ ④ $0.8413$ ⑤ $0.9772$
+
+
+## 힌트
+정규모집단에서 표본평균 $\overline{X}$의 분포는 평균은 모평균과 같고, 분산은 모분산을 표본 크기로 나눈 값이에요. $X$의 표준편차를 $a$로 두고 $\overline{X}$를 표준정규분포로 바꿔 보세요.
+
+## 힌트
+$P(\overline{X}\leq 215)=0.1587$을 표준정규분포로 쓰면 $P(Z\leq k)$ 꼴이 돼요. $P(Z\leq -t)=0.5-P(0\leq Z\leq t)$($t>0$)임을 이용해 표에서 맞는 $t$를 찾으면 $\dfrac{a}{\sqrt{n}}$ 같은 비를 얻을 수 있어요.
+
+## 힌트
+$Y$의 표준편차는 (나)에서 $1.5a$예요. 표본 크기가 $9n$이니 $\overline{Y}$의 표준편차는 $\dfrac{1.5a}{\sqrt{9n}}$로 정리돼요. ㉠에서 구한 $\dfrac{a}{\sqrt{n}}$을 대입한 뒤 $P(\overline{Y}\geq 235)$만 표준화하면 돼요.
+
+## 풀이
+$X$의 표준편차를 $a$($a>0$)라고 할게요. (가)에 따라 $X\sim N(220,a^2)$이에요.
+
+표본 크기가 $n$이므로
+$$
+\overline{X}\sim N\!\left(220,\left(\frac{a}{\sqrt{n}}\right)^2\right)
+$$
+이에요. 표준화하면
+$$
+Z=\frac{\overline{X}-220}{\frac{a}{\sqrt{n}}}
+$$
+일 때 $Z\sim N(0,1)$이에요.
+
+주어진 확률을 표준정규분포로 쓰면
+$$
+\begin{aligned}
+P(\overline{X}\leq 215)
+&=P\!\left(Z\leq \frac{215-220}{\frac{a}{\sqrt{n}}}\right)
+=P\!\left(Z\leq -\frac{5\sqrt{n}}{a}\right) \\
+&=P\!\left(Z\geq \frac{5\sqrt{n}}{a}\right)
+=\frac{1}{2}-P\!\left(0\leq Z\leq \frac{5\sqrt{n}}{a}\right)
+\end{aligned}
+$$
+이에요. (마지막 등호는 $Z$의 확률밀도함수가 $y$축 대칭이라 $\,P(Z\leq -t)=P(Z\geq t)\,$이고, $\,P(Z\geq t)=\dfrac{1}{2}-P(0\leq Z\leq t)\,$를 쓴 거예요.)
+
+이 값이 $0.1587$이므로
+$$
+\frac{1}{2}-P\!\left(0\leq Z\leq \frac{5\sqrt{n}}{a}\right)=0.1587,
+\qquad
+P\!\left(0\leq Z\leq \frac{5\sqrt{n}}{a}\right)=0.3413
+$$
+이에요. 표준정규분포표에서 $P(0\leq Z\leq z)=0.3413$일 때 $z=1.0$이므로
+$$
+\frac{5\sqrt{n}}{a}=1,
+\qquad
+\frac{a}{\sqrt{n}}=5
+\quad\cdots\cdots\text{㉠}
+$$
+이에요.
+
+다음으로 (나)에 따라 $Y$의 표준편차는 $1.5a=\dfrac{3a}{2}$이고 $Y\sim N\!\left(240,\left(\dfrac{3a}{2}\right)^2\right)$이에요. 표본 크기가 $9n$이므로
+$$
+\overline{Y}\sim N\!\left(240,\left(\frac{\frac{3a}{2}}{\sqrt{9n}}\right)^2\right)
+=N\!\left(240,\left(\frac{a}{2\sqrt{n}}\right)^2\right)
+$$
+이에요. ㉠을 쓰면 $\dfrac{a}{2\sqrt{n}}=\dfrac{5}{2}$이에요.
+
+표준화하면 $Z=\dfrac{\overline{Y}-240}{\frac{5}{2}}$일 때 $Z\sim N(0,1)$이에요. 따라서
+$$
+\begin{aligned}
+P(\overline{Y}\geq 235)
+&=P\!\left(Z\geq \frac{235-240}{\frac{5}{2}}\right)
+=P(Z\geq -2) \\
+&=P(-2\leq Z\leq 0)+\frac{1}{2}
+=P(0\leq Z\leq 2)+\frac{1}{2} \\
+&=0.4772+0.5=0.9772
+\end{aligned}
+$$
+이에요. (표에서 $P(0\leq Z\leq 2)=0.4772$를 썼어요.)
+
+따라서 정답은 **⑤**예요.

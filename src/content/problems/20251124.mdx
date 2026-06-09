@@ -1,0 +1,68 @@
+## 문제
+두 사건 $A $, $B  $에 대하여
+
+$P(A   \mid   B ) = P(A ) = \frac{1}{2}$, $\ P(A  \cap B ) = \frac{1}{5}$
+
+일 때, $P(A  \cup B ) $의 값은? \[3점\]
+
+① $\frac{1}{2}$ ② $\frac{3}{5}$ ③ $\frac{7}{10}$ ④ $\frac{4}{5}$ ⑤ $\frac{9}{10} $
+
+
+## 힌트
+$P(A\mid B)=\dfrac{P(A\cap B)}{P(B)}$이고 $P(A\mid B)=P(A)$이므로 $P(B)$를 먼저 구할 수 있어요.
+
+
+## 힌트
+$P(A\cup B)=P(A)+P(B)-P(A\cap B)$ 공식에 구한 확률을 대입하면 돼요.
+
+
+## 풀이
+조건부확률의 정의에 의해
+
+
+
+$$
+
+P(A\mid B)=\frac{P(A\cap B)}{P(B)}
+
+$$
+
+
+
+$P(A\mid B)=P(A)=\dfrac{1}{2}$이고 $P(A\cap B)=\dfrac{1}{5}$이므로
+
+
+
+$$
+
+\frac{1}{2}=\frac{\dfrac{1}{5}}{P(B)}
+\quad\Rightarrow\quad
+P(B)=\frac{2}{5}
+
+$$
+
+
+
+($P(A\mid B)=P(A)$이므로 $A$와 $B$는 독립이기도 해요.)
+
+
+
+합사건의 확률은
+
+
+
+$$
+
+\begin{aligned}
+P(A\cup B)
+&=P(A)+P(B)-P(A\cap B) \\
+&=\frac{1}{2}+\frac{2}{5}-\frac{1}{5} \\
+&=\frac{1}{2}+\frac{1}{5} \\
+&=\frac{7}{10}
+\end{aligned}
+
+$$
+
+
+
+따라서 정답은 **③**예요.

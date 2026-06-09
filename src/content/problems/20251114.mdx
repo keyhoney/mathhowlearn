@@ -1,0 +1,190 @@
+## 문제
+그림과 같이 삼각형 $ABC $에서 선분 $AB $ 위에\
+$\overline{AD} : \overline{DB} = 3 :  2 $인 점 $D $를 잡고, 점 $A $를 중심으로 하고 점 $D $를 지나는 원을 $O $, 원 $O  $와 선분 $AC $가 만나는 점을 $E $라 하자. $\sin  A  : \sin  C  = 8 :  5 $이고, 삼각형 $ADE $와 삼각형 $ABC $의 넓이의 비가 $9 :  35 $이다. 삼각형 $ABC $의 외접원의 반지름의 길이가 $7 $일 때, 원 $O $ 위의 점 $P $에 대하여 삼각형 $PBC $의 넓이의 최댓값은? (단, $\overline{AB}<\overline{AC}$) \[4점\]
+
+![](/images/docx2mdx/251114-20260604-144148/media/image1.webp)
+
+① $18 + 15\sqrt{3}$ ② $24 + 20\sqrt{3}$ ③ $30 + 25\sqrt{3}$
+
+④ $36 + 30\sqrt{3}$ ⑤ $42 + 35\sqrt{3}$
+
+
+## 힌트
+$\overline{AD}:\overline{DB}=3:2$이므로 $\overline{AB}=5t$로 두고, 사인법칙 $\dfrac{\overline{BC}}{\sin A}=\dfrac{\overline{AB}}{\sin C}=14$와 $\sin A:\sin C=8:5$로 $\overline{BC}=8t$를 구해 보세요.
+
+
+## 힌트
+넓이 비 $9:35$에서 $\overline{AD}\cdot\overline{AE}:\overline{AB}\cdot\overline{AC}=9:35$예요. 원 $O$의 중심이 $A$이므로 $\overline{AD}=\overline{AE}$인 것도 함께 쓰면 $\overline{AC}=7t$까지 정해져요.
+
+
+## 힌트
+코사인법칙으로 $\angle B=60^{\circ}$를 구하고, 외접원 반지름 $7$로 $t$를 구해요. $\triangle PBC$ 넓이는 $\dfrac{1}{2}\times\overline{BC}\times$(점 $P$와 직선 $BC$ 사이 거리)로 보면 돼요.
+
+
+## 힌트
+$A$에서 $BC$에 내린 수선의 발을 $H$라 하면, 점 $P$가 원 $O$ 위를 움직일 때 $P$와 직선 $BC$ 사이 거리의 최댓값은 $\overline{AH}+\overline{AP}$($\overline{AP}=3\sqrt{3}$)로 잡을 수 있어요.
+
+
+## 풀이
+### 변의 길이 ($\overline{AB}=5t$)
+
+
+
+$\overline{AD}:\overline{DB}=3:2$이므로 $\overline{AD}=3t$, $\overline{DB}=2t$, $\overline{AB}=5t$ ($t>0$)로 둡니다.
+
+
+
+외접원 반지름이 $7$이므로 사인법칙에서
+
+
+
+$$
+
+\frac{\overline{BC}}{\sin A}=\frac{\overline{AB}}{\sin C}=2\times 7=14
+
+$$
+
+
+
+$\sin A:\sin C=8:5$이므로 $\overline{BC}:\overline{AB}=8:5$, 즉 $\overline{BC}=8t$.
+
+
+
+### $\overline{AE}$, $\overline{AC}$
+
+
+
+두 삼각형은 $\angle A$를 공유하므로
+
+
+
+$$
+
+\frac{\triangle ADE}{\triangle ABC}
+=\frac{\overline{AD}\cdot\overline{AE}}{\overline{AB}\cdot\overline{AC}}
+=\frac{9}{35}
+
+$$
+
+
+
+$$
+
+\frac{3t\cdot\overline{AE}}{5t\cdot\overline{AC}}=\frac{9}{35}
+\quad\Rightarrow\quad
+3\overline{AE}:5\overline{AC}=9:35
+
+$$
+
+
+
+$$
+
+\overline{AE}=\frac{3}{7}\overline{AC}
+
+$$
+
+
+
+원 $O$는 중심 $A$, 반지름 $\overline{AD}$이고 $E$도 원 위에 있으므로 $\overline{AD}=\overline{AE}=3t$.
+
+
+
+따라서 $\overline{AC}=7t$.
+
+
+
+### $\angle B$와 $t$
+
+
+
+코사인법칙:
+
+
+
+$$
+
+\cos(\angle ABC)
+=\frac{(5t)^{2}+(8t)^{2}-(7t)^{2}}{2\cdot 5t\cdot 8t}
+=\frac{1}{2}
+
+$$
+
+
+
+$\angle ABC=60^{\circ}$.
+
+
+
+$$
+
+\frac{\overline{AC}}{\sin(\angle ABC)}=14
+\quad\Rightarrow\quad
+7t=14\sin 60^{\circ}=7\sqrt{3}
+
+$$
+
+
+
+$$
+
+t=\sqrt{3},\quad
+\overline{BC}=8\sqrt{3},\quad
+\overline{AD}=\overline{AE}=3\sqrt{3}
+
+$$
+
+
+
+### $\triangle PBC$ 넓이의 최댓값
+
+
+
+점 $A$에서 변 $BC$에 내린 수선의 발을 $H$라 하면
+
+
+
+$$
+
+\overline{AH}=\overline{AB}\sin 60^{\circ}
+=5\sqrt{3}\cdot\frac{\sqrt{3}}{2}
+=\frac{15}{2}
+
+$$
+
+
+
+$\triangle PBC$의 넓이는
+
+
+
+$$
+
+\frac{1}{2}\times\overline{BC}\times(\text{점 }P\text{와 직선 }BC\text{ 사이 거리})
+
+$$
+
+
+
+점 $P$가 원 $O$(중심 $A$, 반지름 $3\sqrt{3}$) 위를 움직일 때, 직선 $BC$로부터 가장 멀어지는 방향은 $A$에서 $BC$의 반대쪽이므로 그 거리의 최댓값은 $\overline{AH}+\overline{AP}$이고 $\overline{AP}\le 3\sqrt{3}$.
+
+
+
+$$
+
+\begin{aligned}
+\triangle PBC\text{의 넓이}
+&\le \frac{1}{2}\times(\overline{AH}+3\sqrt{3})\times 8\sqrt{3} \\
+&=\frac{1}{2}\times\left(\frac{15}{2}+3\sqrt{3}\right)\times 8\sqrt{3} \\
+&=36+30\sqrt{3}
+\end{aligned}
+
+$$
+
+
+
+(등호는 $P$가 $AH$의 연장 방향 쪽 원 위에 있을 때)
+
+
+
+따라서 정답은 **④**예요.

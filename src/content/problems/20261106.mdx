@@ -1,0 +1,67 @@
+## 문제
+$1 $보다 큰 두 실수 $a $, $b $가
+
+$$
+\log _{a}  b = 3, \,\, \log _{3} \frac{b}{a} = \frac{1}{2}
+$$
+
+을 만족시킬 때, $\log _{9}  ab $의 값은? \[3점\]
+
+① $\frac{3}{8} $ ② $\frac{1}{2} $ ③ $\frac{5}{8} $ ④ $\frac{3}{4} $ ⑤ $\frac{7}{8} $
+
+
+## 힌트
+$\log_a b=3$에서 $b=a^{3}$으로 바꿀 수 있어요. $\log_3\dfrac{b}{a}=\dfrac{1}{2}$에 대입해 $\log_3 a$를 구해 보세요.
+
+
+## 힌트
+$\log_3 a=x$, $\log_3 b=y$로 두면 $y=3x$와 $y-x=\dfrac{1}{2}$를 연립할 수도 있어요. 마지막에 $\log_9 ab=\dfrac{1}{2}(\log_3 a+\log_3 b)$를 쓰면 됩니다.
+
+
+## 풀이
+$\log_a b=3$에서 $b=a^{3}$입니다. 이를 $\log_3\dfrac{b}{a}=\dfrac{1}{2}$에 대입하면
+
+
+
+$$
+
+\begin{aligned}
+\log_3\frac{a^{3}}{a}&=\frac{1}{2} \\
+\log_3 a^{2}&=\frac{1}{2} \\
+2\log_3 a&=\frac{1}{2} \\
+\log_3 a&=\frac{1}{4}
+\end{aligned}
+
+$$
+
+
+
+따라서 $a=3^{\frac{1}{4}}$, $b=3^{\frac{3}{4}}$이고,
+
+
+
+$$
+
+\begin{aligned}
+ab&=3^{\frac{1}{4}}\times 3^{\frac{3}{4}} \\
+&=3
+\end{aligned}
+
+$$
+
+
+
+$$
+
+\begin{aligned}
+\log_9 ab
+&=\log_{3^{2}} 3 \\
+&=\frac{1}{2}\log_3 3 \\
+&=\frac{1}{2}
+\end{aligned}
+
+$$
+
+
+
+따라서 정답은 **②**예요.

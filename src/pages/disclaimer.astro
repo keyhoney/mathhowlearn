@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const sections = [
+  {
+    title: '1. 정보 제공 목적',
+    items: [
+      '본 사이트는 학습과학, 인지심리, 교육이론, 학습전략에 관한 일반적인 참고 정보를 제공하는 지식 아카이브입니다.',
+      '제공되는 내용은 교육적 이해를 돕기 위한 것으로, 개별 상황에 대한 전문적 판단을 대신하지 않습니다.',
+    ],
+  },
+  {
+    title: '2. 전문 자문 대체 불가',
+    items: [
+      '콘텐츠는 진단, 치료, 상담, 처방, 임상적 평가를 대체하지 않으며 의료행위나 임상 판단을 제공하지 않습니다.',
+      '학습·행동·정서·정신건강 관련 구체적인 우려가 있는 경우 자격을 갖춘 전문가 상담을 우선해 주세요.',
+    ],
+  },
+  {
+    title: '3. 적용 범위와 한계',
+    items: [
+      '사이트에서 소개하는 이론, 연구, 전략은 일반적 경향과 연구 맥락에 근거한 정리입니다.',
+      '개인의 연령, 환경, 목표, 건강 상태, 발달 특성에 따라 적용 가능성과 효과는 달라질 수 있습니다.',
+    ],
+  },
+  {
+    title: '4. 최신성 및 정확성',
+    items: [
+      '연구 결과는 표본, 설계, 후속 연구에 따라 해석이 달라질 수 있습니다.',
+      '지식은 지속적으로 업데이트되므로 모든 정보가 항상 최신 합의나 완전한 사실을 반영한다고 보장하지 않습니다.',
+    ],
+  },
+  {
+    title: '5. 이용자 책임',
+    items: [
+      '콘텐츠는 참고용이며, 이를 바탕으로 한 학습법·교육적 의사결정·생활 적용의 책임은 이용자에게 있습니다.',
+      '사이트 내용을 적용한 결과에 대한 보증은 제공하지 않습니다.',
+    ],
+  },
+  {
+    title: '6. 외부 링크 및 자료',
+    items: [
+      '외부 링크·참고 자료의 정확성, 완전성, 최신성은 별도로 보증하지 않습니다.',
+      '외부 사이트 이용 및 개인정보 처리는 해당 사이트의 정책이 적용됩니다.',
+    ],
+  },
+  {
+    title: '7. 광고 관련 안내',
+    items: [
+      '광고는 제3자(광고 네트워크·광고주)에 의해 제공되며, 클릭 시 외부 사이트로 이동할 수 있습니다.',
+      '광고 내용, 상품/서비스, 링크 대상은 본 사이트의 의견·권장을 의미하지 않으며, 본 사이트는 광고 내용에 대해 보증하거나 책임지지 않습니다.',
+    ],
+  },
+];
+---
+
+<BaseLayout title="면책 조항" description="GaeSaeGi Math 콘텐츠의 정보 제공 범위 및 책임 한계 안내">
+  <section class="py-8 space-y-4 prose prose-book max-w-none">
+    <header class="book-card border border-slate-200 bg-white shadow-sm not-prose dark:border-slate-700 dark:bg-slate-900/90">
+      <h1 class="type-title">면책 조항</h1>
+      <p class="mt-3 text-sm text-[var(--fg-muted)]">
+        GaeSaeGi Math의 콘텐츠는 학습 참고를 위한 일반 정보입니다. 개인 상황에 대한 전문적 판단이나 자문을 대체하지 않습니다.
+      </p>
+    </header>
+
+    <section class="book-card mt-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+      <h2 class="text-base font-semibold text-[var(--fg)]">핵심 안내</h2>
+      <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-[var(--fg-muted)]">
+        <li>본 사이트 정보는 참고용이며, 결과를 보장하지 않습니다.</li>
+        <li>건강·심리·진단이 필요한 영역은 전문가 상담이 우선입니다.</li>
+        <li>외부 링크 및 광고에는 각 제공자 정책이 적용됩니다.</li>
+      </ul>
+    </section>
+
+    <div class="mt-4 grid gap-4">
+      {
+        sections.map((section) => (
+          <section class="book-card border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+            <h2 class="text-base font-semibold text-[var(--fg)]">{section.title}</h2>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-[var(--fg-muted)]">
+              {section.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="book-card mt-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+      <h2 class="text-base font-semibold text-[var(--fg)]">관련 정책</h2>
+      <p class="mt-2 text-sm text-[var(--fg-muted)]">
+        자세한 내용은 <a href="/privacy" class="underline hover:text-[var(--accent)]">개인정보처리방침</a>, <a href="/terms" class="underline hover:text-[var(--accent)]">이용약관</a>을 함께 확인해 주세요.
+      </p>
+    </section>
+  </section>
+</BaseLayout>

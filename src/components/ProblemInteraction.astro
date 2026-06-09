@@ -1,0 +1,19 @@
+---
+import { HintReveal } from './problems/HintReveal';
+
+interface Props {
+  problemId: string;
+  hintStepsHtml: string[];
+  solutionHtml: string;
+}
+
+const { problemId, hintStepsHtml, solutionHtml } = Astro.props;
+---
+
+<HintReveal
+  client:load
+  problemId={problemId}
+  totalHints={hintStepsHtml.length}
+  hintContents={hintStepsHtml}
+  solutionHtml={solutionHtml}
+/>

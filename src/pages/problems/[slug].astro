@@ -1,0 +1,304 @@
+---
+import MathLayout from '../../layouts/MathLayout.astro';
+import ProblemInteraction from '../../components/ProblemInteraction.astro';
+import ExamPracticeToolbar from '../../components/ExamPracticeToolbar.astro';
+import DifficultyStars from '../../components/DifficultyStars.astro';
+import { buildProblemOccurrenceStats } from '../../lib/content-utils';
+import { getExamTypeBadgeClass } from '../../lib/exam-type-badge';
+import { STORAGE_KEYS } from '../../lib/storage-keys';
+import {
+  buildHintSteps,
+  extractMcqChoices,
+  extractProblemStatementMarkdown,
+  extractSection,
+  extractSections,
+  renderTrustedMarkdown,
+} from '../../lib/problem-markdown';
+import { getCollection, getEntry } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+  const items = await getCollection('problems');
+  return items.map((entry) => ({
+    params: { slug: entry.id },
+  }));
+}) satisfies GetStaticPaths;
+export const prerender = true;
+
+const slug = Astro.params.slug;
+if (!slug) {
+  return Astro.redirect('/problems');
+}
+
+const entry = await getEntry('problems', slug);
+if (!entry) {
+  return Astro.redirect('/problems');
+}
+
+const { source, year, month, examType, chapter, subChapter, concept, difficulty, answerType, answer } =
+  entry.data;
+
+const rawProblemMd = extractProblemStatementMarkdown(entry.body);
+const { statement: problemMd, choices: mcqChoices } = extractMcqChoices(rawProblemMd);
+const problemHtml = await renderTrustedMarkdown(problemMd);
+const mcqChoicesHtml =
+  mcqChoices.length > 0
+    ? await Promise.all(
+        mcqChoices.map(async (choice) => {
+          const html = await renderTrustedMarkdown(choice);
+          return html.replace(/^<p>/, '').replace(/<\/p>\s*$/, '');
+        }),
+      )
+    : [];
+const renderedMcqChoicesHtml = mcqChoicesHtml.length > 0 ? mcqChoicesHtml : ['1', '2', '3', '4', '5'];
+
+const hintSections = extractSections(entry.body, ['힌트']);
+const solutionText = extractSection(entry.body, ['풀이']);
+const hintSteps = hintSections.flatMap((section) => buildHintSteps(section));
+const hintStepsHtml =
+  hintSteps.length > 0 ? await Promise.all(hintSteps.map((s) => renderTrustedMarkdown(s))) : [];
+const solutionHtml = await renderTrustedMarkdown(solutionText);
+const allProblems = await getCollection('problems');
+const occurrenceStats = buildProblemOccurrenceStats(entry, allProblems);
+const tinaPath = `problems/${entry.id}.mdx`;
+const tinaField = (field: string) => `${tinaPath}#${field}`;
+const relatedProblems = allProblems
+  .filter((p) => {
+    if (p.id === entry.id) return false;
+    return true;
+  })
+  .map((p) => {
+    let score = 0;
+    if (p.data.subject === entry.data.subject) score += 30;
+    if (p.data.chapter === entry.data.chapter) score += 25;
+    if (p.data.subChapter === entry.data.subChapter) score += 20;
+    if (p.data.concept === entry.data.concept) score += 25;
+    score += Math.max(0, 15 - Math.abs((p.data.difficulty ?? 3) - (entry.data.difficulty ?? 3)) * 5);
+    return { problem: p, score };
+  })
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 6);
+const conceptByProblemId = Object.fromEntries(allProblems.map((p) => [p.id, p.data.concept]));
+---
+
+<MathLayout
+  title={source}
+  description={`${year}년 ${month}월 ${examType} · ${chapter} · ${subChapter} · ${concept}`}
+>
+  <article
+    class="max-w-4xl mx-auto prose prose-book prose-slate dark:prose-invert exam-problem-page"
+    data-problem-interaction
+    data-problem-id={entry.id}
+    data-total-hints={String(hintStepsHtml.length)}
+    data-answer-type={answerType}
+    data-answer={String(answer)}
+    data-progress-key={STORAGE_KEYS.PROBLEM_PROGRESS}
+    data-wrong-note-key={STORAGE_KEYS.WRONG_NOTE}
+  >
+    <ExamPracticeToolbar problemId={entry.id} />
+    <header class="not-prose book-card--compact mb-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+      <a href="/problems" class="type-caption font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400" data-list-back-link data-list-base-path="/problems">← 목록으로 돌아가기</a>
+      <div class="exam-meta-row mt-4 flex flex-wrap items-center gap-2 focus-hide-in-exam">
+        <span class="type-caption chrome-muted">
+          {year}년 {month}월 {examType}
+        </span>
+        <span class="type-caption chrome-muted">
+          {entry.data.subject} · {chapter} · {subChapter} · {concept}
+        </span>
+        <DifficultyStars value={difficulty} />
+      </div>
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="type-article-title m-0">
+          {source}
+        </h1>
+      </div>
+    </header>
+    <p class="focus-only-note learn-callout learn-callout--warning not-prose mb-4">
+      집중 모드가 켜져 있습니다. STEP 힌트와 최종 풀이는 계속 볼 수 있고, 관련 문제는 숨겨집니다.
+    </p>
+    <div class="not-prose learn-surface learn-emphasis book-card" data-problem-card-root data-tina-field={tinaField('body')}>
+      <h2 class="type-subhead mb-4">문제</h2>
+      <div
+        class="prose prose-slate dark:prose-invert max-w-none prose-headings:tracking-tight"
+        set:html={problemHtml}
+      />
+      <div class="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50">
+        <h3 class="type-caption font-semibold text-slate-800 dark:text-slate-100">정답 체크</h3>
+        <div class="mt-3" data-answer-input-wrap>
+          {answerType === 'mcq' ? (
+            <fieldset data-choice-fieldset>
+              <legend class="sr-only">객관식 선택지</legend>
+              <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {renderedMcqChoicesHtml.map((choiceHtml, idx) => (
+                  <label class="choice-item flex min-h-12 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-3 text-center text-sm leading-snug text-slate-800 shadow-sm transition-colors hover:border-indigo-300 hover:bg-indigo-50/50 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-indigo-500/60">
+                    <input
+                      type="radio"
+                      name={`choice-${entry.id}`}
+                      value={idx + 1}
+                      class="sr-only"
+                      data-answer-choice
+                    />
+                    <span class="whitespace-normal break-words" set:html={choiceHtml} />
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ) : (
+            <input
+              type="text"
+              inputmode="numeric"
+              placeholder="정답 입력"
+              aria-label="단답형 정답 입력"
+              class="app-input"
+              data-answer-short
+            />
+          )}
+        </div>
+        <div class="mt-3 flex flex-wrap items-center gap-2">
+          {answerType === 'mcq' ? (
+            <p class="type-caption chrome-muted m-0">선택지를 클릭하면 바로 채점됩니다.</p>
+          ) : (
+            <button type="button" class="gsg-btn-primary !min-h-0 !px-4 !py-2 !text-sm" data-check-answer>
+              정답 확인
+            </button>
+          )}
+          <p class="hidden" data-answer-result role="status" aria-live="polite"></p>
+          <a href="/problems/wrong-note" class="app-btn-secondary hidden" data-go-wrong-note>
+            오답노트로 이동
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <ProblemInteraction
+      problemId={entry.id}
+      hintStepsHtml={hintStepsHtml}
+      solutionHtml={solutionHtml}
+    />
+
+    <section class="not-prose mt-6 focus-hide-in-exam hub-feature-card">
+        <h2 class="type-subhead hub-section-dash">출제 경향</h2>
+        <p class="type-caption chrome-muted mt-3">단원·개념별 출제 빈도</p>
+        <div class="mt-4">
+        <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-sm border border-[var(--card-border)] bg-[var(--surface-1)] p-3">
+            <p class="text-xs text-[var(--fg-muted)]">단원 출제</p>
+            <p class="mt-1 text-lg font-semibold text-[var(--fg)]">
+              {occurrenceStats.byChapter.count}회
+              <span class="ml-1 text-sm text-[var(--fg-muted)]">({(occurrenceStats.byChapter.ratio * 100).toFixed(1)}%)</span>
+            </p>
+          </div>
+          <div class="rounded-sm border border-[var(--card-border)] bg-[var(--surface-1)] p-3">
+            <p class="text-xs text-[var(--fg-muted)]">개념 출제</p>
+            <p class="mt-1 text-lg font-semibold text-[var(--fg)]">
+              {occurrenceStats.byConcept.count}회
+              <span class="ml-1 text-sm text-[var(--fg-muted)]">({(occurrenceStats.byConcept.ratio * 100).toFixed(1)}%)</span>
+            </p>
+          </div>
+          <div class="rounded-sm border border-[var(--card-border)] bg-[var(--surface-1)] p-3">
+            <p class="text-xs text-[var(--fg-muted)]">개념 출제 (회차 기준)</p>
+            <p class="mt-1 text-lg font-semibold text-[var(--fg)]">
+              {occurrenceStats.byConceptSession.count}회
+              <span class="ml-1 text-sm text-[var(--fg-muted)]">({(occurrenceStats.byConceptSession.ratio * 100).toFixed(1)}%)</span>
+            </p>
+          </div>
+        </div>
+        <div class="mt-4 rounded-sm border border-[var(--card-border)] bg-[var(--surface-1)] p-4">
+          <p class="text-sm text-[var(--fg)]">
+            같은 개념의 평균 난이도는
+            <strong class="mx-1">{occurrenceStats.conceptAverageDifficulty.toFixed(2)}</strong>
+            이고, 가장 자주 출제된 난이도는
+            <strong class="mx-1">{occurrenceStats.conceptModeDifficulty}</strong>
+            입니다.
+            최근 3개년 기준 출제는
+            <strong class="mx-1">{occurrenceStats.conceptRecent3YearsCount}회</strong>
+            입니다.
+          </p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            {([1, 2, 3, 4, 5] as const).map((lv) => (
+              <span class="app-badge app-badge-neutral">
+                난이도 {lv}: {occurrenceStats.conceptDifficultyHistogram[lv]}회
+              </span>
+            ))}
+          </div>
+        </div>
+        </div>
+    </section>
+
+    {relatedProblems.length > 0 && (
+      <section class="not-prose mt-4 focus-hide-in-exam hub-feature-card">
+        <h2 class="type-subhead hub-section-dash">관련 문제</h2>
+        <p class="type-caption chrome-muted mt-3">{relatedProblems.length}문항</p>
+        <div class="mt-4 grid gap-2" data-related-list>
+            {relatedProblems.map(({ problem: rp, score }) => (
+              <a href={`/problems/${rp.id}`} class="rounded-lg border border-slate-200/80 bg-white/80 p-3 transition-colors hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900/50 dark:hover:border-slate-600" data-related-item data-related-id={rp.id} data-concept={rp.data.concept} data-related-score={score}>
+                <h3 class="type-subhead">{rp.data.source}</h3>
+                <p class="mt-1 type-caption chrome-muted">
+                  {rp.data.subject} · {rp.data.chapter} · {rp.data.concept}
+                </p>
+                <div class="mt-2 flex items-center justify-between gap-2">
+                  <DifficultyStars value={rp.data.difficulty} />
+                  <span class="type-caption chrome-muted" data-related-status>미시작</span>
+                </div>
+              </a>
+            ))}
+        </div>
+      </section>
+    )}
+  </article>
+</MathLayout>
+
+<script is:inline define:vars={{ conceptByProblemId }}>
+  (() => {
+    const backLink = document.querySelector('[data-list-back-link]');
+    if (!(backLink instanceof HTMLAnchorElement)) return;
+    if (window.location.search) {
+      backLink.href = `${backLink.dataset.listBasePath || '/problems'}${window.location.search}`;
+    }
+  })();
+
+  const wrongStore = JSON.parse(localStorage.getItem('howlearn-wrong-note') || '{"byId":{}}');
+  const progressStore = JSON.parse(localStorage.getItem('howlearn-problem-progress') || '{"byId":{}}');
+  const conceptFreq = new Map();
+  Object.entries(wrongStore.byId || {}).forEach(([problemId, bucket]) => {
+    const concept = conceptByProblemId[problemId];
+    if (!concept) return;
+    const entries = bucket?.entries || [];
+    entries.forEach((entry) => {
+      if (Date.now() - Number(entry.ts || 0) > 1000 * 60 * 60 * 24 * 14) return;
+      conceptFreq.set(concept, (conceptFreq.get(concept) || 0) + 1);
+    });
+  });
+  const list = document.querySelector('[data-related-list]');
+  if (list) {
+    const items = Array.from(list.querySelectorAll('[data-related-item]'));
+    const getProgressStatus = (id) => {
+      const raw = progressStore?.byId?.[id];
+      if (typeof raw === 'string') return raw;
+      return raw?.status || 'none';
+    };
+    items.sort((a, b) => {
+      const as = Number(a.getAttribute('data-related-score') || 0) + (conceptFreq.get(a.getAttribute('data-concept') || '') || 0) * 8;
+      const bs = Number(b.getAttribute('data-related-score') || 0) + (conceptFreq.get(b.getAttribute('data-concept') || '') || 0) * 8;
+      return bs - as;
+    });
+    items.forEach((item) => {
+      const id = item.getAttribute('data-related-id') || '';
+      const status = getProgressStatus(id);
+      const statusEl = item.querySelector('[data-related-status]');
+      if (statusEl) {
+        statusEl.textContent = status === 'done' ? '완료' : status === 'progress' ? '진행 중' : '미시작';
+        statusEl.className =
+          status === 'done'
+            ? 'type-caption text-emerald-600 dark:text-emerald-400'
+            : status === 'progress'
+              ? 'type-caption text-indigo-600 dark:text-indigo-400'
+              : 'type-caption chrome-muted';
+      }
+      list.appendChild(item);
+    });
+  }
+</script>
+<script>
+  import '../../lib/client/problem-interaction';
+</script>

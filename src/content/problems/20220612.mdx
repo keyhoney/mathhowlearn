@@ -1,0 +1,184 @@
+## 문제
+
+그림과 같이 $\overline{\rm AB} $ $= 4$, $\overline{\rm AC} $ $= 5$이고 $\cos\,(\angle \rm BAC) $ $= \frac{1}{8}$인 삼각형 $\rm ABC$가 있다. 선분 $\rm AC$ 위의 점 $\rm D$와 선분 $\rm BC$ 위의 점 $\rm E$에 대하여 $\rm \angle BAC = \angle \rm BDA = \angle \rm BED$일 때, 선분 $\rm DE$의 길이는? \[4점\]
+
+![](/images/docx2mdx/220612-20260428-103045/media/image0.webp)
+
+① $\frac{7}{3}$ ② $\frac{5}{2}$ ③ $\frac{8}{3}$ ④ $\frac{17}{6}$ ⑤ $3$
+
+
+
+
+
+## 힌트
+$\angle \rm BAC$와 $\angle \rm BDA$는 $\triangle \rm ABD$의 두 각이에요. 크기가 같다는 뜻이니, 그 각들 **맞은편 변의 길이** 관계를 떠올려 보세요.
+
+## 힌트
+$\overline{\rm AB}=\overline{\rm BD}$가 되면 $\triangle \rm ABD$는 **이등변삼각형**이에요. 꼭짓점 $\rm B$에서 밑변 $\overline{\rm AD}$에 내린 수선은 밑변을 이등분한다는 성질로 $\overline{\rm AD}$의 길이를 구할 수 있어요. (또는 코사인 법칙을 써도 돼요.)
+
+## 힌트
+$\overline{\rm AC}=5$이고 $\overline{\rm AD}$를 알면 $\overline{\rm DC}$가 정해져요. $\overline{\rm BD}$와 $\overline{\rm DC}$가 같다면 $\triangle \rm BCD$도 이등변이에요. $\rm D$에서 $\overline{\rm BC}$에 내린 수선의 발 $\rm H'$는 어디쯤일까요?
+
+## 힌트
+$\angle \rm BED=\angle \rm BAC$이고 $\cos(\angle \rm BAC)=\frac{1}{8}$이니 $\sin(\angle \rm BAC)$도 구할 수 있어요. 점 $\rm D$에서 $\overline{\rm BC}$에 수직인 직각삼각형을 잡고, $\overline{\rm DE}$와 수선의 길이 $\overline{\rm DH'}$를 각 $\angle \rm BED$와 연결해 보세요. (그림에서 $\angle \rm H'ED$와 $\angle \rm BED$가 맞닿는 경우를 생각하면 돼요.)
+
+## 풀이
+
+삼각형 $\rm ABD$에서 $\angle \rm BAD = \angle \rm BAC$이고 점 $\rm D$는 $\overline{\rm AC}$ 위에 있으므로 $\angle \rm BAD = \angle \rm BAC$이에요. 문제에서 $\angle \rm BAC = \angle \rm BDA$이니
+
+
+
+$\angle \rm BAD = \angle \rm BDA$
+
+
+
+이에요. 두 각의 크기가 같으므로 **맞은편 변의 길이가 같아**요. $\angle \rm BAD$의 맞은편은 $\overline{\rm BD}$, $\angle \rm BDA$의 맞은편은 $\overline{\rm AB}$이므로
+
+
+
+$\overline{\rm BD} = \overline{\rm AB} = 4$
+
+
+
+이에요.
+
+
+
+삼각형 $\rm ABD$는 $\overline{\rm AB} = \overline{\rm BD}$인 이등변삼각형이에요. 점 $\rm B$에서 직선 $\rm AD$에 내린 수선의 발을 $\rm H$라 하면 $\rm H$는 $\overline{\rm AD}$의 **중점**이에요.
+
+
+
+$\overline{\rm AH} = \overline{\rm AB} \cos(\angle \rm BAC) = 4 \times \dfrac{1}{8} = \dfrac{1}{2}$
+
+
+
+이므로
+
+
+
+$\overline{\rm AD} = 2 \times \overline{\rm AH} = 1$
+
+
+
+이에요.
+
+
+
+![](/images/docx2mdx/220612-20260428-103045/media/image1.webp)
+
+
+
+$\overline{\rm AC} = 5$, $\overline{\rm AD} = 1$이므로
+
+
+
+$\overline{\rm DC} = \overline{\rm AC} - \overline{\rm AD} = 4$
+
+
+
+이에요. $\overline{\rm BD} = \overline{\rm DC} = 4$이므로 삼각형 $\rm BCD$는 $\overline{\rm BC}$를 밑변으로 하는 **이등변삼각형**이에요. 따라서 꼭짓점 $\rm D$에서 밑변 $\overline{\rm BC}$에 내린 수선의 발 $\rm H'$는 $\overline{\rm BC}$의 **중점**이에요.
+
+
+
+삼각형 $\rm ABC$에 코사인 법칙을 쓰면
+
+
+
+$\overline{\rm BC}^{2} = \overline{\rm AB}^{2} + \overline{\rm AC}^{2} - 2 \cdot \overline{\rm AB} \cdot \overline{\rm AC} \cdot \cos(\angle \rm BAC)$
+
+
+
+$= 4^{2} + 5^{2} - 2 \times 4 \times 5 \times \dfrac{1}{8}$
+
+
+
+$= 16 + 25 - 5 = 36$
+
+
+
+이므로 $\overline{\rm BC} = 6$이에요. 그래서
+
+
+
+$\overline{\rm BH'} = \dfrac{1}{2} \overline{\rm BC} = 3$
+
+
+
+이에요.
+
+
+
+직각삼각형 $\rm DBH'$($\angle \rm DH'B = 90^{\circ}$)에서 피타고라스 정리로
+
+
+
+$\overline{\rm DH'}^{2} + \overline{\rm BH'}^{2} = \overline{\rm BD}^{2}$
+
+
+
+$\overline{\rm DH'}^{2} + 3^{2} = 4^{2}$
+
+
+
+$\overline{\rm DH'}^{2} = 7$, $\overline{\rm DH'} = \sqrt{7}$
+
+
+
+(길이이므로 양수만 씀)
+
+
+
+이에요.
+
+
+
+![](/images/docx2mdx/220612-20260428-103045/media/image2.webp)
+
+
+
+$\overline{\rm DE} = x$라 하고, $\angle \rm BED = \angle \rm BAC$이므로 $\cos(\angle \rm BED) = \dfrac{1}{8}$이에요. 그림에서 $\rm E$가 선분 $\overline{\rm BC}$ 위에 있고 $\overline{\rm DH'} \perp \overline{\rm BC}$일 때, $\angle \rm H'ED$와 $\angle \rm BED$가 같아지는 경우를 보면 직각삼각형 $\rm DH'E$에서
+
+
+
+$\overline{\rm DH'} = \overline{\rm DE} \sin(\angle \rm H'ED) = x \sin(\angle \rm BAC)$
+
+
+
+$\sin^{2}(\angle \rm BAC) + \cos^{2}(\angle \rm BAC) = 1$이고 $\angle \rm BAC$는 삼각형의 내각이므로 $\sin(\angle \rm BAC) > 0$이에요.
+
+
+
+$\sin(\angle \rm BAC) = \sqrt{1 - \left( \dfrac{1}{8} \right)^{2}} = \dfrac{\sqrt{63}}{8}$
+
+
+
+따라서
+
+
+
+$\sqrt{7} = x \cdot \dfrac{\sqrt{63}}{8}$
+
+
+
+$x = \dfrac{8\sqrt{7}}{\sqrt{63}} = \dfrac{8\sqrt{7}}{3\sqrt{7}} = \dfrac{8}{3}$
+
+
+
+같은 식을 피타고라스로만 쓰면 직각삼각형 $\rm DBH'$에 대해 $\overline{\rm DH'} = \dfrac{\sqrt{63}}{8} x$를 대입해서
+
+
+
+$4^{2} = \left( \dfrac{\sqrt{63}}{8} x \right)^{2} + 3^{2}$
+
+
+
+$\dfrac{63}{64} x^{2} = 7$, $x^{2} = \dfrac{64}{9}$
+
+
+
+$x > 0$이므로 $x = \dfrac{8}{3}$이에요.
+
+
+
+따라서 $\overline{\rm DE} = \dfrac{8}{3}$이고, 정답은 **③**이에요.
+

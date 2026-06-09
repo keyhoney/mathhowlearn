@@ -1,0 +1,78 @@
+## 문제
+두 양수 $a $, $b $가
+
+$\log _{\sqrt{2}}  a + \log _{2}  b = 2 $, $\log _{2}  a + \log _{2}  b^{2} = 7 $
+
+을 만족시킬 때, $a \times b $의 값은? \[3점\]
+
+① $2 $ ② $4 $ ③ $8 $ ④ $16 $ ⑤ $32$
+
+
+## 힌트
+$\log_{\sqrt{2}} a$를 밑 $2$ 로그로 바꿀 수 있어요. 두 식을 각각 $\log_2(\cdots)$ 한 덩어리로 모은 뒤, 지수 형태로 바꿔 **곱**하면 $ab$를 바로 구할 수 있습니다.
+
+
+## 풀이
+$\log_{\sqrt{2}} a=\log_2 a^2$이므로 첫 번째 식은
+
+
+
+$$
+
+\begin{aligned}
+\log_2 a^2+\log_2 b&=2 \\
+\log_2(a^2 b)&=2 \\
+a^2 b&=2^2 \quad \cdots\cdots \text{㉠}
+\end{aligned}
+
+$$
+
+
+
+두 번째 식은
+
+
+
+$$
+
+\begin{aligned}
+\log_2 a+\log_2 b^2&=7 \\
+\log_2(ab^2)&=7 \\
+ab^2&=2^7 \quad \cdots\cdots \text{㉡}
+\end{aligned}
+
+$$
+
+
+
+㉠$\times$㉡을 하면
+
+
+
+$$
+
+\begin{aligned}
+a^3 b^3&=2^2\times 2^7 \\
+(ab)^3&=2^9
+\end{aligned}
+
+$$
+
+
+
+$a>0$, $b>0$이므로 $ab>0$입니다. 따라서
+
+
+
+$$
+
+\begin{aligned}
+ab&=2^3 \\
+&=8
+\end{aligned}
+
+$$
+
+
+
+따라서 정답은 **③**예요.

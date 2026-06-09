@@ -1,0 +1,35 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import KatexStyles from '../components/KatexStyles.astro';
+import AppLayoutShell from './AppLayoutShell.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getLayoutContext } from './layout-utils';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const {
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  image,
+  jsonLd = [],
+} = Astro.props;
+const pageTitle = title === SITE_TITLE ? SITE_TITLE : `${title} | ${SITE_TITLE}`;
+const { pathname, tinaVisualHref } = getLayoutContext(Astro.url);
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <BaseHead title={pageTitle} description={description} image={image} />
+    <KatexStyles />
+    {jsonLd.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+  </head>
+  <AppLayoutShell pathname={pathname} tinaVisualHref={tinaVisualHref}>
+    <slot />
+  </AppLayoutShell>
+</html>

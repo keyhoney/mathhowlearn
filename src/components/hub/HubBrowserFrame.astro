@@ -1,0 +1,36 @@
+---
+interface Props {
+  url?: string;
+  class?: string;
+}
+
+const { url = 'math.howlearn.kr/dashboard', class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'overflow-hidden rounded-2xl border shadow-[var(--shadow-brand)]',
+    'border-indigo-500/10 bg-[var(--surface-1)] dark:border-indigo-400/10',
+    className,
+  ]}
+>
+  <div
+    class="flex items-center gap-2 border-b border-[var(--card-border)] bg-[var(--surface-2)] px-4 py-3"
+  >
+    <div class="flex gap-1.5" aria-hidden="true">
+      <span class="h-3 w-3 rounded-full bg-rose-400/90"></span>
+      <span class="h-3 w-3 rounded-full bg-amber-400/90"></span>
+      <span class="h-3 w-3 rounded-full bg-emerald-400/90"></span>
+    </div>
+    <div class="flex flex-1 justify-center">
+      <span
+        class="rounded-md bg-[var(--surface-3)] px-4 py-1 text-xs text-[var(--fg-muted)]"
+      >
+        {url}
+      </span>
+    </div>
+  </div>
+  <div class="p-4 sm:p-5">
+    <slot />
+  </div>
+</div>

@@ -1,0 +1,44 @@
+## 문제
+$\overline{AB} = 5 $, $\overline{AC} = 6 $이고 $\cos (\angle BAC) =   - \frac{3}{5} $인 삼각형 $ABC $의 넓이를 구하시오. \[3점\]
+
+
+## 힌트
+삼각형 넓이는 $\dfrac{1}{2}\times\overline{AB}\times\overline{AC}\times\sin(\angle BAC)$이에요. $\cos$가 주어졌으므로 $\sin^{2}+\cos^{2}=1$로 $\sin(\angle BAC)$를 구해 보세요.
+
+
+## 풀이
+$\cos(\angle BAC)=-\dfrac{3}{5}$이고, $\angle BAC$는 삼각형의 내각이므로 $\sin(\angle BAC)>0$입니다.
+
+
+
+$$
+
+\begin{aligned}
+\sin(\angle BAC)
+&=\sqrt{1-\cos^{2}(\angle BAC)} \\
+&=\sqrt{1-\left(-\frac{3}{5}\right)^{2}} \\
+&=\sqrt{\frac{16}{25}} \\
+&=\frac{4}{5}
+\end{aligned}
+
+$$
+
+
+
+따라서 삼각형 $ABC$의 넓이는
+
+
+
+$$
+
+\begin{aligned}
+\frac{1}{2}\times \overline{AB}\times \overline{AC}\times \sin(\angle BAC)
+&=\frac{1}{2}\times 5\times 6\times \frac{4}{5} \\
+&=12
+\end{aligned}
+
+$$
+
+
+
+따라서 넓이는 $\boxed{12}$예요.

@@ -1,0 +1,130 @@
+## 문제
+양수 $k $에 대하여 집합 $\{ x|  0 \leq x<\frac{3k\pi}{2},   x \neq \frac{k\pi}{2}\} $에서 정의된 함수 $f(x) = \tan \frac{x}{k} $가 있다. 점 $P(0,   p)\ (p> 0) $을 지나며 $x $축에 평행한 직선이 함수 $y = f(x) $의 그래프와 만나는 두 점을 $A $, $B\ (\overline{PA}<\overline{PB}) $라 하고, 직선 $y =   - p $가 함수 $y = f(x) $의 그래프와 만나는 점을 $C $라 하자. $\overline{AB} = 3\overline{PA} $이고 삼각형 $OCB $의 넓이가 $\frac{5\pi}{3} $일 때, $k + p $의 값은? (단, $O $는 원점이다.) \[4점\]
+
+① $\frac{4\sqrt{3}}{3} $ ② $\frac{13\sqrt{3}}{9} $ ③ $\frac{14\sqrt{3}}{9} $
+
+④ $\frac{5\sqrt{3}}{3} $ ⑤ $\frac{16\sqrt{3}}{9}$
+
+![](/images/docx2mdx/260914-20260607-223954/media/image1.webp)
+
+
+## 힌트
+$y=\tan\dfrac{x}{k}$의 주기는 $k\pi$예요. 직선 $y=p$와의 교점 $A$, $B$의 $x$좌표를 $\alpha$, $\beta$ $(\beta=\alpha+k\pi)$라 두고 $\overline{AB}=3\overline{PA}$로 $\alpha$를 구해 보세요.
+
+
+## 힌트
+$p$를 구한 뒤 $y=-p$와의 교점 $C$의 $x$좌표를 정의역 $0\le x<\dfrac{3k\pi}{2}$ 안에서 찾으세요. $\triangle OCB$는 $x$축 위의 점 $D(k\pi,0)$을 이용해 $\triangle OBD$와 $\triangle OCD$로 나누면 넓이를 쉽게 구할 수 있어요.
+
+
+## 풀이
+$y=\tan\dfrac{x}{k}$의 주기는 $k\pi$입니다.
+
+직선 $y=p$와 그래프의 교점 $A$, $B$의 $x$좌표를 각각 $\alpha$, $\beta$ $(\alpha<\beta)$라 하면
+
+
+
+$$
+
+\beta=\alpha+k\pi
+
+$$
+
+
+
+점 $P$는 $(0,p)$이므로 $\overline{PA}=\alpha$, $\overline{AB}=\beta-\alpha=k\pi$입니다. $\overline{AB}=3\overline{PA}$에서
+
+
+
+$$
+
+\begin{aligned}
+k\pi&=3\alpha \\
+\alpha&=\frac{k\pi}{3}
+\end{aligned}
+
+$$
+
+
+
+점 $A$는 곡선 위의 점이므로
+
+
+
+$$
+
+\begin{aligned}
+p&=f\!\left(\frac{k\pi}{3}\right) \\
+&=\tan\!\left(\frac{1}{k}\cdot\frac{k\pi}{3}\right) \\
+&=\tan\frac{\pi}{3} \\
+&=\sqrt{3}
+\end{aligned}
+
+$$
+
+
+
+직선 $y=-p=-\sqrt{3}$과의 교점 $C$의 $x$좌표를 $\gamma$라 하면 $\tan\dfrac{\gamma}{k}=-\sqrt{3}$입니다. $0\le x<\dfrac{3k\pi}{2}$에서 $0\le\dfrac{x}{k}<\dfrac{3\pi}{2}$이므로
+
+
+
+$$
+
+\frac{\gamma}{k}=\frac{2\pi}{3}
+\quad\Rightarrow\quad
+\gamma=\frac{2k\pi}{3}
+
+$$
+
+
+
+또 $\beta=\alpha+k\pi=\dfrac{4k\pi}{3}$이므로 $B\!\left(\dfrac{4k\pi}{3},\ \sqrt{3}\right)$, $C\!\left(\dfrac{2k\pi}{3},\ -\sqrt{3}\right)$입니다.
+
+$y=f(x)$가 $(k\pi,0)$을 지나므로 이 점을 $D$라 하면 $\triangle OCB$를 $\triangle OBD$와 $\triangle OCD$로 나눌 수 있습니다.
+
+
+
+$$
+
+\begin{aligned}
+\triangle OBC
+&=\triangle OBD+\triangle OCD \\
+&=\frac{1}{2}\times k\pi\times\sqrt{3}+\frac{1}{2}\times k\pi\times\sqrt{3} \\
+&=\sqrt{3}\,k\pi
+\end{aligned}
+
+$$
+
+
+
+조건에서 $\sqrt{3}\,k\pi=\dfrac{5\pi}{3}$이므로
+
+
+
+$$
+
+\begin{aligned}
+k&=\frac{5}{3\sqrt{3}} \\
+&=\frac{5\sqrt{3}}{9}
+\end{aligned}
+
+$$
+
+
+
+따라서
+
+
+
+$$
+
+\begin{aligned}
+k+p
+&=\frac{5\sqrt{3}}{9}+\sqrt{3} \\
+&=\frac{14\sqrt{3}}{9}
+\end{aligned}
+
+$$
+
+
+
+따라서 정답은 **③**예요.

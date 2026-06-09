@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HubBrowserFrame from '../components/hub/HubBrowserFrame.astro';
+import HubHeroMock from '../components/hub/HubHeroMock.astro';
+import { SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+
+const [problems, essayProblems] = await Promise.all([
+  getCollection('problems'),
+  getCollection('essay-problems'),
+]);
+const problemIds = problems.map((item) => item.id);
+const essayProblemIds = essayProblems.map((item) => item.id);
+---
+
+<BaseLayout title="홈" description={SITE_DESCRIPTION}>
+  <div class="hub-atmosphere pb-14 pt-2">
+    <section class="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-12">
+      <div class="space-y-6 text-center lg:text-left">
+        <div class="flex flex-wrap items-center justify-center gap-2 lg:justify-start">
+          <span class="hub-badge hub-badge--primary">수능·논술 기출</span>
+          <span class="hub-badge hub-badge--neutral">STEP 힌트 학습</span>
+        </div>
+        <h1 class="type-display brand-gradient-text mx-auto max-w-xl lg:mx-0">
+          수학 기출,<br class="hidden sm:block" /> 단계별 힌트로 풀기
+        </h1>
+        <p class="type-lead chrome-muted mx-auto max-w-lg lg:mx-0">
+          수능·모의평가·대학별 논술 기출을 STEP 힌트와 함께 풀고, 집중 시간과 진행 상황은 대시보드에서 이어갑니다.
+        </p>
+        <div class="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
+          <a href="/problems" class="gsg-btn-primary hub-cta">
+            수능 기출 시작
+          </a>
+          <a href="/dashboard" class="gsg-btn-solid">
+            학습 대시보드
+          </a>
+        </div>
+      </div>
+
+      <HubBrowserFrame>
+        <HubHeroMock problemIds={problemIds} essayProblemIds={essayProblemIds} />
+      </HubBrowserFrame>
+    </section>
+  </div>
+</BaseLayout>

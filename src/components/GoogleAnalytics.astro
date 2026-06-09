@@ -1,0 +1,30 @@
+---
+const GA_MEASUREMENT_ID = 'G-QTKD20XEMH';
+---
+
+<script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
+  (function () {
+    function loadGtag() {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag('js', new Date());
+
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+      script.onload = function () {
+        gtag('config', GA_MEASUREMENT_ID);
+      };
+      document.head.appendChild(script);
+    }
+
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(loadGtag, { timeout: 3500 });
+    } else {
+      window.addEventListener('load', loadGtag, { once: true });
+    }
+  })();
+</script>

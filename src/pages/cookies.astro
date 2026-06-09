@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const cookieTypes = [
+  {
+    title: '필수 쿠키',
+    desc: '핵심 기능 제공, 보안 유지, 기본 설정 저장 등 서비스 운영에 필요한 쿠키입니다.',
+  },
+  {
+    title: '기능/선호 쿠키',
+    desc: '테마, 화면 설정 등 이용자 선택을 기억해 일관된 사용 경험을 제공합니다.',
+  },
+  {
+    title: '분석 쿠키',
+    desc: '방문 수, 이용 패턴 통계를 기반으로 서비스 성능을 측정하고 콘텐츠를 개선합니다.',
+  },
+  {
+    title: '광고/타기팅 쿠키',
+    desc: '광고 게재, 노출 빈도 제한, 맞춤형 광고, 광고 성과 측정에 사용될 수 있습니다.',
+  },
+  {
+    title: '동의 관리 쿠키',
+    desc: '쿠키 동의/철회 상태를 저장해 이후 방문 시 선택값을 반영합니다.',
+  },
+];
+
+const sections = [
+  {
+    title: '1. 쿠키와 유사 기술의 범위',
+    items: [
+      '쿠키는 사이트가 브라우저 또는 기기에 저장하는 작은 텍스트 파일입니다.',
+      '문맥상 localStorage, 픽셀, 태그, SDK 등 유사 기술도 본 정책 범위에 포함될 수 있습니다.',
+    ],
+  },
+  {
+    title: '2. 제3자 쿠키',
+    items: [
+      '분석, 광고, 동의 관리, 호스팅/CDN 등 외부 서비스 제공자가 쿠키 또는 유사 기술을 사용할 수 있습니다.',
+      '제3자 처리 방식, 보관기간, 운영 기준은 각 제공자 정책을 따릅니다.',
+    ],
+  },
+  {
+    title: '3. 법적 근거 및 동의',
+    items: [
+      '관련 법령이 요구하는 경우 필수 쿠키를 제외한 기능·분석·광고 쿠키는 사전 동의를 받은 뒤 설정합니다.',
+      '동의가 필요한 지역의 이용자에게는 관련 절차에 맞춰 동의 선택을 받습니다.',
+    ],
+  },
+  {
+    title: '4. 보관 기간',
+    items: [
+      '쿠키는 세션 쿠키(브라우저 종료 시 삭제)와 영속 쿠키(일정 기간 저장)로 구분될 수 있습니다.',
+      '구체적인 만료 기간은 브라우저 설정 및 각 서비스 제공자 정책에 따라 달라질 수 있습니다.',
+    ],
+  },
+  {
+    title: '5. 설정 및 철회 방법',
+    items: [
+      '브라우저 설정을 통해 쿠키 허용, 차단, 삭제를 직접 관리할 수 있습니다.',
+      '쿠키를 차단하면 설정 저장이나 일부 콘텐츠 표시 등 사이트 기능이 제한될 수 있습니다.',
+    ],
+  },
+  {
+    title: '6. 정책 변경',
+    items: [
+      '법령, 기술, 서비스 구성 변경에 따라 본 정책을 수정할 수 있습니다.',
+      '중요 변경이 있는 경우 최종 수정일 갱신 등 필요한 방식으로 안내합니다.',
+    ],
+  },
+];
+---
+
+<BaseLayout title="쿠키 정책" description="GaeSaeGi Math 쿠키 및 유사 기술 사용, 동의, 철회, 관리 방법 안내">
+  <section class="py-8 space-y-4 prose prose-book max-w-none">
+    <header class="book-card border border-slate-200 bg-white shadow-sm not-prose dark:border-slate-700 dark:bg-slate-900/90">
+      <h1 class="type-title">쿠키 정책</h1>
+      <p class="mt-2 text-sm text-[var(--fg-muted)]">최종 수정: 2026년 4월</p>
+      <p class="mt-3 text-sm text-[var(--fg-muted)]">
+        본 정책은 HowLearn이 쿠키 및 유사 기술을 어떻게 사용하는지, 이용자가 이를 어떻게 관리할 수 있는지 설명합니다.
+      </p>
+    </header>
+
+    <section class="book-card mt-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+      <h2 class="text-base font-semibold text-[var(--fg)]">쿠키 유형 요약</h2>
+      <ul class="mt-3 grid gap-3">
+        {
+          cookieTypes.map((type) => (
+            <li class="rounded-md border border-[var(--card-border)] bg-[var(--surface-1)] px-4 py-3">
+              <p class="text-sm font-semibold text-[var(--fg)]">{type.title}</p>
+              <p class="mt-1 text-sm text-[var(--fg-muted)]">{type.desc}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <div class="mt-4 grid gap-4">
+      {
+        sections.map((section) => (
+          <section class="book-card border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+            <h2 class="text-base font-semibold text-[var(--fg)]">{section.title}</h2>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-[var(--fg-muted)]">
+              {section.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="book-card mt-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+      <h2 class="text-base font-semibold text-[var(--fg)]">문의</h2>
+      <p class="mt-2 text-sm text-[var(--fg-muted)]">
+        쿠키 사용 관련 문의는 <a href="/privacy" class="underline hover:text-[var(--accent)]">개인정보처리방침</a> 및 <a href="/contact" class="underline hover:text-[var(--accent)]">문의하기</a> 페이지를 참고해 주세요.
+      </p>
+    </section>
+  </section>
+</BaseLayout>

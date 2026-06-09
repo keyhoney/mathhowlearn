@@ -1,0 +1,182 @@
+## 문제
+그림과 같이
+
+$\overline{BC}  = 3,   \overline{CD}  = 2,   \cos(\angle BCD)  = - \frac{1}{3},   \angle DAB > \frac{\pi}{2}$
+
+인 사각형 $ABCD $에서 두 삼각형 $ABC$와 $ACD$는 모두 예각삼각형이다. 선분 $AC $를 $1:2$로 내분하는 점 $E $에 대하여 선분 $AE $를 지름으로 하는 원이 두 선분 $AB ,    AD $와 만나는 점 중 $A$가 아닌 점을 각각 $P_{1},    P_{2}$라 하고, 선분 $CE $를 지름으로 하는 원이 두 선분 $BC ,    CD $와 만나는 점 중 $C$가 아닌 점을 각각 $Q_{1},    Q_{2}$라 하자. $\overline{P_{1}P_{2}} :\overline{Q_{1}Q_{2}}  = 3:5\sqrt{2}$이고 삼각형 $ABD $의 넓이가 $2$일 때,\
+$\overline{AB}  + \overline{AD}$의 값은? (단, $\overline{AB} >\overline{AD}$) \[4점\]
+
+![](/images/docx2mdx/240613-20260604-101015/media/image3.webp)
+
+① $\sqrt{21}$ ② $\sqrt{22}$ ③ $\sqrt{23}$ ④ $2\sqrt{6}$ ⑤ $5$
+
+
+## 힌트
+$\angle BCD=\alpha$라 두고 삼각형 $BCD$에서 코사인법칙으로 $\overline{BD}$를 구해 보세요. 삼각형 $ABD$에서도 $\overline{BD}$가 공통 변이에요.
+
+
+## 힌트
+$E$가 $AC$를 $1:2$로 내분하므로 $\overline{AE}:\overline{CE}=1:2$예요. 지름이 $\overline{AE}$, $\overline{CE}$인 원에 대한 삼각형 $AP_{1}P_{2}$, $CQ_{1}Q_{2}$에 사인법칙을 쓰면 $\sin\alpha:\sin\beta$를 $\overline{P_{1}P_{2}}:\overline{Q_{1}Q_{2}}$로 나타낼 수 있어요.
+
+
+## 힌트
+$\dfrac{\pi}{2}<\angle DAB<\pi$이므로 $\cos\beta<0$이에요. 삼각형 $ABD$의 넓이 $2$로 $\overline{AB}\cdot\overline{AD}$를 구한 뒤, 코사인법칙과 $(\overline{AB}+\overline{AD})^{2}$를 연결해 보세요.
+
+
+## 풀이
+$\angle BCD=\alpha$, $\angle DAB=\beta$$(\dfrac{\pi}{2}<\beta<\pi)$, $\overline{AB}=a$, $\overline{AD}=b$라 하면 $a>b$예요.
+
+
+
+삼각형 $BCD$에서 코사인법칙에 의해 아래와 같아요.
+
+
+
+$$
+
+\overline{BD}^{2}
+=3^{2}+2^{2}-2\cdot 3\cdot 2\cdot\left(-\frac{1}{3}\right)
+=17
+
+$$
+
+
+
+삼각형 $ABD$에서도 아래와 같아요.
+
+
+
+$$
+
+a^{2}+b^{2}-2ab\cos\beta=17\qquad\cdots\cdots\text{㉠}
+
+$$
+
+
+
+$E$가 $AC$를 $1:2$로 내분하므로 $\overline{AE}:\overline{CE}=1:2$예요.
+
+
+
+원의 지름이 $\overline{AE}$인 삼각형 $AP_{1}P_{2}$의 외접원 반지름을 $r$, 지름이 $\overline{CE}$인 삼각형 $CQ_{1}Q_{2}$의 외접원 반지름을 $2r$로 두면 $\overline{CE}=2\overline{AE}$와 맞아요.
+
+
+
+사인법칙에 의해 아래와 같아요.
+
+
+
+$$
+
+\frac{\overline{P_{1}P_{2}}}{\sin\beta}=2r,\qquad
+\frac{\overline{Q_{1}Q_{2}}}{\sin\alpha}=4r
+
+$$
+
+
+
+$\overline{P_{1}P_{2}}:\overline{Q_{1}Q_{2}}=3:5\sqrt{2}$이므로 아래와 같아요.
+
+
+
+$$
+
+\frac{\sin\beta}{\sin\alpha}
+=\frac{\overline{P_{1}P_{2}}}{2r}\div\frac{\overline{Q_{1}Q_{2}}}{4r}
+=\frac{2\overline{P_{1}P_{2}}}{\overline{Q_{1}Q_{2}}}
+=\frac{6}{5\sqrt{2}}
+
+$$
+
+
+
+$\cos\alpha=-\dfrac{1}{3}$이므로 아래와 같아요.
+
+
+
+$$
+
+\sin\alpha=\sqrt{1-\cos^{2}\alpha}=\frac{2\sqrt{2}}{3}
+
+$$
+
+
+
+따라서 아래와 같아요.
+
+
+
+$$
+
+\sin\beta=\frac{6}{5\sqrt{2}}\cdot\frac{2\sqrt{2}}{3}=\frac{4}{5}
+
+$$
+
+
+
+$\dfrac{\pi}{2}<\beta<\pi$이면 $\cos\beta<0$이므로 아래와 같아요.
+
+
+
+$$
+
+\cos\beta=-\sqrt{1-\sin^{2}\beta}=-\frac{3}{5}
+
+$$
+
+
+
+삼각형 $ABD$의 넓이가 $2$이므로 아래와 같아요.
+
+
+
+$$
+
+\frac{1}{2}ab\sin\beta=2,\qquad
+\frac{1}{2}ab\cdot\frac{4}{5}=2,\qquad ab=5
+
+$$
+
+
+
+㉠에 대입하면 아래와 같아요.
+
+
+
+$$
+
+a^{2}+b^{2}-2\cdot 5\cdot\left(-\frac{3}{5}\right)=17
+
+$$
+
+
+
+$$
+
+a^{2}+b^{2}=11
+
+$$
+
+
+
+따라서 아래와 같아요.
+
+
+
+$$
+
+(a+b)^{2}=a^{2}+b^{2}+2ab=11+10=21
+
+$$
+
+
+
+$$
+
+a+b=\sqrt{21}
+
+$$
+
+
+
+따라서 정답은 **①**예요.

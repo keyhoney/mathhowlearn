@@ -1,0 +1,416 @@
+﻿---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  buildProblemSubjectChapterTree,
+  getPublishedProblems,
+} from '../../lib/content-utils';
+import AppPagination from '../../components/ui/AppPagination.astro';
+import DifficultyStars from '../../components/DifficultyStars.astro';
+import { getExamTypeBadgeClass } from '../../lib/exam-type-badge';
+
+const allProblems = await getPublishedProblems();
+const monthPriority = new Map<number, number>([
+  [11, 0], // 수능
+  [9, 1],  // 9월 모평
+  [6, 2],  // 6월 모평
+]);
+
+function extractQuestionNumber(source: string): number {
+  const matched = source.match(/(\d+)\s*번(?!.*\d+\s*번)/);
+  return matched ? Number.parseInt(matched[1] ?? '', 10) : Number.POSITIVE_INFINITY;
+}
+
+const sortedProblems = [...allProblems].sort((a, b) => {
+  // 1) 최신 연도 우선
+  if (a.data.year !== b.data.year) return b.data.year - a.data.year;
+
+  // 2) 수능(11월) -> 9월 -> 6월 우선, 그 외 월은 뒤로
+  const aMonthOrder = monthPriority.get(a.data.month) ?? 999;
+  const bMonthOrder = monthPriority.get(b.data.month) ?? 999;
+  if (aMonthOrder !== bMonthOrder) return aMonthOrder - bMonthOrder;
+  if (a.data.month !== b.data.month) return b.data.month - a.data.month;
+
+  // 3) 문항 번호 오름차순, 동일하면 source 텍스트 오름차순
+  const aQ = extractQuestionNumber(a.data.source);
+  const bQ = extractQuestionNumber(b.data.source);
+  if (aQ !== bQ) return aQ - bQ;
+  return a.data.source.localeCompare(b.data.source, 'ko');
+});
+
+const subjectChapterTree = buildProblemSubjectChapterTree(allProblems);
+const examTypes = Array.from(new Set(sortedProblems.map((p) => p.data.examType)));
+const subjects = Object.keys(subjectChapterTree);
+const years = Array.from(new Set(sortedProblems.map((p) => p.data.year))).sort((a, b) => b - a);
+const months = Array.from(new Set(sortedProblems.map((p) => p.data.month))).sort((a, b) => a - b);
+---
+
+<BaseLayout title="수능 기출 문제" description="수능/모의평가 기출 문제 및 단계별 힌트·해설">
+  <section class="pb-12">
+    <div class="hub-atmosphere mb-6 flex flex-wrap items-end justify-between gap-3 rounded-2xl border border-indigo-500/10 bg-[var(--surface-1)] p-6 shadow-[var(--shadow-brand)]" id="focus-mode">
+      <div>
+        <h1 class="type-title brand-gradient-text">수능 기출 문제</h1>
+        <p class="type-lead mt-2 max-w-2xl">
+          기본은 과목·단원·개념으로 고르고, 필요하면 시험 연·월로 바꿀 수 있습니다. 단계별 힌트와 함께 풀어보세요.
+          <a href="/problems/concept-frequency" class="ml-1 font-medium text-indigo-600 hover:underline dark:text-indigo-400">개념별 출제 경향</a>도 확인할 수 있습니다.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="type-caption chrome-muted">전체 {sortedProblems.length}</span>
+        <span class="type-caption chrome-muted">표시 <span data-filtered-count>{sortedProblems.length}</span></span>
+      </div>
+    </div>
+
+    <form class="mt-6 rounded-xl border border-slate-200/80 bg-white/80 p-4 dark:border-slate-700/80 dark:bg-slate-900/50" data-problem-filter-form>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <label class="flex flex-col gap-1.5">
+        <span class="type-caption chrome-muted">시험 유형</span>
+        <select name="examType" class="gsg-filter-select">
+          <option value="">전체 시험</option>
+          {examTypes.map((v) => <option value={v}>{v}</option>)}
+        </select>
+      </label>
+      <label class="flex flex-col gap-1.5">
+        <span class="type-caption chrome-muted">과목</span>
+        <select name="subject" id="filter-subject" class="gsg-filter-select">
+          <option value="">전체 과목</option>
+          {subjects.map((v) => <option value={v}>{v}</option>)}
+        </select>
+      </label>
+      <label class="flex flex-col gap-1.5">
+        <span class="type-caption chrome-muted">풀이 상태</span>
+        <select name="status" class="gsg-filter-select">
+          <option value="all">전체 상태</option>
+          <option value="none">미시작</option>
+          <option value="progress">진행 중</option>
+          <option value="done">완료</option>
+        </select>
+      </label>
+      <div class="flex flex-wrap items-end gap-2">
+        <button class="gsg-btn-primary !min-h-0 !px-4 !py-2 !text-sm" type="submit">적용</button>
+        <a href="/problems" class="gsg-btn-outline !min-h-0 !px-4 !py-2 !text-sm">초기화</a>
+      </div>
+      </div>
+      <div class="mt-4 grid gap-3 border-t border-[var(--card-border)] pt-4 sm:grid-cols-2 lg:grid-cols-4">
+      <label class="flex flex-col gap-1.5">
+        <span class="type-caption chrome-muted">대단원</span>
+        <select name="chapter" id="filter-chapter" class="gsg-filter-select">
+          <option value="">과목을 먼저 선택</option>
+        </select>
+      </label>
+      <label class="flex flex-col gap-1.5">
+        <span class="type-caption chrome-muted">중단원</span>
+        <select name="subChapter" id="filter-sub-chapter" class="gsg-filter-select">
+          <option value="">단원을 먼저 선택</option>
+        </select>
+      </label>
+      <label class="flex flex-col gap-1.5">
+        <span class="type-caption chrome-muted">개념</span>
+        <select name="concept" id="filter-concept" class="gsg-filter-select">
+          <option value="">중단원을 먼저 선택</option>
+        </select>
+      </label>
+      <label class="flex flex-col gap-1.5">
+        <span class="type-caption chrome-muted">연도</span>
+        <select name="year" class="gsg-filter-select">
+          <option value="">전체 연도</option>
+          {years.map((v) => <option value={String(v)}>{v}</option>)}
+        </select>
+      </label>
+      <label class="flex flex-col gap-1.5">
+        <span class="type-caption chrome-muted">월</span>
+        <select name="month" class="gsg-filter-select">
+          <option value="">전체 월</option>
+          {months.map((v) => <option value={String(v)}>{v}월</option>)}
+        </select>
+      </label>
+      <label class="flex items-center gap-2 text-sm chrome-muted sm:col-span-2">
+        <input type="checkbox" name="wrongOnly" value="1" class="h-4 w-4 accent-indigo-600" />
+        오답만
+      </label>
+      <label class="flex items-center gap-2 text-sm chrome-muted sm:col-span-2">
+        <input type="checkbox" name="bookmarkedOnly" value="1" class="h-4 w-4 accent-indigo-600" />
+        스크랩한 문제만 보기
+      </label>
+      </div>
+    </form>
+
+    <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        sortedProblems.map((p) => (
+          <li class="h-full">
+            <a
+              href={`/problems/${p.id}`}
+              data-preserve-list-state-link
+              data-problem-card
+              data-problem-id={p.id}
+              data-exam-type={p.data.examType}
+              data-year={p.data.year}
+              data-month={p.data.month}
+              data-subject={p.data.subject}
+              data-chapter={p.data.chapter}
+              data-sub-chapter={p.data.subChapter}
+              data-concept={p.data.concept}
+              class="group flex h-full flex-col book-card border border-indigo-500/10 bg-[var(--surface-1)] transition-colors hover:bg-[var(--surface-2)] dark:border-indigo-500/10"
+              title={`${p.data.subject} · ${p.data.chapter} · ${p.data.concept}`}
+            >
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <h2 class="type-heading group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  {p.data.source}
+                </h2>
+                <div class="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+                  <span class="type-caption rounded-full px-2 py-0.5 font-medium" data-problem-state-badge></span>
+                  <span class="type-caption rounded-full bg-slate-100 px-2 py-0.5 font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+                    {p.data.year}.{String(p.data.month).padStart(2, '0')}
+                  </span>
+                </div>
+              </div>
+              <p class="type-caption chrome-muted mt-2">
+                {p.data.subject} · {p.data.chapter} · {p.data.concept}
+              </p>
+              <p class="type-caption chrome-muted mt-1">{p.data.examType}</p>
+              <div class="mt-3 flex flex-wrap items-center gap-2">
+                <DifficultyStars value={p.data.difficulty ?? 3} />
+              </div>
+              <p class="type-caption mt-2 text-[var(--fg-muted)]" data-problem-state-meta>진행 정보 불러오는 중…</p>
+              <span class="sr-only" data-problem-state></span>
+              <div class="mt-auto flex items-center justify-end pt-3">
+                <span class="flex h-10 w-10 items-center justify-center rounded bg-slate-50 text-slate-400 transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-600 dark:bg-slate-800/80 dark:group-hover:bg-indigo-950/50 dark:text-slate-500 dark:group-hover:text-indigo-400">
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 0 1 .02-1.06L11.168 10 7.23 6.29a.75.75 0 1 1 1.04-1.08l4.5 4.25a.75.75 0 0 1 0 1.08l-4.5 4.25a.75.75 0 0 1-1.06-.02Z" clip-rule="evenodd"/></svg>
+                </span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <AppPagination mode="client" basePath="/problems" rootId="problems-pagination" />
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ subjectChapterTree }}>
+  (function () {
+    const tree = subjectChapterTree;
+    const sub = document.getElementById('filter-subject');
+    const ch = document.getElementById('filter-chapter');
+    const subCh = document.getElementById('filter-sub-chapter');
+    const co = document.getElementById('filter-concept');
+    const form = document.querySelector('[data-problem-filter-form]');
+    const filteredCountEl = document.querySelector('[data-filtered-count]');
+    const paginationRoot = document.getElementById('problems-pagination');
+    if (!sub || !ch || !subCh || !co || !tree || !form || !filteredCountEl || !paginationRoot) return;
+    const perPageOptions = [12, 24, 48];
+    const query = new URLSearchParams(window.location.search);
+    function getProgressDetail(raw) {
+      if (!raw) return { status: 'none', hintRevealedCount: 0, solutionRevealed: false, lastSeenAt: 0 };
+      if (typeof raw === 'string') return { status: raw, hintRevealedCount: 0, solutionRevealed: false, lastSeenAt: 0 };
+      return {
+        status: raw.status || 'none',
+        hintRevealedCount: Number(raw.hintRevealedCount || 0),
+        solutionRevealed: Boolean(raw.solutionRevealed),
+        lastSeenAt: Number(raw.lastSeenAt || 0),
+      };
+    }
+
+    function normalizeParams(subject, chapter, subChapter, concept) {
+      const s = subject.trim();
+      let chName = chapter.trim();
+      let subChName = subChapter.trim();
+      let coName = concept.trim();
+      if (!s || !tree[s]) return { subject: '', chapter: '', subChapter: '', concept: '' };
+      const chapters = Object.keys(tree[s]);
+      if (!chName || !chapters.includes(chName)) return { subject: s, chapter: '', subChapter: '', concept: '' };
+      const subChapters = Object.keys(tree[s]?.[chName] ?? {});
+      if (!subChName || !subChapters.includes(subChName)) return { subject: s, chapter: chName, subChapter: '', concept: '' };
+      const concepts = tree[s]?.[chName]?.[subChName] ?? [];
+      if (!coName || !concepts.includes(coName)) return { subject: s, chapter: chName, subChapter: subChName, concept: '' };
+      return { subject: s, chapter: chName, subChapter: subChName, concept: coName };
+    }
+
+    function setChapterOptions(subj, keepChapter, keepSubChapter, keepConcept) {
+      ch.innerHTML = '';
+      const opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = subj ? '전체 단원' : '과목을 먼저 선택';
+      ch.appendChild(opt0);
+      ch.disabled = !subj;
+      if (!subj || !tree[subj]) {
+        setSubChapterOptions('', '', '', '');
+        return;
+      }
+      for (const name of Object.keys(tree[subj])) {
+        const o = document.createElement('option');
+        o.value = name;
+        o.textContent = name;
+        if (keepChapter && name === keepChapter) o.selected = true;
+        ch.appendChild(o);
+      }
+      const selCh = ch.value;
+      setSubChapterOptions(subj, selCh, keepSubChapter, keepConcept);
+    }
+
+    function setSubChapterOptions(subj, chapterName, keepSubChapter, keepConcept) {
+      subCh.innerHTML = '';
+      const opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = chapterName ? '전체 중단원' : subj ? '단원을 먼저 선택' : '과목을 먼저 선택';
+      subCh.appendChild(opt0);
+      subCh.disabled = !chapterName;
+      if (!subj || !chapterName || !tree[subj]?.[chapterName]) {
+        setConceptOptions('', '', '', '');
+        return;
+      }
+      for (const name of Object.keys(tree[subj][chapterName])) {
+        const o = document.createElement('option');
+        o.value = name;
+        o.textContent = name;
+        if (keepSubChapter && name === keepSubChapter) o.selected = true;
+        subCh.appendChild(o);
+      }
+      const selSubCh = subCh.value;
+      setConceptOptions(subj, chapterName, selSubCh, keepConcept);
+    }
+
+    function setConceptOptions(subj, chapterName, subChapterName, keepConcept) {
+      co.innerHTML = '';
+      const opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = subChapterName ? '전체 소단원' : chapterName ? '중단원을 먼저 선택' : subj ? '단원을 먼저 선택' : '과목을 먼저 선택';
+      co.appendChild(opt0);
+      co.disabled = !subChapterName;
+      if (!subj || !chapterName || !subChapterName || !tree[subj]?.[chapterName]?.[subChapterName]) return;
+      for (const name of tree[subj][chapterName][subChapterName]) {
+        const o = document.createElement('option');
+        o.value = name;
+        o.textContent = name;
+        if (keepConcept && name === keepConcept) o.selected = true;
+        co.appendChild(o);
+      }
+    }
+
+    const examType = query.get('examType') ?? '';
+    const subject = query.get('subject') ?? '';
+    const chapter = query.get('chapter') ?? '';
+    const subChapter = query.get('subChapter') ?? '';
+    const concept = query.get('concept') ?? '';
+    const year = query.get('year') ?? '';
+    const month = query.get('month') ?? '';
+    const statusFilter = query.get('status') ?? 'all';
+    const wrongOnly = query.get('wrongOnly') === '1';
+    const bookmarkedOnly = query.get('bookmarkedOnly') === '1';
+    const perPageRaw = Number.parseInt(query.get('perPage') ?? '12', 10);
+    const perPage = perPageOptions.includes(perPageRaw) ? perPageRaw : 12;
+    const pageRaw = Number.parseInt(query.get('page') ?? '1', 10);
+    const page = Number.isFinite(pageRaw) && pageRaw > 0 ? pageRaw : 1;
+    const normalized = normalizeParams(subject, chapter, subChapter, concept);
+
+    form.querySelector('[name="examType"]').value = examType;
+    sub.value = normalized.subject;
+    setChapterOptions(normalized.subject, normalized.chapter, normalized.subChapter, normalized.concept);
+    form.querySelector('[name="year"]').value = year;
+    form.querySelector('[name="month"]').value = month;
+    form.querySelector('[name="status"]').value = statusFilter;
+    form.querySelector('[name="wrongOnly"]').checked = wrongOnly;
+    form.querySelector('[name="bookmarkedOnly"]').checked = bookmarkedOnly;
+
+    sub.addEventListener('change', () => setChapterOptions(sub.value, '', '', ''));
+    ch.addEventListener('change', () => setSubChapterOptions(sub.value, ch.value, '', ''));
+    subCh.addEventListener('change', () => setConceptOptions(sub.value, ch.value, subCh.value, ''));
+    form.addEventListener('submit', () => {
+      const pageField = document.createElement('input');
+      pageField.type = 'hidden';
+      pageField.name = 'page';
+      pageField.value = '1';
+      form.appendChild(pageField);
+    });
+
+    const progress = JSON.parse(localStorage.getItem('howlearn-problem-progress') || '{"byId":{}}');
+    const bookmarks = JSON.parse(localStorage.getItem('howlearn-bookmark') || '{"byId":{}}');
+    const wrongNotes = JSON.parse(localStorage.getItem('howlearn-wrong-note') || '{"byId":{}}');
+    const currentQuery = window.location.search;
+    if (currentQuery) {
+      document.querySelectorAll('a[data-preserve-list-state-link]').forEach((anchor) => {
+        const href = anchor.getAttribute('href');
+        if (!href || href.includes('?')) return;
+        anchor.setAttribute('href', `${href}${currentQuery}`);
+      });
+    }
+    const visibleItems = [];
+    document.querySelectorAll('[data-problem-card]').forEach((el) => {
+      const id = el.getAttribute('data-problem-id') || '';
+      const detail = getProgressDetail(progress.byId?.[id]);
+      const valueStatus = detail.status;
+      const bookmarked = Boolean(bookmarks.byId?.[id]);
+      const hasWrong = Boolean(wrongNotes.byId?.[id]?.entries?.length);
+      const mismatchServerFilter =
+        (examType && (el.getAttribute('data-exam-type') || '') !== examType) ||
+        (normalized.subject && (el.getAttribute('data-subject') || '') !== normalized.subject) ||
+        (normalized.chapter && (el.getAttribute('data-chapter') || '') !== normalized.chapter) ||
+        (normalized.subChapter && (el.getAttribute('data-sub-chapter') || '') !== normalized.subChapter) ||
+        (normalized.concept && (el.getAttribute('data-concept') || '') !== normalized.concept) ||
+        (year && (el.getAttribute('data-year') || '') !== year) ||
+        (month && (el.getAttribute('data-month') || '') !== month);
+      const mismatchStatus = statusFilter !== 'all' && valueStatus !== statusFilter;
+      const mismatchWrong = wrongOnly && !hasWrong;
+      const mismatchBookmark = bookmarkedOnly && !bookmarked;
+      const li = el.parentElement;
+      if (!li) return;
+      const stateEl = el.querySelector('[data-problem-state]');
+      const metaEl = el.querySelector('[data-problem-state-meta]');
+      const stateBadgeEl = el.querySelector('[data-problem-state-badge]');
+      const progressBadgeClass = {
+        none: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400',
+        progress: 'bg-amber-50 text-amber-800 dark:bg-amber-950/45 dark:text-amber-200',
+        done: 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200',
+      };
+      const progressLabel = { none: '미시작', progress: '진행 중', done: '완료' };
+      if (stateBadgeEl) {
+        stateBadgeEl.className = `type-caption rounded-full px-2 py-0.5 font-medium ${progressBadgeClass[valueStatus] || progressBadgeClass.none}`;
+        stateBadgeEl.textContent = progressLabel[valueStatus] || progressLabel.none;
+      }
+      const metaParts = [progressLabel[valueStatus] || progressLabel.none];
+      if (detail.lastSeenAt > 0) {
+        const d = new Date(detail.lastSeenAt);
+        metaParts.push(`마지막 ${d.getFullYear()}.${d.getMonth() + 1}.${d.getDate()}`);
+      }
+      if (detail.hintRevealedCount > 0) metaParts.push(`힌트 ${detail.hintRevealedCount}개`);
+      if (detail.solutionRevealed) metaParts.push('풀이 열람');
+      if (hasWrong) metaParts.push('오답');
+      if (bookmarked) metaParts.push('스크랩');
+      if (metaEl) metaEl.textContent = metaParts.join(' · ');
+      if (stateEl) stateEl.textContent = metaParts.join(' · ');
+      if (metaParts.length > 0) el.setAttribute('title', `${el.getAttribute('title') || ''} · ${metaParts.join(' · ')}`.replace(/^ · /, ''));
+      const matched = !(mismatchServerFilter || mismatchStatus || mismatchWrong || mismatchBookmark);
+      li.classList.toggle('hidden', !matched);
+      if (matched) visibleItems.push(li);
+    });
+
+    filteredCountEl.textContent = String(visibleItems.length);
+    const totalPages = Math.max(1, Math.ceil(visibleItems.length / perPage));
+    const currentPage = Math.min(page, totalPages);
+    visibleItems.forEach((li, idx) => {
+      const show = idx >= (currentPage - 1) * perPage && idx < currentPage * perPage;
+      li.classList.toggle('hidden', !show);
+    });
+    const renderPagination = () => {
+      if (typeof window.__howlearnRenderAppPagination !== 'function') return false;
+      window.__howlearnRenderAppPagination(paginationRoot, {
+        basePath: '/problems',
+        currentPage,
+        totalPages,
+        perPage,
+      });
+      return true;
+    };
+
+    if (!renderPagination()) {
+      let retries = 0;
+      const maxRetries = 20;
+      const tick = () => {
+        if (renderPagination()) return;
+        retries += 1;
+        if (retries < maxRetries) window.setTimeout(tick, 50);
+      };
+      tick();
+    }
+  })();
+</script>

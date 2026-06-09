@@ -1,0 +1,111 @@
+## 문제
+$\angle A>\frac{\pi}{2} $인 삼각형 $ABC $의 꼭짓점 $A $에서 선분 $BC $에 내린 수선의 발을 $H $라 하자.
+
+$\overline{AB} : \overline{AC} = \sqrt{2} :  1$, $\overline{AH} = 2$
+
+이고, 삼각형 $ABC $의 외접원의 넓이가 $50\pi $일 때, 선분 $BH $의 길이는? \[4점\]
+
+① $6$ ② $\frac{25}{4}$ ③ $\frac{13}{2}$
+
+④ $\frac{27}{4}$ ⑤ $7$
+
+![](/images/docx2mdx/250910-20260604-140024/media/image1.webp)
+
+
+## 힌트
+외접원 넓이 $50\pi$에서 반지름 $R=5\sqrt{2}$예요. $\overline{AB}=\sqrt{2}k$, $\overline{AC}=k$($k>0$)로 두고 사인법칙을 쓸 수 있어요.
+
+
+## 힌트
+직각삼각형 $ABH$($\angle AHB=90^{\circ}$)에서 $\sin(\angle ABC)=\dfrac{\overline{AH}}{\overline{AB}}=\dfrac{2}{\sqrt{2}k}$예요. 삼각형 $ABC$의 사인법칙과 연립해 $k$를 구해요.
+
+
+## 힌트
+$k$를 알면 $\overline{AB}=\sqrt{2k^{2}}$이고, $\overline{BH}=\sqrt{\overline{AB}^{2}-\overline{AH}^{2}}$로 피타고라스 정리를 쓰면 돼요.
+
+
+## 풀이
+외접원의 넓이가 $50\pi$이므로 반지름 $R$에 대해
+
+
+
+$$
+
+\pi R^{2}=50\pi
+\quad\Rightarrow\quad
+R=5\sqrt{2}
+
+$$
+
+
+
+$\overline{AB}:\overline{AC}=\sqrt{2}:1$이므로 $\overline{AB}=\sqrt{2}k$, $\overline{AC}=k$($k>0$)로 둡니다.
+
+
+
+![](/images/docx2mdx/250910-20260604-140024/media/image1.webp)
+
+
+
+$\angle ABC=\alpha$라 하면 삼각형 $ABC$에서 사인법칙에 의해
+
+
+
+$$
+
+\frac{\overline{AC}}{\sin\alpha}=2R
+\quad\Rightarrow\quad
+\frac{k}{\sin\alpha}=10\sqrt{2}
+\quad\Rightarrow\quad
+\sin\alpha=\frac{k}{10\sqrt{2}}
+\quad\cdots\cdots\text{㉠}
+
+$$
+
+
+
+$H$는 $BC$ 위의 수선의 발이므로 $\angle AHB=90^{\circ}$인 직각삼각형 $ABH$에서
+
+
+
+$$
+
+\sin\alpha=\sin(\angle ABC)=\frac{\overline{AH}}{\overline{AB}}=\frac{2}{\sqrt{2}k}
+\quad\cdots\cdots\text{㉡}
+
+$$
+
+
+
+㉠, ㉡을 연립하면
+
+
+
+$$
+
+\frac{k}{10\sqrt{2}}=\frac{2}{\sqrt{2}k}
+\quad\Rightarrow\quad
+k^{2}=20
+
+$$
+
+
+
+직각삼각형 $ABH$에서 피타고라스 정리에 의해
+
+
+
+$$
+
+\overline{BH}
+=\sqrt{\overline{AB}^{2}-\overline{AH}^{2}}
+=\sqrt{2k^{2}-4}
+=\sqrt{40-4}
+=\sqrt{36}
+=6
+
+$$
+
+
+
+따라서 정답은 **①**예요.

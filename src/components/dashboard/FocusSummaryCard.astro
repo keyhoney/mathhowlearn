@@ -1,0 +1,93 @@
+---
+/** 집중 학습 카드 — KPI·스파크라인·CTA */
+---
+<article class="hub-feature-card app-dashboard-hub-card" data-dashboard-card="focus">
+  <div class="app-dashboard-hub-head">
+    <h2 class="type-subhead">집중 학습</h2>
+    <span class="hub-badge hub-badge--primary inline-flex items-center gap-1.5" data-focus-running-badge hidden>
+      <span class="hub-live-dot" aria-hidden="true"></span>
+      집중 진행 중
+    </span>
+  </div>
+  <p class="type-caption chrome-muted" data-focus-subtitle>
+    오늘 목표 120분 기준으로 집중 시간을 확인하세요.
+  </p>
+  <div class="app-dashboard-focus-kpis" role="status" aria-live="polite">
+    <div class="hub-stat-card app-dashboard-kpi-item">
+      <span class="hub-stat-label">오늘</span>
+      <div class="mt-1 flex items-end justify-between gap-2">
+        <strong class="hub-stat-value !mt-0" data-focus-today>0m</strong>
+        <span class="hub-delta" data-focus-today-delta hidden></span>
+      </div>
+    </div>
+    <div class="hub-stat-card app-dashboard-kpi-item">
+      <span class="hub-stat-label">7일 합</span>
+      <div class="mt-1 flex items-end justify-between gap-2">
+        <strong class="hub-stat-value !mt-0" data-focus-week>0m</strong>
+        <span class="hub-delta" data-focus-week-delta hidden></span>
+      </div>
+    </div>
+    <div class="hub-stat-card app-dashboard-kpi-item">
+      <span class="hub-stat-label">누적</span>
+      <strong class="hub-stat-value mt-1" data-focus-total>0m</strong>
+    </div>
+  </div>
+  <div class="app-dashboard-goal-row">
+    <p class="type-caption chrome-muted" data-focus-goal-meta>오늘 목표 대비 0%</p>
+    <button type="button" class="text-sm font-medium text-[var(--accent)] hover:underline" data-focus-goal-open>
+      목표 변경
+    </button>
+  </div>
+  <div
+    class="rounded-xl border border-indigo-500/10 bg-[var(--surface-2)]/50 p-3 app-dashboard-sparkline-compact is-expanded"
+    data-focus-sparkline-wrap
+    data-sparkline-expanded="true"
+  >
+    <p class="hub-stat-label">최근 7일 집중 시간</p>
+    <svg
+      class="app-focus-sparkline mt-2"
+      viewBox="0 0 260 64"
+      preserveAspectRatio="none"
+      aria-hidden="false"
+      role="img"
+      data-focus-sparkline-svg
+      aria-label="최근 7일 집중 시간 추이"
+    >
+      <polyline data-focus-sparkline-fill class="app-focus-sparkline-fill" points="0,64 260,64"></polyline>
+      <polyline data-focus-sparkline-line class="app-focus-sparkline-line" points="0,64 260,64"></polyline>
+    </svg>
+  </div>
+  <p class="type-caption chrome-muted" data-focus-empty hidden>아직 집중 기록이 없어요. 기출 문제를 열고 풀어 보세요.</p>
+  <p class="type-caption chrome-muted" data-focus-empty-help hidden>
+    <a class="font-medium text-[var(--accent)] hover:underline" data-focus-help-link href="/problems">문제 풀이 안내</a>
+    — 문제를 열면 시간이 기록되고, 하단 도구 모음에서 집중 모드로 화면을 단순하게 만들 수 있어요.
+  </p>
+  <a class="gsg-btn-primary hub-cta !min-h-0 !inline-flex !w-full !justify-center !px-4 !py-2.5 !text-sm app-dashboard-cta" data-focus-cta href="/problems">
+    문제 풀러가기
+  </a>
+</article>
+
+<dialog class="app-dialog" data-focus-goal-dialog>
+  <form method="dialog" class="app-dialog-body" data-focus-goal-form>
+    <h2 class="type-subhead">오늘 집중 목표</h2>
+    <p class="type-caption chrome-muted mt-1">15분 이상, 1분 단위로 설정할 수 있어요.</p>
+    <label class="mt-4 block text-sm font-medium text-[var(--fg)]">
+      목표 시간 (분)
+      <input
+        class="app-input mt-2 w-full"
+        type="number"
+        min="15"
+        max="480"
+        step="1"
+        value="120"
+        data-focus-goal-minutes
+      />
+    </label>
+    <div class="mt-4 flex justify-end gap-2">
+      <button type="button" class="gsg-btn-solid !min-h-0 !px-4 !py-2 !text-sm" onclick="this.closest('dialog')?.close()">
+        취소
+      </button>
+      <button type="submit" class="gsg-btn-primary !min-h-0 !px-4 !py-2 !text-sm">저장</button>
+    </div>
+  </form>
+</dialog>

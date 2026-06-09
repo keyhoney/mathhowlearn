@@ -1,0 +1,277 @@
+---
+/**
+ * 페이지네이션 컴포넌트
+ *
+ * - 첫/이전/숫자(주변 + 생략)/다음/마지막 버튼을 항상 노출
+ * - 현재 페이지 주변 ±1 + 가장자리 1개만 숫자로 보여주고 나머지는 …
+ * - href 빌더는 호출자가 주입 (검색/필터 쿼리 보존을 위해)
+ *
+ * 디자인 토큰 기반 스타일을 사용하며, design_ref(직각/낮은 라운드) 톤을 따른다.
+ * (howlearn/blog의 PaginationBar 패턴을 Astro/SSG 환경에 맞게 차용)
+ */
+interface ServerProps {
+  currentPage: number;
+  totalPages: number;
+  buildHref: (page: number) => string;
+  perPage?: number;
+  buildPerPageHref?: (perPage: number) => string;
+  className?: string;
+}
+
+interface ClientProps {
+  mode: 'client';
+  basePath: string;
+  currentPage?: number;
+  totalPages?: number;
+  perPage?: number;
+  className?: string;
+  rootId?: string;
+}
+
+type Props = ServerProps | ClientProps;
+
+const isClientMode = (Astro.props as ClientProps).mode === 'client';
+
+const {
+  currentPage = 1,
+  totalPages = 1,
+  buildHref = (page: number) => `?page=${page}`,
+  perPage = 12,
+  buildPerPageHref,
+  className = '',
+  basePath = '',
+  rootId = '',
+} = Astro.props as Props;
+
+function getPageNumbers(current: number, total: number): Array<number | 'ellipsis'> {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  const result: Array<number | 'ellipsis'> = [];
+  const showEdge = 1;
+  const showAround = 1;
+
+  if (current <= showEdge + showAround + 1) {
+    for (let i = 1; i <= Math.min(4, total); i++) result.push(i);
+    result.push('ellipsis');
+    result.push(total);
+    return result;
+  }
+  if (current >= total - showAround - showEdge) {
+    result.push(1);
+    result.push('ellipsis');
+    for (let i = Math.max(1, total - 3); i <= total; i++) result.push(i);
+    return result;
+  }
+  result.push(1);
+  result.push('ellipsis');
+  for (let i = current - showAround; i <= current + showAround; i++) result.push(i);
+  result.push('ellipsis');
+  result.push(total);
+  return result;
+}
+
+const pageNumbers = getPageNumbers(currentPage, totalPages);
+const isFirst = currentPage <= 1;
+const isLast = currentPage >= totalPages;
+const prevPage = Math.max(1, currentPage - 1);
+const nextPage = Math.min(totalPages, currentPage + 1);
+---
+
+{
+  isClientMode ? (
+    <div
+      id={rootId || undefined}
+      class:list={['mt-8', className]}
+      data-app-pagination-client
+      data-base-path={basePath}
+      data-current-page={String(currentPage)}
+      data-total-pages={String(totalPages)}
+      data-per-page={String(perPage)}
+    ></div>
+  ) : (
+    <div class:list={['mt-8 flex flex-col items-stretch justify-between gap-4 sm:flex-row sm:items-center', className]}>
+      {buildPerPageHref && (
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-sm text-[var(--fg-muted)]">페이지당</span>
+          <fieldset class="app-segment-group">
+            <legend class="sr-only">페이지당 항목 수</legend>
+            <a href={buildPerPageHref(12)} class="app-segment-link" aria-current={perPage === 12 ? 'true' : undefined}>
+              <span class="sm:hidden">12</span>
+              <span class="hidden sm:inline">12개씩 보기</span>
+            </a>
+            <a href={buildPerPageHref(24)} class="app-segment-link" aria-current={perPage === 24 ? 'true' : undefined}>
+              <span class="sm:hidden">24</span>
+              <span class="hidden sm:inline">24개씩 보기</span>
+            </a>
+            <a href={buildPerPageHref(48)} class="app-segment-link" aria-current={perPage === 48 ? 'true' : undefined}>
+              <span class="sm:hidden">48</span>
+              <span class="hidden sm:inline">48개씩 보기</span>
+            </a>
+          </fieldset>
+        </div>
+      )}
+
+      <nav class="flex flex-wrap items-center gap-1 sm:gap-2" aria-label="페이지 네비게이션">
+        <a
+          href={buildHref(1)}
+          class="app-page-nav"
+          aria-label="첫 페이지"
+          title="첫 페이지"
+          aria-disabled={isFirst}
+          tabindex={isFirst ? -1 : 0}
+        >
+            <span aria-hidden="true">«</span>
+          <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+            <path fill-rule="evenodd" d="M9.78 4.22a.75.75 0 0 1 0 1.06L5.06 10l4.72 4.72a.75.75 0 0 1-1.06 1.06l-5.25-5.25a.75.75 0 0 1 0-1.06l5.25-5.25a.75.75 0 0 1 1.06 0Zm6 0a.75.75 0 0 1 0 1.06L11.06 10l4.72 4.72a.75.75 0 1 1-1.06 1.06l-5.25-5.25a.75.75 0 0 1 0-1.06l5.25-5.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+          </svg>
+        </a>
+        <a
+          href={buildHref(prevPage)}
+          class="app-page-nav"
+          aria-label="이전 페이지"
+          title="이전 페이지"
+          aria-disabled={isFirst}
+          tabindex={isFirst ? -1 : 0}
+        >
+            <span aria-hidden="true">‹</span>
+          <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12.78 4.22a.75.75 0 0 1 0 1.06L8.06 10l4.72 4.72a.75.75 0 1 1-1.06 1.06l-5.25-5.25a.75.75 0 0 1 0-1.06l5.25-5.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+          </svg>
+        </a>
+
+        <span class="hidden md:inline-flex min-h-[44px] items-center px-2 text-sm font-medium text-[var(--fg-muted)]" aria-hidden="true">
+          {currentPage} / {totalPages} 페이지
+        </span>
+        <span class="sr-only">현재 페이지: {currentPage}, 총 {totalPages}페이지</span>
+
+        {pageNumbers.map((p, i) =>
+          p === 'ellipsis' ? (
+            <span
+              class="inline-flex min-h-[36px] min-w-[28px] items-center justify-center px-1 text-[var(--fg-muted)]"
+              aria-hidden="true"
+              data-ellipsis-index={i}
+            >
+              …
+            </span>
+          ) : (
+            <a
+              href={buildHref(p)}
+              class="app-page-link"
+              aria-current={p === currentPage ? 'page' : undefined}
+              aria-label={p === currentPage ? `현재 페이지 ${p}` : `페이지 ${p}`}
+            >
+              {p}
+            </a>
+          )
+        )}
+
+        <a
+          href={buildHref(nextPage)}
+          class="app-page-nav"
+          aria-label="다음 페이지"
+          title="다음 페이지"
+          aria-disabled={isLast}
+          tabindex={isLast ? -1 : 0}
+        >
+          <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.22 4.22a.75.75 0 0 1 1.06 0l5.25 5.25a.75.75 0 0 1 0 1.06l-5.25 5.25a.75.75 0 0 1-1.06-1.06L11.94 10 7.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          </svg>
+          <span aria-hidden="true">›</span>
+        </a>
+        <a
+          href={buildHref(totalPages)}
+          class="app-page-nav"
+          aria-label="마지막 페이지"
+          title="마지막 페이지"
+          aria-disabled={isLast}
+          tabindex={isLast ? -1 : 0}
+        >
+          <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10.22 4.22a.75.75 0 0 1 1.06 0l5.25 5.25a.75.75 0 0 1 0 1.06l-5.25 5.25a.75.75 0 0 1-1.06-1.06L14.94 10l-4.72-4.72a.75.75 0 0 1 0-1.06Zm-6 0a.75.75 0 0 1 1.06 0l5.25 5.25a.75.75 0 0 1 0 1.06l-5.25 5.25a.75.75 0 1 1-1.06-1.06L8.94 10 4.22 5.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          </svg>
+          <span aria-hidden="true">»</span>
+        </a>
+      </nav>
+    </div>
+  )
+}
+
+<script>
+  (() => {
+    if (typeof window === 'undefined') return;
+    if (typeof window.__howlearnRenderAppPagination === 'function') return;
+    const perPageOptions = [12, 24, 48];
+
+    const getPageNumbers = (current, total) => {
+      if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+      if (current <= 3) return [1, 2, 3, 4, 'ellipsis', total];
+      if (current >= total - 2) return [1, 'ellipsis', total - 3, total - 2, total - 1, total];
+      return [1, 'ellipsis', current - 1, current, current + 1, 'ellipsis', total];
+    };
+
+    const hrefWithPatch = (basePath, patch) => {
+      const next = new URLSearchParams(window.location.search);
+      Object.entries(patch).forEach(([k, v]) => {
+        if (v === null || v === '' || v === false) next.delete(k);
+        else next.set(k, String(v));
+      });
+      const qs = next.toString();
+      return qs ? `?${qs}` : basePath;
+    };
+
+    const render = (root, options) => {
+      if (!root) return;
+      const basePath = options.basePath || '/';
+      const totalPages = Math.max(1, Number(options.totalPages || 1));
+      const currentPage = Math.min(Math.max(1, Number(options.currentPage || 1)), totalPages);
+      const currentPerPage = perPageOptions.includes(Number(options.perPage))
+        ? Number(options.perPage)
+        : 12;
+      const isFirst = currentPage <= 1;
+      const isLast = currentPage >= totalPages;
+      const prev = Math.max(1, currentPage - 1);
+      const next = Math.min(totalPages, currentPage + 1);
+      const perPageHtml = perPageOptions
+        .map((n) => `<a href="${hrefWithPatch(basePath, { perPage: n === 12 ? null : n, page: 1 })}" class="app-segment-link" aria-current="${n === currentPerPage ? 'true' : 'false'}"><span class="sm:hidden">${n}</span><span class="hidden sm:inline">${n}개씩 보기</span></a>`)
+        .join('');
+      const numberHtml = getPageNumbers(currentPage, totalPages)
+        .map((p) =>
+          p === 'ellipsis'
+            ? '<span class="inline-flex min-h-[36px] min-w-[28px] items-center justify-center px-1 text-[var(--fg-muted)]" aria-hidden="true">…</span>'
+            : `<a href="${hrefWithPatch(basePath, { page: p })}" class="app-page-link" ${p === currentPage ? 'aria-current="page"' : ''}>${p}</a>`,
+        )
+        .join('');
+      root.innerHTML = `
+        <div class="flex flex-col items-stretch justify-between gap-4 sm:flex-row sm:items-center">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-sm text-[var(--fg-muted)]">페이지당</span>
+            <fieldset class="app-segment-group">
+              <legend class="sr-only">페이지당 항목 수</legend>
+              ${perPageHtml}
+            </fieldset>
+          </div>
+          <nav class="flex flex-wrap items-center gap-1 sm:gap-2" aria-label="페이지 네비게이션">
+            <a href="${hrefWithPatch(basePath, { page: 1 })}" class="app-page-nav" aria-label="첫 페이지" title="첫 페이지" ${isFirst ? 'aria-disabled="true" tabindex="-1"' : ''}><span aria-hidden="true">«</span></a>
+            <a href="${hrefWithPatch(basePath, { page: prev })}" class="app-page-nav" aria-label="이전 페이지" title="이전 페이지" ${isFirst ? 'aria-disabled="true" tabindex="-1"' : ''}><span aria-hidden="true">‹</span></a>
+            <span class="hidden md:inline-flex min-h-[44px] items-center px-2 text-sm font-medium text-[var(--fg-muted)]" aria-hidden="true">${currentPage} / ${totalPages} 페이지</span>
+            ${numberHtml}
+            <a href="${hrefWithPatch(basePath, { page: next })}" class="app-page-nav" aria-label="다음 페이지" title="다음 페이지" ${isLast ? 'aria-disabled="true" tabindex="-1"' : ''}><span aria-hidden="true">›</span></a>
+            <a href="${hrefWithPatch(basePath, { page: totalPages })}" class="app-page-nav" aria-label="마지막 페이지" title="마지막 페이지" ${isLast ? 'aria-disabled="true" tabindex="-1"' : ''}><span aria-hidden="true">»</span></a>
+          </nav>
+        </div>
+      `;
+    };
+
+    window.__howlearnRenderAppPagination = render;
+
+    document.querySelectorAll('[data-app-pagination-client]').forEach((el) => {
+      render(el, {
+        basePath: el.getAttribute('data-base-path') || '/',
+        currentPage: Number(el.getAttribute('data-current-page') || '1'),
+        totalPages: Number(el.getAttribute('data-total-pages') || '1'),
+        perPage: Number(el.getAttribute('data-per-page') || '12'),
+      });
+    });
+  })();
+</script>

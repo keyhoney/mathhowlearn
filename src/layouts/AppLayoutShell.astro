@@ -1,0 +1,54 @@
+---
+import { GaeSaeGiNav } from '../components/GaeSaeGiNav';
+import HubTopGrid from '../components/hub/HubTopGrid.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  pathname: string;
+  tinaVisualHref: string;
+}
+
+const { pathname, tinaVisualHref } = Astro.props;
+---
+
+<body class="hub-page min-h-screen font-sans antialiased transition-colors">
+  <HubTopGrid />
+  <a
+    href="#main-content"
+    class="fixed left-4 top-4 z-[100] -translate-y-[200%] rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-lg focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
+  >
+    본문으로 건너뛰기
+  </a>
+
+  <GaeSaeGiNav client:load pathname={pathname} />
+  <div class="hub-nav-spacer focus-hide-in-exam" aria-hidden="true"></div>
+
+  <main id="main-content" class="book-main hub-main mx-auto w-full flex-1">
+    <slot />
+  </main>
+
+  <SiteFooter />
+
+  {import.meta.env.DEV && !pathname.startsWith('/admin') && (
+    <a
+      href={tinaVisualHref}
+      class="fixed bottom-5 right-5 z-[70] inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 shadow-lg hover:border-indigo-400 hover:text-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+      title="Tina 인라인 편집 모드 열기"
+    >
+      Tina 인라인 편집
+    </a>
+  )}
+
+  <script is:inline define:vars={{ themeKey: 'gaesaegi-theme' }}>
+    (function () {
+      try {
+        var t = localStorage.getItem(themeKey);
+        var d = false;
+        if (t === 'dark') d = true;
+        else if (t === 'light') d = false;
+        else d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', d);
+      } catch (e) {}
+    })();
+  </script>
+</body>

@@ -1,0 +1,66 @@
+---
+import { HubHeroMockApp } from './HubHeroMockApp';
+
+interface Props {
+  problemIds: string[];
+  essayProblemIds: string[];
+}
+
+const { problemIds, essayProblemIds } = Astro.props;
+---
+
+<div class="space-y-4" data-hub-hero-mock>
+  <div class="flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <span class="hub-live-dot" data-hub-hero-live-dot hidden aria-hidden="true"></span>
+      <p class="type-caption font-semibold text-[var(--fg)]">Dashboard</p>
+    </div>
+    <span class="hub-badge hub-badge--neutral" data-hub-hero-badge>Demo</span>
+  </div>
+
+  <div class="grid grid-cols-2 gap-2 sm:gap-3">
+    <div class="hub-stat-card">
+      <span class="hub-stat-label">오늘 집중</span>
+      <div class="flex items-end justify-between gap-2">
+        <span class="hub-stat-value" data-hub-hero-today>42m</span>
+        <span class="hub-delta" data-hub-hero-today-delta>+18%</span>
+      </div>
+    </div>
+    <div class="hub-stat-card">
+      <span class="hub-stat-label">7일 합</span>
+      <div class="flex items-end justify-between gap-2">
+        <span class="hub-stat-value" data-hub-hero-week>3h 18m</span>
+        <span class="hub-delta" data-hub-hero-week-delta>+12%</span>
+      </div>
+    </div>
+    <div class="hub-stat-card">
+      <span class="hub-stat-label">완료 문항</span>
+      <div class="flex items-end justify-between gap-2">
+        <span class="hub-stat-value" data-hub-hero-done>28</span>
+        <span class="hub-delta" data-hub-hero-done-delta>+6%</span>
+      </div>
+    </div>
+    <div class="hub-stat-card">
+      <span class="hub-stat-label">오답 복습</span>
+      <div class="flex items-end justify-between gap-2">
+        <span class="hub-stat-value" data-hub-hero-review>5</span>
+        <span class="hub-delta" data-hub-hero-review-delta>+2</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-indigo-500/10 bg-[var(--surface-2)]/50 p-3">
+    <p class="hub-stat-label">최근 7일 집중</p>
+    <div class="hub-mini-bars" aria-hidden="true">
+      <span class="hub-mini-bar" data-hub-hero-bar style="height: 35%"></span>
+      <span class="hub-mini-bar" data-hub-hero-bar style="height: 52%"></span>
+      <span class="hub-mini-bar" data-hub-hero-bar style="height: 41%"></span>
+      <span class="hub-mini-bar" data-hub-hero-bar style="height: 68%"></span>
+      <span class="hub-mini-bar" data-hub-hero-bar style="height: 55%"></span>
+      <span class="hub-mini-bar" data-hub-hero-bar style="height: 82%"></span>
+      <span class="hub-mini-bar bg-indigo-500/45" data-hub-hero-bar style="height: 74%"></span>
+    </div>
+  </div>
+</div>
+
+<HubHeroMockApp client:load problemIds={problemIds} essayProblemIds={essayProblemIds} />

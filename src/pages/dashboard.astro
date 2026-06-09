@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import DashboardHeader from '../components/dashboard/DashboardHeader.astro';
+import FocusSummaryCard from '../components/dashboard/FocusSummaryCard.astro';
+import ReviewSummaryCard from '../components/dashboard/ReviewSummaryCard.astro';
+import ProgressSummaryCard from '../components/dashboard/ProgressSummaryCard.astro';
+import DashboardContentStrip from '../components/dashboard/DashboardContentStrip.astro';
+import { DashboardApp } from '../components/dashboard/DashboardApp';
+
+const [problems, essayProblems] = await Promise.all([
+  getCollection('problems'),
+  getCollection('essay-problems'),
+]);
+const problemIds = problems.map((item) => item.id);
+const essayProblemIds = essayProblems.map((item) => item.id);
+const focusHelpHref = problemIds[0] ? `/problems/${problemIds[0]}` : '/problems';
+---
+
+<BaseLayout
+  title="학습 대시보드"
+  description="집중 시간, 문제 진행률, 오답 복습을 한눈에 보고 바로 이어서 학습하는 허브"
+>
+  <section class="hub-atmosphere pb-12">
+    <DashboardHeader />
+    <div class="app-dashboard-visual-grid">
+      <FocusSummaryCard />
+      <ReviewSummaryCard />
+      <ProgressSummaryCard />
+    </div>
+    <DashboardApp
+      client:load
+      problemIds={problemIds}
+      essayProblemIds={essayProblemIds}
+      focusHelpHref={focusHelpHref}
+    />
+    <DashboardContentStrip />
+  </section>
+
+<script>
+  import '../lib/client/firebase-sync';
+</script>

@@ -1,0 +1,180 @@
+---
+import MathLayout from '../../layouts/MathLayout.astro';
+import ProblemInteraction from '../../components/ProblemInteraction.astro';
+import ExamPracticeToolbar from '../../components/ExamPracticeToolbar.astro';
+import {
+  buildHintSteps,
+  extractProblemStatementMarkdown,
+  extractSection,
+  extractSections,
+  renderTrustedMarkdown,
+} from '../../lib/problem-markdown';
+import { getCollection, getEntry } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import { STORAGE_KEYS } from '../../lib/storage-keys';
+
+export const getStaticPaths = (async () => {
+  const items = await getCollection('essay-problems');
+  return items.map((entry) => ({
+    params: { slug: entry.id },
+  }));
+}) satisfies GetStaticPaths;
+export const prerender = true;
+
+const slug = Astro.params.slug;
+if (!slug) {
+  return Astro.redirect('/essay-problems');
+}
+
+const entry = await getEntry('essay-problems', slug);
+if (!entry) {
+  return Astro.redirect('/essay-problems');
+}
+
+const {
+  source,
+  university,
+  examYear,
+  year,
+} = entry.data;
+
+const rawProblemMd = extractProblemStatementMarkdown(entry.body);
+const problemHtml = await renderTrustedMarkdown(rawProblemMd);
+
+const hintSections = extractSections(entry.body, ['힌트']);
+const solutionText = extractSection(entry.body, ['모범 풀이', '풀이']);
+const hintSteps = hintSections.flatMap((section) => buildHintSteps(section));
+const hintStepsHtml =
+  hintSteps.length > 0 ? await Promise.all(hintSteps.map((s) => renderTrustedMarkdown(s))) : [];
+const solutionHtml = await renderTrustedMarkdown(solutionText);
+const allEssayProblems = await getCollection('essay-problems');
+const tinaPath = `essay-problems/${entry.id}.mdx`;
+const tinaField = (field: string) => `${tinaPath}#${field}`;
+const relatedProblems = allEssayProblems
+  .filter((p) => {
+    if (p.id === entry.id) return false;
+    return true;
+  })
+  .map((p) => {
+    let score = 0;
+    if (p.data.university === entry.data.university) score += 35;
+    score += Math.max(0, 25 - Math.abs((p.data.examYear ?? p.data.year) - (entry.data.examYear ?? entry.data.year)) * 3);
+    return { problem: p, score };
+  })
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 6);
+---
+
+<MathLayout
+  title={source}
+  description={`${university} 대학별 고사 수학 문제`}
+>
+  <article
+    class="max-w-4xl mx-auto prose prose-book prose-slate dark:prose-invert exam-problem-page"
+    data-problem-id={entry.id}
+    data-progress-key={STORAGE_KEYS.PROBLEM_PROGRESS}
+  >
+    <ExamPracticeToolbar problemId={entry.id} />
+    <header class="not-prose book-card--compact mb-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+      <a href="/essay-problems" class="type-caption font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400" data-list-back-link data-list-base-path="/essay-problems">← 목록으로 돌아가기</a>
+      <div class="exam-meta-row mt-4 flex flex-wrap items-center gap-2 focus-hide-in-exam">
+        <span class="type-caption chrome-muted">
+          {examYear ?? year}년 {entry.data.examType}
+        </span>
+        <span class="type-caption chrome-muted">
+          {university}
+        </span>
+      </div>
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="type-article-title m-0">
+          {source}
+        </h1>
+      </div>
+    </header>
+
+    <p class="focus-only-note learn-callout learn-callout--warning not-prose mb-4">
+      집중 모드가 켜져 있습니다. STEP 힌트와 최종 풀이는 계속 볼 수 있고, 관련 문제는 숨겨집니다.
+    </p>
+    <div class="not-prose learn-surface learn-emphasis book-card" data-problem-card-root data-tina-field={tinaField('body')}>
+      <h2 class="type-subhead mb-4">문제</h2>
+      <div
+        class="prose prose-slate dark:prose-invert max-w-none prose-headings:tracking-tight"
+        set:html={problemHtml}
+      />
+    </div>
+
+    <ProblemInteraction
+      problemId={entry.id}
+      hintStepsHtml={hintStepsHtml}
+      solutionHtml={solutionHtml}
+    />
+
+    {relatedProblems.length > 0 && (
+      <section class="not-prose mt-4 focus-hide-in-exam hub-feature-card">
+        <h2 class="type-subhead hub-section-dash">관련 문제</h2>
+        <p class="type-caption chrome-muted mt-3">{relatedProblems.length}문항</p>
+        <div class="mt-4 grid gap-2" data-related-list>
+            {relatedProblems.map(({ problem: rp, score }) => (
+              <a href={`/essay-problems/${rp.id}`} class="rounded-lg border border-slate-200/80 bg-white/80 p-3 transition-colors hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900/50 dark:hover:border-slate-600" data-related-item data-related-id={rp.id} data-related-score={score}>
+                <h3 class="type-subhead">{rp.data.source}</h3>
+                <p class="mt-1 type-caption chrome-muted">
+                  {rp.data.university}
+                </p>
+                <div class="mt-2">
+                  <span class="type-caption chrome-muted" data-related-status>미시작</span>
+                </div>
+              </a>
+            ))}
+        </div>
+      </section>
+    )}
+  </article>
+</MathLayout>
+
+<script is:inline define:vars={{ problemId: entry.id, progressKey: STORAGE_KEYS.PROBLEM_PROGRESS }}>
+  (() => {
+    const backLink = document.querySelector('[data-list-back-link]');
+    if (!(backLink instanceof HTMLAnchorElement)) return;
+    if (window.location.search) {
+      backLink.href = `${backLink.dataset.listBasePath || '/essay-problems'}${window.location.search}`;
+    }
+  })();
+
+  const progress = JSON.parse(localStorage.getItem(progressKey) || '{"v":1,"byId":{}}');
+  const prev = progress.byId?.[problemId];
+  const prevObj = prev && typeof prev === 'object' ? prev : {};
+  progress.byId = progress.byId || {};
+  progress.byId[problemId] = {
+    ...prevObj,
+    status: prevObj.status === 'done' ? 'done' : 'progress',
+    lastSeenAt: Date.now(),
+  };
+  localStorage.setItem(progressKey, JSON.stringify(progress));
+
+  const list = document.querySelector('[data-related-list]');
+  if (list) {
+    const statusStore = JSON.parse(localStorage.getItem(progressKey) || '{"v":1,"byId":{}}');
+    const getProgressStatus = (id) => {
+      const raw = statusStore?.byId?.[id];
+      if (typeof raw === 'string') return raw;
+      return raw?.status || 'none';
+    };
+    const items = Array.from(list.querySelectorAll('[data-related-item]'));
+    items.sort((a, b) => Number(b.getAttribute('data-related-score') || 0) - Number(a.getAttribute('data-related-score') || 0));
+    items.forEach((item) => {
+      const id = item.getAttribute('data-related-id') || '';
+      const status = getProgressStatus(id);
+      const statusEl = item.querySelector('[data-related-status]');
+      if (statusEl) {
+        statusEl.textContent = status === 'done' ? '완료' : status === 'progress' ? '진행 중' : '미시작';
+        statusEl.className =
+          status === 'done'
+            ? 'type-caption text-emerald-600 dark:text-emerald-400'
+            : status === 'progress'
+              ? 'type-caption text-indigo-600 dark:text-indigo-400'
+              : 'type-caption chrome-muted';
+      }
+      list.appendChild(item);
+    });
+  }
+</script>

@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AppPagination from '../components/ui/AppPagination.astro';
+---
+
+<BaseLayout title="검색" description="GaeSaeGi Math 통합 검색">
+  <section class="py-8">
+    <h1 class="type-title">검색</h1>
+    <p class="type-lead mt-3">
+      수능·모평 및 대학별 고사 수학 문제를 검색할 수 있습니다.
+    </p>
+
+    <form id="search-form" class="book-card mt-6 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90" role="search">
+      <div class="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_180px]">
+        <input
+          id="search-input"
+          name="q"
+          type="search"
+          placeholder="검색어를 입력하세요"
+          enterkeyhint="search"
+          class="gsg-filter-select"
+          autocomplete="off"
+        />
+        <button type="submit" id="search-submit" class="gsg-btn-primary !min-h-0 w-full sm:w-auto">
+          검색
+        </button>
+        <select id="search-sort" class="gsg-filter-select sm:col-start-3">
+          <option value="relevance">관련도</option>
+          <option value="title">제목순</option>
+        </select>
+      </div>
+      <div class="mt-3 flex flex-wrap gap-2" id="search-domain-tabs">
+        <button type="button" data-domain="all" class="gsg-btn-primary !min-h-0 !px-4 !py-2 !text-sm">전체</button>
+        <button type="button" data-domain="problems" class="gsg-btn-outline !min-h-0 !px-4 !py-2 !text-sm">수능·모평</button>
+        <button type="button" data-domain="essay-problems" class="gsg-btn-secondary !min-h-0 !px-4 !py-2 !text-sm">대학별 고사</button>
+      </div>
+    </form>
+
+    <ul id="search-results" class="mt-6 grid gap-4"></ul>
+    <p id="search-empty" class="type-lead mt-6">검색어를 입력해 주세요.</p>
+    <AppPagination mode="client" basePath="/search" rootId="search-pagination" class="hidden" />
+  </section>
+</BaseLayout>
+
+<script>
+  import { buildSearchResultCardHtml } from '../lib/search-result-card';
+
+  (window as Window & { howlearnBuildSearchCard?: typeof buildSearchResultCardHtml }).howlearnBuildSearchCard =
+    buildSearchResultCardHtml;
+</script>
+
+<script is:inline define:vars={{ pagefindScript: `${import.meta.env.BASE_URL}pagefind/pagefind.js` }}>
+  const searchForm = document.getElementById('search-form');
+  const input = document.getElementById('search-input');
+  const sort = document.getElementById('search-sort');
+  const domainTabs = document.getElementById('search-domain-tabs');
+  const resultList = document.getElementById('search-results');
+  const emptyEl = document.getElementById('search-empty');
+  const paginationRoot = document.getElementById('search-pagination');
+  let currentDomain = 'all';
+  let pagefind = null;
+  let pagefindLoadFailed = false;
+  let allRecords = [];
+  const perPageOptions = [12, 24, 48];
+
+  function syncQueryToUrl(options = {}) {
+    const url = new URL(window.location.href);
+    const q = input?.value?.trim() || '';
+    if (q) url.searchParams.set('q', q);
+    else url.searchParams.delete('q');
+
+    if (sort?.value) url.searchParams.set('sort', sort.value);
+    if (currentDomain !== 'all') url.searchParams.set('domain', currentDomain);
+    else url.searchParams.delete('domain');
+
+    if (options.resetPage) {
+      url.searchParams.set('page', '1');
+    }
+
+    window.history.replaceState({}, '', url);
+  }
+
+  function getPaginationParams() {
+    const query = new URLSearchParams(window.location.search);
+    const perPageRaw = Number.parseInt(query.get('perPage') ?? '12', 10);
+    const perPage = perPageOptions.includes(perPageRaw) ? perPageRaw : 12;
+    const pageRaw = Number.parseInt(query.get('page') ?? '1', 10);
+    const page = Number.isFinite(pageRaw) && pageRaw > 0 ? pageRaw : 1;
+    return { perPage, page };
+  }
+
+  function renderPagination() {
+    if (!paginationRoot) return;
+    const total = allRecords.length;
+    if (total === 0) {
+      paginationRoot.classList.add('hidden');
+      return;
+    }
+    paginationRoot.classList.remove('hidden');
+    const { perPage, page } = getPaginationParams();
+    const totalPages = Math.max(1, Math.ceil(total / perPage));
+    const currentPage = Math.min(page, totalPages);
+    const render = () => {
+      if (typeof window.__howlearnRenderAppPagination !== 'function') return false;
+      window.__howlearnRenderAppPagination(paginationRoot, {
+        basePath: '/search',
+        currentPage,
+        totalPages,
+        perPage,
+      });
+      return true;
+    };
+    if (!render()) {
+      let retries = 0;
+      const timer = setInterval(() => {
+        retries += 1;
+        if (render() || retries >= 20) clearInterval(timer);
+      }, 50);
+    }
+  }
+
+  async function ensurePagefind() {
+    if (pagefindLoadFailed) return null;
+    if (pagefind) return pagefind;
+    try {
+      const mod = await import(/* @vite-ignore */ pagefindScript);
+      pagefind = mod;
+      return pagefind;
+    } catch (error) {
+      pagefindLoadFailed = true;
+      console.warn('Pagefind 로드 실패:', error);
+      return null;
+    }
+  }
+
+  function renderResults(records, totalCount, queryForTitleHighlight) {
+    const buildCard = window.howlearnBuildSearchCard;
+    const total = totalCount ?? records.length;
+    if (total === 0) {
+      if (resultList) resultList.innerHTML = '';
+      if (emptyEl) emptyEl.textContent = '검색 결과가 없습니다.';
+      if (paginationRoot) paginationRoot.classList.add('hidden');
+      return;
+    }
+    const { perPage, page } = getPaginationParams();
+    const totalPages = Math.max(1, Math.ceil(total / perPage));
+    const currentPage = Math.min(page, totalPages);
+    if (emptyEl) {
+      emptyEl.textContent =
+        totalPages > 1
+          ? `검색 결과 ${total}건 (${currentPage}/${totalPages} 페이지)`
+          : `검색 결과 ${total}건`;
+    }
+    if (!resultList) return;
+    const q = String(queryForTitleHighlight || '').trim();
+    resultList.innerHTML = records
+      .map((item) => (buildCard ? buildCard(item, q) : ''))
+      .join('');
+    renderPagination();
+  }
+
+  function renderCurrentPage() {
+    const { perPage, page } = getPaginationParams();
+    const total = allRecords.length;
+    const totalPages = Math.max(1, Math.ceil(total / perPage));
+    const currentPage = Math.min(page, totalPages);
+    const slice = allRecords.slice((currentPage - 1) * perPage, currentPage * perPage);
+    const q = new URLSearchParams(window.location.search).get('q')?.trim() || input?.value?.trim() || '';
+    renderResults(slice, total, q);
+  }
+
+  async function runSearch(options = {}) {
+    const q = input?.value?.trim() || '';
+    if (options.resetPage) syncQueryToUrl({ resetPage: true });
+    else syncQueryToUrl();
+
+    if (!q) {
+      allRecords = [];
+      if (resultList) resultList.innerHTML = '';
+      if (emptyEl) emptyEl.textContent = '검색어를 입력해 주세요.';
+      if (paginationRoot) paginationRoot.classList.add('hidden');
+      return;
+    }
+
+    if (emptyEl) emptyEl.textContent = '검색 중…';
+
+    const pf = await ensurePagefind();
+    if (!pf) {
+      allRecords = [];
+      if (resultList) resultList.innerHTML = '';
+      if (emptyEl) emptyEl.textContent = '검색 인덱스가 없습니다. `npm run build` 후 `npm run preview`에서 검색을 사용할 수 있습니다.';
+      if (paginationRoot) paginationRoot.classList.add('hidden');
+      return;
+    }
+    const searched = await pf.search(q);
+    let records = await Promise.all(searched.results.map((r) => r.data()));
+
+    if (currentDomain !== 'all') {
+      records = records.filter((item) => {
+        const url = item.url || '';
+        if (currentDomain === 'problems') return url.startsWith('/problems/') && !url.startsWith('/problems/wrong-note') && !url.startsWith('/problems/bookmarks') && !url.startsWith('/problems/concept-frequency');
+        if (currentDomain === 'essay-problems') return url.startsWith('/essay-problems/');
+        return true;
+      });
+    }
+
+    if ((sort?.value || 'relevance') === 'title') {
+      records = records.sort((a, b) => (a.meta.title || '').localeCompare(b.meta.title || '', 'ko'));
+    }
+
+    allRecords = records;
+    renderCurrentPage();
+  }
+
+  function applyDomainTab(domain) {
+    currentDomain = domain;
+    domainTabs?.querySelectorAll('button').forEach((btn) => {
+      btn.className = btn.getAttribute('data-domain') === domain ? 'app-btn-primary' : 'app-btn-secondary';
+    });
+  }
+
+  searchForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    runSearch({ resetPage: true });
+  });
+
+  input?.addEventListener('input', () => {
+    runSearch({ resetPage: true });
+  });
+
+  sort?.addEventListener('change', () => {
+    runSearch({ resetPage: true });
+  });
+
+  (function initFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q')?.trim() || '';
+    const domain = params.get('domain') || 'all';
+    const sortVal = params.get('sort');
+    if (input && q) input.value = q;
+    if (sort && sortVal) sort.value = sortVal;
+    applyDomainTab(domain);
+    if (q) runSearch();
+  })();
+
+  domainTabs?.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLButtonElement)) return;
+    const domain = target.getAttribute('data-domain') || 'all';
+    applyDomainTab(domain);
+    runSearch({ resetPage: true });
+  });
+</script>

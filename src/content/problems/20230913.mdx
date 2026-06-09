@@ -1,0 +1,203 @@
+## 문제
+
+그림과 같이 선분 $AB$를 지름으로 하는 반원의 호 $AB$ 위에 두 점 $C$, $D$가 있다. 선분 $AB$의 중점 $O$에 대하여 두 선분 $AD$, $CO$가 점 $E$에서 만나고,
+
+
+
+$\overline{CE} = 4$, $\ \overline{ED} = 3\sqrt{2}$, $\ \angle CEA = \frac{3}{4}\pi$
+
+
+
+이다. $\overline{AC} \times \overline{CD}$의 값은? \[4점\]
+
+
+
+![](/images/docx2mdx/230913-20260602-122438/media/image1.webp)
+
+
+
+① $6\sqrt{10}$ ② $10\sqrt{5}$ ③ $16\sqrt{2}$ ④ $12\sqrt{5}$ ⑤ $20\sqrt{2}$
+
+
+
+
+
+## 힌트
+
+점 $E$는 직선 $AD$ 위에 있으므로 $\angle CEA$와 $\angle CED$는 보각 관계예요. $\overline{CE}$, $\overline{ED}$와 $\angle CED$를 알면 코사인법칙으로 $\overline{CD}$를 구할 수 있어요.
+
+
+
+## 힌트
+
+$C$, $E$, $O$는 한 직선 위에 있고 $\overline{OC}=r$이므로 $\overline{OE}=r-4$예요. 삼각형 $OED$에서 $\overline{OD}=r$, $\overline{ED}=3\sqrt{2}$와 $\angle OED$를 이용해 반지름 $r$을 구해 보세요.
+
+
+
+## 힌트
+
+반지름 $r$이 정해지면 지름은 $2r$이에요. 삼각형 $ACD$에 사인법칙을 쓰면 $\sin\angle CAD$를 구할 수 있고, 삼각형 $AEC$에서 $\overline{AC}$를 구할 수 있어요.
+
+
+
+## 힌트
+
+$\overline{AC}$와 $\overline{CD}$를 각각 구한 뒤 곱하면 돼요. $\sin\dfrac{3\pi}{4}=\dfrac{\sqrt{2}}{2}$를 쓰면 계산이 편해요.
+
+
+
+## 풀이
+
+$E$는 직선 $AD$ 위의 점이므로 $\angle CEA$와 $\angle CED$는 보각 관계예요.
+
+
+
+$$
+
+\angle CED=\pi-\angle CEA=\pi-\frac{3\pi}{4}=\frac{\pi}{4}
+
+$$
+
+
+
+삼각형 $CDE$에서 코사인법칙에 의해
+
+
+
+$$
+
+\overline{CD}^{2}
+
+=\overline{CE}^{2}+\overline{ED}^{2}-2\cdot\overline{CE}\cdot\overline{ED}\cdot\cos\angle CED
+
+$$
+
+
+
+$$
+
+=4^{2}+(3\sqrt{2})^{2}-2\cdot 4\cdot 3\sqrt{2}\cdot\cos\frac{\pi}{4}
+
+$$
+
+
+
+$$
+
+=16+18-24\sqrt{2}\cdot\frac{\sqrt{2}}{2}=34-24=10
+
+$$
+
+
+
+이므로 $\overline{CD}=\sqrt{10}$이에요.
+
+
+
+![](/images/docx2mdx/230913-20260602-122438/media/image2.webp)
+
+
+
+$O$는 원의 중심이고 $C$, $E$, $O$는 한 직선 위에 있으며 $\overline{CE}=4$이므로
+
+
+
+$$
+
+\overline{OE}=\overline{OC}-\overline{CE}=r-4
+
+$$
+
+
+
+이에요 ($E$는 선분 $CO$ 위).
+
+
+
+직선 $AD$ 위에서 $\overline{EA}$와 $\overline{ED}$는 반대 방향이므로, $\angle CEA=\dfrac{3\pi}{4}$일 때 $\angle OED=\dfrac{3\pi}{4}$예요.
+
+
+
+삼각형 $OED$에서 $\overline{OD}=r$, $\overline{OE}=r-4$, $\overline{ED}=3\sqrt{2}$이므로 코사인법칙에 의해
+
+
+
+$$
+
+r^{2}=(r-4)^{2}+(3\sqrt{2})^{2}-2(r-4)\cdot 3\sqrt{2}\cdot\cos\frac{3\pi}{4}
+
+$$
+
+
+
+$$
+
+r^{2}=r^{2}-8r+16+18+6(r-4)=r^{2}-2r+10
+
+$$
+
+
+
+따라서 $10-2r=0$, $r=5$이고 지름은 $2r=10$이에요.
+
+
+
+삼각형 $ACD$에서 $\angle CAD=\theta$라 하면, 원주각과 사인법칙에 의해
+
+
+
+$$
+
+\frac{\overline{CD}}{\sin\theta}=2r=10
+
+\quad\Rightarrow\quad
+
+\sin\theta=\frac{\sqrt{10}}{10}
+
+$$
+
+
+
+삼각형 $AEC$에서 $\angle CEA=\dfrac{3\pi}{4}$이고, $\angle CAE=\theta$이므로 사인법칙에 의해
+
+
+
+$$
+
+\frac{\overline{AC}}{\sin\dfrac{3\pi}{4}}=\frac{\overline{CE}}{\sin\theta}
+
+$$
+
+
+
+$$
+
+\overline{AC}
+
+=\frac{4\cdot\sin\dfrac{3\pi}{4}}{\sin\theta}
+
+=\frac{4\cdot\dfrac{\sqrt{2}}{2}}{\dfrac{\sqrt{10}}{10}}
+
+=\frac{2\sqrt{2}\cdot 10}{\sqrt{10}}
+
+=\frac{20\sqrt{2}}{\sqrt{10}}=2\sqrt{20}=4\sqrt{5}
+
+$$
+
+
+
+따라서
+
+
+
+$$
+
+\overline{AC}\times\overline{CD}=4\sqrt{5}\times\sqrt{10}=4\sqrt{50}=20\sqrt{2}
+
+$$
+
+
+
+따라서 정답은 **⑤**예요.
+
+

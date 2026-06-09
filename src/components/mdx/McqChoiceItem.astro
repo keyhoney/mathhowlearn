@@ -1,0 +1,28 @@
+---
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+
+const baseClass =
+  'flex min-h-[3rem] w-full flex-row items-stretch rounded-lg border border-[var(--card-border)] px-3 py-3 text-left shadow-sm ' +
+  'text-[var(--fg)] bg-[var(--surface-1)] transition-colors';
+---
+
+<div class={baseClass}>
+  <span
+    class="flex w-9 shrink-0 select-none items-center justify-start font-serif text-lg leading-none text-[var(--fg-muted)]"
+    aria-hidden="true"
+  >
+    {label}
+  </span>
+  <div
+    class:list={[
+      'flex min-w-0 flex-1 items-center justify-center text-center leading-snug prose prose-sm dark:prose-invert max-w-none',
+      '[&_.katex]:text-[1.05em] [&_p]:mb-0',
+    ]}
+  >
+    <slot />
+  </div>
+</div>

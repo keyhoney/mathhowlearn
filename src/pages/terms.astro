@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const sections = [
+  {
+    title: '1. 서비스의 성격',
+    items: [
+      '본 사이트는 수학 학습, 학습과학, 교육 이론에 관한 정보 제공형 지식 아카이브입니다.',
+      '콘텐츠는 일반적인 학습 참고를 위한 것이며, 개별적인 교육·의료·심리·법률 자문을 대체하지 않습니다.',
+    ],
+  },
+  {
+    title: '2. 서비스 제공 및 변경',
+    items: [
+      '운영상, 기술상, 정책상 필요에 따라 서비스의 일부 또는 전부를 추가·변경·중단할 수 있습니다.',
+      '디자인, URL 구조, 기능, 게시물 구성은 사전 고지 없이 조정될 수 있습니다.',
+    ],
+  },
+  {
+    title: '3. 이용자의 이용 원칙',
+    items: [
+      '이용자는 관련 법령, 본 약관, 사이트 정책 및 공지사항을 준수해야 합니다.',
+      '서비스의 정상 운영을 방해하거나 제3자의 권리를 침해하는 방식의 이용은 금지됩니다.',
+    ],
+  },
+  {
+    title: '4. 금지행위',
+    items: [
+      '콘텐츠의 무단 복제·배포·공중송신·상업적 이용',
+      '자동화 수단을 통한 과도한 수집·크롤링',
+      '보안 우회, 취약점 악용, 악성 코드 유포, 허위 정보 입력',
+      '기타 관련 법령 위반 또는 부당한 목적의 이용',
+    ],
+  },
+  {
+    title: '5. 지식재산권 및 이용 제한',
+    items: [
+      '콘텐츠(텍스트, 편집, 구조, 디자인, 로고 등)의 권리는 별도 표시가 없는 한 본 사이트 또는 정당한 권리자에게 귀속됩니다.',
+      '법령상 허용 범위 또는 사전 허락 없이 복제, 배포, 수정, 2차적 저작물 작성, 상업적 재이용을 할 수 없습니다.',
+      '인용 시에는 출처를 명확히 표시하고 관련 법령을 준수해야 합니다.',
+    ],
+  },
+  {
+    title: '6. 정보의 정확성 및 보증 한계',
+    items: [
+      '콘텐츠의 정확성과 최신성을 높이기 위해 노력하나 완전성, 무오류, 특정 목적 적합성을 보증하지 않습니다.',
+      '학습·심리·교육 정보는 개인 상황에 따라 적용 가능성과 효과가 달라질 수 있습니다.',
+    ],
+  },
+  {
+    title: '7. 전문적 자문과의 구분',
+    items: [
+      '본 사이트의 정보는 일반적 참고용이며 진단, 치료, 처방, 임상적 평가를 대체하지 않습니다.',
+      '구체적 상황에서는 자격 있는 전문가의 조언을 받아야 합니다.',
+    ],
+  },
+  {
+    title: '8. 외부 링크 및 제3자 서비스',
+    items: [
+      '외부 링크·제3자 사이트의 내용, 보안, 개인정보 처리에 대해 본 사이트가 보증하거나 책임지지 않습니다.',
+      '광고가 게재되는 경우 광고 내용, 상품, 링크는 본 사이트의 의견이나 권장을 의미하지 않습니다.',
+    ],
+  },
+  {
+    title: '9. 이용 제한 및 면책',
+    items: [
+      '약관 또는 법령 위반, 서비스 안정성 훼손 우려가 있는 경우 사전 통지 없이 이용을 제한할 수 있습니다.',
+      '불가항력, 통신·시스템 장애, 제3자 서비스 장애로 인한 손해에 대한 책임은 관련 법령 허용 범위 내에서 제한됩니다.',
+    ],
+  },
+  {
+    title: '10. 개인정보 보호',
+    items: [
+      '개인정보 처리에 관한 사항은 별도의 개인정보처리방침에 따릅니다.',
+      '쿠키 및 유사 기술의 사용에 대한 세부 사항은 관련 정책 또는 브라우저 설정 안내를 참고해 주세요.',
+    ],
+  },
+  {
+    title: '11. 약관의 변경 및 준거',
+    items: [
+      '법령 또는 서비스 변경에 따라 본 약관이 수정될 수 있으며, 중요한 변경 시 최종 수정일 갱신 등으로 안내합니다.',
+      '본 약관은 관련 법령에 따라 해석됩니다.',
+    ],
+  },
+];
+---
+
+<BaseLayout title="이용약관" description="GaeSaeGi Math 서비스 이용 조건, 권리, 의무 및 책임사항 안내">
+  <section class="py-8 space-y-4 prose prose-book max-w-none">
+    <header class="book-card border border-slate-200 bg-white shadow-sm not-prose dark:border-slate-700 dark:bg-slate-900/90">
+      <h1 class="type-title">이용약관</h1>
+      <p class="mt-2 text-sm text-[var(--fg-muted)]">최종 수정: 2026년 4월</p>
+      <p class="mt-3 text-sm text-[var(--fg-muted)]">
+        본 약관은 GaeSaeGi Math가 제공하는 콘텐츠 및 관련 서비스 이용과 관련하여, 사이트와 이용자 간 권리·의무 및 책임사항을 규정합니다.
+      </p>
+    </header>
+
+    <section class="book-card mt-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+      <h2 class="text-base font-semibold text-[var(--fg)]">핵심 안내</h2>
+      <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-[var(--fg-muted)]">
+        <li>본 사이트는 정보 제공형 서비스입니다.</li>
+        <li>콘텐츠의 무단 상업적 이용 및 대량 수집은 제한될 수 있습니다.</li>
+        <li>외부 링크·광고·제3자 서비스 영역에는 각 제공자 정책이 적용됩니다.</li>
+      </ul>
+    </section>
+
+    <div class="mt-4 grid gap-4">
+      {
+        sections.map((section) => (
+          <section class="book-card border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+            <h2 class="text-base font-semibold text-[var(--fg)]">{section.title}</h2>
+            <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-[var(--fg-muted)]">
+              {section.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <section class="book-card mt-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+      <h2 class="text-base font-semibold text-[var(--fg)]">문의</h2>
+      <p class="mt-2 text-sm text-[var(--fg-muted)]">
+        본 약관에 관한 문의는 <a href="/contact" class="underline hover:text-[var(--accent)]">문의하기</a> 페이지를 이용해 주세요.
+      </p>
+    </section>
+  </section>
+</BaseLayout>

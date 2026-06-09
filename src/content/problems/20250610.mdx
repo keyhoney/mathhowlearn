@@ -1,0 +1,120 @@
+## 문제
+다음 조건을 만족시키는 삼각형 $ABC$의 외접원의 넓이가 $9\pi$일 때, 삼각형 $ABC$의 넓이는? \[4점\]
+
+> **조건**
+>
+> **(가)** $3\sin  A = 2\sin  B$
+>
+> **(나)** $\cos  B = \cos  C$
+
+① $\frac{32}{9}\sqrt{2}$ ② $\frac{40}{9}\sqrt{2}$ ③ $\frac{16}{3}\sqrt{2}$
+
+④ $\frac{56}{9}\sqrt{2}$ ⑤ $\frac{64}{9}\sqrt{2}$
+
+
+## 힌트
+외접원 넓이 $9\pi$이면 반지름 $R=3$이에요. 사인법칙 $\dfrac{a}{\sin A}=2R$으로 **(가)**를 변의 길이 관계로 바꿔 보세요.
+
+
+## 힌트
+**(나)**에서 $\angle B=\angle C$이므로 $b=c$인 이등변삼각형이에요. $a=\dfrac{2}{3}b$를 코사인법칙에 넣어 $\cos A$, $\sin A$를 구할 수 있어요.
+
+
+## 힌트
+넓이는 $S=\dfrac{1}{2}bc\sin A=\dfrac{1}{2}b^{2}\sin A$($b=c$)로 쓸 수 있어요. $a=2R\sin A$로 $a$를 구한 뒤 $b=\dfrac{3}{2}a$를 대입해요.
+
+
+## 풀이
+외접원의 넓이가 $9\pi$이므로 반지름 $R$에 대해 아래와 같아요.
+
+
+
+$$
+
+\pi R^{2}=9\pi
+\quad\Rightarrow\quad
+R=3
+
+$$
+
+
+
+**(가)** $3\sin A=2\sin B$에서 사인법칙에 의해 아래와 같아요.
+
+
+
+$$
+
+3\cdot\frac{a}{2R}=2\cdot\frac{b}{2R}
+\quad\Rightarrow\quad
+3a=2b
+\quad\Rightarrow\quad
+a=\frac{2}{3}b
+
+$$
+
+
+
+**(나)** $\cos B=\cos C$이고 $0<B,C<\pi$이므로 $\angle B=\angle C$, 따라서 $b=c$예요.
+
+
+
+![](/images/docx2mdx/250610-20260604-131109/media/image1.webp)
+
+
+
+코사인법칙에 의해 아래와 같아요.
+
+
+
+$$
+
+\cos A=\frac{b^{2}+c^{2}-a^{2}}{2bc}
+=\frac{2b^{2}-\left(\dfrac{2}{3}b\right)^{2}}{2b^{2}}
+=\frac{7}{9}
+
+$$
+
+
+
+$$
+
+\sin A=\sqrt{1-\left(\frac{7}{9}\right)^{2}}=\frac{4\sqrt{2}}{9}
+
+$$
+
+
+
+사인법칙으로 아래와 같아요.
+
+
+
+$$
+
+a=2R\sin A=6\cdot\frac{4\sqrt{2}}{9}=\frac{8\sqrt{2}}{3}
+
+$$
+
+
+
+$b=c=\dfrac{3}{2}a$이므로 넓이 $S$는 아래와 같아요.
+
+
+
+$$
+
+\begin{aligned}
+S
+&=\frac{1}{2}bc\sin A
+=\frac{1}{2}b^{2}\sin A
+=\frac{1}{2}\left(\frac{3}{2}a\right)^{2}\cdot\frac{4\sqrt{2}}{9} \\
+&=\frac{\sqrt{2}}{2}a^{2}
+=\frac{\sqrt{2}}{2}\left(\frac{8\sqrt{2}}{3}\right)^{2}
+=\frac{64\sqrt{2}}{9}
+\end{aligned}
+
+$$
+
+
+
+따라서 정답은 **⑤**예요.

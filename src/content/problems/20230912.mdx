@@ -1,0 +1,201 @@
+## 문제
+
+실수 $t(t> 0)$에 대하여 직선 $y = x + t$와 곡선 $y = x^{2}$이 만나는 두 점을 $A$, $B$라 하자. 점 $A$를 지나고 $x$축에 평행한 직선이 곡선 $y = x^{2}$과 만나는 점 중 $A$가 아닌 점을 $C$, 점 $B$에서 선분 $AC$에 내린 수선의 발을 $H$라 하자.\
+
+$\displaystyle \lim\limits_{t \rightarrow 0+}\ \frac{\overline{AH} - \overline{CH}}{t}$의 값은? (단, 점 $A$의 $x$좌표는 양수이다.) \[4점\]
+
+
+
+① $1$ ② $2$ ③ $3$ ④ $4$ ⑤ $5$
+
+
+
+![](/images/docx2mdx/230912-20260602-122348/media/image0.webp)
+
+
+
+
+
+## 힌트
+
+$y=x+t$와 $y=x^{2}$의 교점은 $x^{2}-x-t=0$의 두 실근이에요. $t>0$일 때 $x$좌표가 양수인 교점을 $A$, 다른 교점을 $B$로 두고 근을 $\alpha$, $\beta$($\alpha>\beta$)라 하면 $A(\alpha,\alpha^{2})$, $B(\beta,\beta^{2})$로 쓸 수 있어요.
+
+
+
+## 힌트
+
+$y=\alpha^{2}$인 수평선과 $y=x^{2}$의 다른 교점은 $x=-\alpha$이므로 $C(-\alpha,\alpha^{2})$예요. $AC$는 수평이므로 $B$에서 $AC$에 내린 수선의 발 $H$는 $(\beta,\alpha^{2})$예요.
+
+
+
+## 힌트
+
+$\overline{AH}=\alpha-\beta$, $\overline{CH}=\beta-(-\alpha)=\alpha+\beta$이므로 $\overline{AH}-\overline{CH}=-2\beta$로 정리돼요. $\beta$를 근의 공식으로 나타낸 뒤 $t\to 0+$에서의 극한을 구하면 돼요.
+
+
+
+## 힌트
+
+$\beta=\dfrac{1-\sqrt{1+4t}}{2}$일 때 $\dfrac{\sqrt{1+4t}-1}{t}$ 꼴의 극한은 분모에 켤레식을 곱해 보세요.
+
+
+
+## 풀이
+
+직선 $y=x+t$와 곡선 $y=x^{2}$의 교점의 $x$좌표는
+
+
+
+$$
+
+x^{2}=x+t \quad\Rightarrow\quad x^{2}-x-t=0
+
+$$
+
+
+
+을 만족해요.
+
+
+
+두 근을 $\alpha$, $\beta$($\alpha>\beta$)라 하면, $t>0$이고 점 $A$의 $x$좌표가 양수이므로
+
+
+
+$$
+
+A(\alpha,\alpha^{2}),\qquad B(\beta,\beta^{2})
+
+$$
+
+
+
+이에요. 근의 공식에 의해
+
+
+
+$$
+
+\alpha=\frac{1+\sqrt{1+4t}}{2},\qquad
+
+\beta=\frac{1-\sqrt{1+4t}}{2}
+
+$$
+
+
+
+이에요.
+
+
+
+점 $A$를 지나 $x$축에 평행한 직선은 $y=\alpha^{2}$이고, $y=x^{2}$과의 교점은 $x=\pm\alpha$이므로 $y=x^{2}$의 대칭성에 의해
+
+
+
+$$
+
+C(-\alpha,\alpha^{2})
+
+$$
+
+
+
+예요 ($x=\alpha$는 점 $A$).
+
+
+
+선분 $AC$는 $y=\alpha^{2}$ 위의 수평선분이고, $B(\beta,\beta^{2})$에서 이 직선에 내린 수선의 발은
+
+
+
+$$
+
+H(\beta,\alpha^{2})
+
+$$
+
+
+
+이에요.
+
+
+
+따라서
+
+
+
+$$
+
+\overline{AH}=\alpha-\beta,\qquad
+
+\overline{CH}=\beta-(-\alpha)=\alpha+\beta
+
+$$
+
+
+
+이므로
+
+
+
+$$
+
+\overline{AH}-\overline{CH}=(\alpha-\beta)-(\alpha+\beta)=-2\beta
+
+$$
+
+
+
+이에요.
+
+
+
+$$
+
+\lim_{t\to 0+}\frac{\overline{AH}-\overline{CH}}{t}
+
+=\lim_{t\to 0+}\frac{-2\beta}{t}
+
+$$
+
+
+
+이고, $\beta=\dfrac{1-\sqrt{1+4t}}{2}$이므로
+
+
+
+$$
+
+-2\beta=-(1-\sqrt{1+4t})=\sqrt{1+4t}-1
+
+$$
+
+
+
+이에요.
+
+
+
+$$
+
+\lim_{t\to 0+}\frac{\sqrt{1+4t}-1}{t}
+
+=\lim_{t\to 0+}\frac{(\sqrt{1+4t}-1)(\sqrt{1+4t}+1)}{t(\sqrt{1+4t}+1)}
+
+=\lim_{t\to 0+}\frac{4t}{t(\sqrt{1+4t}+1)}
+
+=\lim_{t\to 0+}\frac{4}{\sqrt{1+4t}+1}
+
+=2
+
+$$
+
+
+
+예요.
+
+
+
+따라서 정답은 **②**예요.
+
+

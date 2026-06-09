@@ -1,0 +1,60 @@
+{
+  "name": "math-howlearn",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "dev:search": "npm run search:sync-dev && astro dev",
+    "build:local": "astro build && npm run search:sync-dev",
+    "preview:local": "npm run build:local && astro preview",
+    "search:sync-dev": "tsx scripts/sync-pagefind-for-dev.ts",
+    "search:index": "pagefind --site dist --quiet",
+    "deploy:validate": "tsx scripts/validate-deploy-env.ts",
+    "quality:gate": "npm run problem:validate",
+    "prebuild": "npm run deploy:validate && npm run quality:gate",
+    "pretina:build": "npm run deploy:validate && npm run quality:gate",
+    "build": "node --max-old-space-size=8192 ./node_modules/astro/bin/astro.mjs build",
+    "postbuild": "pagefind --site dist --quiet && npm run smoke:check",
+    "preview": "astro preview",
+    "astro": "astro",
+    "tina:dev": "tinacms dev -c \"astro dev\"",
+    "tina:build": "tinacms build && astro build && pagefind --site dist --quiet",
+    "problem:validate": "tsx scripts/validate-problems.ts",
+    "smoke:check": "tsx scripts/smoke-check.ts",
+    "test:unit": "tsx --test src/lib/client/dashboard-stats.test.ts src/lib/problem-concept-frequency.test.ts",
+    "metadata:from-xlsm": "python scripts/xlsm_to_metadata.py",
+    "preview:problem": "tsx scripts/render-problem-preview.ts"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/react": "^5.0.4",
+    "@astrojs/sitemap": "^3.7.2",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.4",
+    "astro": "^6.1.9",
+    "firebase": "^12.12.1",
+    "fs-extra": "^11.3.4",
+    "gray-matter": "^4.0.3",
+    "lucide-react": "^1.14.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "sharp": "^0.34.3",
+    "tailwindcss": "^4.2.4",
+    "tinacms": "^3.7.3",
+    "unist-util-visit": "^5.1.0",
+    "util": "^0.12.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@tinacms/cli": "^2.2.3",
+    "prettier": "3.8.3",
+    "pagefind": "^1.5.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.9.3"
+  }
+}

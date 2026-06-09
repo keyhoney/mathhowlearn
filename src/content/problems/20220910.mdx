@@ -1,0 +1,94 @@
+## 문제
+두 양수 $a,\ b$에 대하여 곡선 $y$$=   a \sin  b \pi  x$$(0 \leq x \leq \frac{3}{b})$이 직선 $y$$= a$와 만나는 서로 다른 두 점을 $A,\ B$라 하자. 삼각형 $OAB$의 넓이가 $5$이고 직선 $OA$의 기울기와 $OB$의 기울기의 곱이 $\frac{5}{4}$일 때, $a + b$의 값은? (단, $O$는 원점이다.) \[4점\]
+
+① $1 $ ② $2 $ ③ $3 $ ④ $4 $ ⑤ $5 $
+
+![](/images/docx2mdx/220910-20260429-220929/media/image0.webp)
+
+
+## 힌트
+$y=a\sin(b\pi x)$와 $y=a$가 만나려면 $\sin(b\pi x)=1$이어야 해요. 주어진 $x$ 구간에서 서로 다른 두 실근에 해당하는 $A,\ B$의 $x$좌표를 먼저 구해 보세요.
+
+## 힌트
+$O$가 원점이고 $A,\ B$의 $y$좌표가 같으니, 삼각형 $OAB$의 넓이는 밑과 높이를 잡아 $\tfrac12(\text{밑})\times(\text{높이})$ 꼴로 세면 돼요. 넓이가 $5$라는 조건으로 $a$와 $b$의 비를 얻을 수 있어요.
+
+## 힌트
+직선 $OA$, $OB$의 기울기의 곱이 $\dfrac{5}{4}$라는 조건으로 $a$와 $b$의 **곱** 관계를 세우면, 앞에서 구한 비와 함께 $a,\ b$를 정할 수 있어요. 마지막에 $a+b$를 구하면 돼요.
+
+## 풀이
+
+교점 $A,\ B$는
+$$
+a\sin(b\pi x)=a
+$$
+즉
+$$
+\sin(b\pi x)=1
+$$
+을 만족하는 점이에요.
+
+$\sin\theta=1$은 $\theta=\frac{\pi}{2}+2\pi n$에서 성립하므로
+$$
+b\pi x=\frac{\pi}{2}+2\pi n
+\quad\Rightarrow\quad
+x=\frac{1+4n}{2b}
+$$
+예요.
+
+구간 $0\le x\le \frac{3}{b}$에서 서로 다른 두 점은
+$$
+x=\frac{1}{2b},\ \frac{5}{2b}
+$$
+이므로
+$$
+A\left(\frac{1}{2b},a\right),\quad B\left(\frac{5}{2b},a\right)
+$$
+예요.
+
+삼각형 $OAB$의 넓이가 $5$이므로
+$$
+\frac12\cdot a\cdot\left(\frac{5}{2b}-\frac{1}{2b}\right)=5
+$$
+$$
+\frac{a}{b}=5
+$$
+즉
+$$
+a=5b \quad\cdots\ (1)
+$$
+이에요.
+
+한편 직선 $OA,\ OB$의 기울기는 각각
+$$
+m_{OA}=\frac{a}{\frac{1}{2b}}=2ab,\qquad
+m_{OB}=\frac{a}{\frac{5}{2b}}=\frac{2ab}{5}
+$$
+예요.
+
+기울기의 곱이 $\frac54$이므로
+$$
+m_{OA}m_{OB}
+=(2ab)\left(\frac{2ab}{5}\right)
+=\frac{4a^2b^2}{5}
+=\frac54
+$$
+$$
+a^2b^2=\frac{25}{16}
+$$
+양수 조건에서
+$$
+ab=\frac54 \quad\cdots\ (2)
+$$
+예요.
+
+(1), (2)를 풀면
+$$
+a=\frac52,\quad b=\frac12
+$$
+이므로
+$$
+a+b=3
+$$
+이에요.
+
+따라서 정답은 **③**이에요.

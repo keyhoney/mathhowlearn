@@ -1,0 +1,52 @@
+## 문제
+두 사건 $A$, $B$에 대하여
+
+$P(A \cup B) = 1$, $\ P(A \cap B) = \frac{1}{4}$, $\ P(A  \mid   B) = P(B  \mid   A)$
+
+일 때, $P(A)$의 값은? \[3점\]
+
+① $\frac{1}{2}$ ② $\frac{9}{16}$ ③ $\frac{5}{8}$ ④ $\frac{11}{16}$ ⑤ $\frac{3}{4}$
+
+
+## 힌트
+$P(A\mid B)=P(B\mid A)$를 $\dfrac{P(A\cap B)}{P(B)}=\dfrac{P(A\cap B)}{P(A)}$로 쓰면 $P(A)$와 $P(B)$의 관계를 알 수 있어요. $P(A\cap B)=\dfrac{1}{4}\neq 0$이므로 양변을 나눠도 됩니다.
+
+
+## 힌트
+$P(A)=P(B)=x$로 두고, $P(A\cup B)=P(A)+P(B)-P(A\cap B)=1$에 대입하면 $x$를 구할 수 있어요.
+
+
+## 풀이
+$P(A\cap B)=\dfrac{1}{4}\neq 0$이고 $P(A\mid B)=P(B\mid A)$이므로
+
+
+
+$$
+
+\frac{P(A\cap B)}{P(B)}=\frac{P(A\cap B)}{P(A)}
+
+$$
+
+
+
+양변을 $P(A\cap B)$로 나누면 $P(A)=P(B)$예요. $P(A)=P(B)=x$라 하면
+
+
+
+$$
+
+P(A\cup B)=P(A)+P(B)-P(A\cap B)=2x-\frac{1}{4}=1
+
+$$
+
+
+
+$$
+
+2x=\frac{5}{4},\qquad x=\frac{5}{8}
+
+$$
+
+
+
+따라서 $P(A)=\dfrac{5}{8}$이므로 정답은 **③**예요.

@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const ADMIN_UID_ALLOWLIST = String(import.meta.env.PUBLIC_ADMIN_UID_ALLOWLIST || '')
+  .split(',')
+  .map((item) => item.trim())
+  .filter(Boolean);
+---
+
+<BaseLayout
+  title="Sync Usage"
+  description="Firebase 동기화 read/write 추정치와 한도 경고 상태를 확인하는 운영 페이지"
+>
+  <section
+    class="container mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 hidden"
+    data-admin-root
+    data-admin-uid-allowlist={ADMIN_UID_ALLOWLIST.join(',')}
+  >
+    <header class="app-card mb-4 p-4">
+      <h1 class="text-2xl font-bold tracking-tight text-[var(--fg)]">동기화 사용량 모니터링</h1>
+      <p class="mt-2 text-sm text-[var(--fg-muted)]">
+        클라이언트 기준 일별 read/write 추정치와 최근 RESOURCE_EXHAUSTED 경고를 확인합니다.
+      </p>
+    </header>
+
+    <div class="grid gap-4 md:grid-cols-3">
+      <article class="app-card p-4">
+        <p class="text-xs text-[var(--fg-muted)]">오늘 Read 추정</p>
+        <p class="mt-2 text-2xl font-semibold text-[var(--fg)]" data-usage-today-read>0</p>
+      </article>
+      <article class="app-card p-4">
+        <p class="text-xs text-[var(--fg-muted)]">오늘 Write 추정</p>
+        <p class="mt-2 text-2xl font-semibold text-[var(--fg)]" data-usage-today-write>0</p>
+      </article>
+      <article class="app-card p-4">
+        <p class="text-xs text-[var(--fg-muted)]">최근 한도 경고</p>
+        <p class="mt-2 text-sm font-medium text-[var(--fg)]" data-usage-last-alert>없음</p>
+      </article>
+    </div>
+
+    <article class="app-card mt-4 p-4">
+      <div class="flex items-center justify-between gap-2">
+        <h2 class="text-lg font-semibold text-[var(--fg)]">최근 14일 사용량</h2>
+        <button type="button" class="app-btn-secondary px-3 py-1 text-xs" data-usage-refresh>새로고침</button>
+      </div>
+      <div class="mt-3 overflow-x-auto">
+        <table class="w-full min-w-[520px] border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-[var(--card-border)] text-left text-[var(--fg-muted)]">
+              <th class="px-2 py-2">날짜</th>
+              <th class="px-2 py-2">Read 추정</th>
+              <th class="px-2 py-2">Write 추정</th>
+            </tr>
+          </thead>
+          <tbody data-usage-table-body>
+            <tr>
+              <td class="px-2 py-3 text-[var(--fg-muted)]" colspan="3">데이터 없음</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+</BaseLayout>
+
+<script>
+  import '../../lib/client/admin-sync-usage';
+</script>

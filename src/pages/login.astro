@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AuthPageCard from '../components/auth/AuthPageCard.astro';
+---
+
+<BaseLayout title="로그인" description="GaeSaeGi Math 로그인">
+  <AuthPageCard
+    mode="login"
+    title="로그인"
+    description="집중 시간·진행률·오답 노트를 클라우드에 저장하려면 로그인하세요."
+    emailSectionTitle="이메일 로그인"
+    submitLabel="이메일로 로그인"
+    googleSectionTitle="간편 로그인"
+    googleSectionHint="구글 계정으로 빠르게 시작"
+    googleLabel="구글 로그인"
+    switchPrompt="계정이 없나요? "
+    switchHref="/signup"
+    switchLabel="회원가입"
+    message="로그인 후 대시보드로 이동합니다."
+  />
+</BaseLayout>
+
+<script>
+  import '../lib/client/auth-page';
+</script>

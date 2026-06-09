@@ -1,0 +1,64 @@
+---
+import HubBrowserFrame from './HubBrowserFrame.astro';
+---
+
+<HubBrowserFrame url="math.howlearn.kr/dashboard">
+  <div class="flex h-[280px] md:h-[320px]">
+    <aside
+      class="hidden w-14 shrink-0 flex-col gap-2 border-r border-indigo-500/10 bg-[var(--surface-2)]/50 py-4 px-2 sm:flex"
+      aria-hidden="true"
+    >
+      <div class="mx-auto mb-2 h-7 w-7 rounded-md border border-indigo-500/30 bg-indigo-500/15"></div>
+      <div class="h-8 w-full rounded-md border border-indigo-500/30 bg-indigo-500/15"></div>
+      <div class="h-8 w-full rounded-md bg-[var(--surface-3)]/60"></div>
+      <div class="h-8 w-full rounded-md bg-[var(--surface-3)]/60"></div>
+    </aside>
+    <div class="flex min-w-0 flex-1 flex-col gap-3 p-4">
+      <div class="flex items-center justify-between gap-2">
+        <div>
+          <p class="text-sm font-semibold text-[var(--fg)]">학습 개요</p>
+          <p class="text-[10px] text-[var(--fg-muted)]">최근 30일</p>
+        </div>
+        <span class="hub-badge hub-badge--primary text-[10px]">Live</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="hub-stat-card !p-2">
+          <span class="hub-stat-label">수능</span>
+          <span class="hub-stat-value !text-sm">68%</span>
+        </div>
+        <div class="hub-stat-card !p-2">
+          <span class="hub-stat-label">논술</span>
+          <span class="hub-stat-value !text-sm">24%</span>
+        </div>
+        <div class="hub-stat-card !p-2">
+          <span class="hub-stat-label">집중</span>
+          <span class="hub-stat-value !text-sm">4.2h</span>
+        </div>
+      </div>
+      <div class="flex-1 overflow-hidden rounded-lg border border-indigo-500/10 bg-[var(--surface-2)]/40">
+        <div class="grid grid-cols-[1fr_auto_auto] gap-2 border-b border-[var(--card-border)] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-[var(--fg-muted)]">
+          <span>문항</span>
+          <span>상태</span>
+          <span>진행</span>
+        </div>
+        <div class="divide-y divide-[var(--card-border)] text-xs">
+          <div class="grid grid-cols-[1fr_auto_auto] gap-2 px-3 py-2">
+            <span class="truncate text-[var(--fg)]">2026 수능 30번</span>
+            <span class="text-emerald-600 dark:text-emerald-400">완료</span>
+            <span class="chrome-muted">100%</span>
+          </div>
+          <div class="grid grid-cols-[1fr_auto_auto] gap-2 px-3 py-2">
+            <span class="truncate text-[var(--fg)]">모평 15번</span>
+            <span class="text-amber-600 dark:text-amber-400">진행</span>
+            <span class="chrome-muted">STEP 2</span>
+          </div>
+          <div class="grid grid-cols-[1fr_auto_auto] gap-2 px-3 py-2">
+            <span class="truncate text-[var(--fg)]">연세대 논술</span>
+            <span class="chrome-muted">미시작</span>
+            <span class="chrome-muted">0%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</HubBrowserFrame>

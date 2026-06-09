@@ -1,0 +1,110 @@
+## 문제
+상수 $a\ (a> 1) $과 양수 $t $에 대하여 곡선 $y = a^{x} $과\
+두 직선 $x = t $, $x = 2t $가 만나는 점을 각각 $A $, $B $라 하고,\
+점 $B $에서 $x $축에 내린 수선의 발을 $C $라 하자. $\overline{AB} = \overline{AC} $이고 삼각형 $ACB $의 넓이가 $8 $일 때, $a \times t $의 값은? \[4점\]
+
+① $2^{\frac{9}{4}} $ ② $2^{\frac{23}{8}} $ ③ $2^{\frac{7}{2}} $
+
+④ $2^{\frac{33}{8}} $ ⑤ $2^{\frac{19}{4}}$
+
+
+## 힌트
+$A(t,a^t)$, $B(2t,a^{2t})$, $C(2t,0)$의 좌표를 먼저 잡으세요. $\overline{AB}=\overline{AC}$에서 $a^t$에 대한 식, 넓이 조건에서 $t$와 $a^{2t}$에 대한 식을 각각 세우면 됩니다.
+
+
+## 풀이
+점 $A$, $B$, $C$의 좌표는 다음과 같습니다.
+
+
+
+$$
+
+\begin{aligned}
+A(t,a^t),\quad B(2t,a^{2t}),\quad C(2t,0)
+\end{aligned}
+
+$$
+
+
+
+### $\overline{AB}=\overline{AC}$
+
+${\overline{AB}}^{2}={\overline{AC}}^{2}$이므로
+
+
+
+$$
+
+\begin{aligned}
+t^{2}+(a^{2t}-a^{t})^{2}&=t^{2}+(a^{t})^{2} \\
+(a^{2t}-a^{t})^{2}&=a^{2t}
+\end{aligned}
+
+$$
+
+
+
+양변을 전개하면
+
+
+
+$$
+
+\begin{aligned}
+a^{4t}-2a^{3t}+a^{2t}&=a^{2t} \\
+a^{3t}(a^{t}-2)&=0
+\end{aligned}
+
+$$
+
+
+
+$a>1$, $t>0$이므로 $a^{3t}>0$입니다. 따라서
+
+
+
+$$
+
+\begin{aligned}
+a^{t}&=2 \quad \cdots\cdots \text{㉠}
+\end{aligned}
+
+$$
+
+
+
+### 삼각형 $ACB$의 넓이
+
+점 $B$, $C$는 직선 $x=2t$ 위에 있으므로 밑변 $\overline{BC}=a^{2t}$, 높이는 점 $A$와 직선 $x=2t$ 사이의 거리 $t$입니다.
+
+
+
+$$
+
+\begin{aligned}
+\frac{1}{2}\times a^{2t}\times t&=8 \\
+ta^{2t}&=16 \quad \cdots\cdots \text{㉡}
+\end{aligned}
+
+$$
+
+
+
+㉠을 ㉡에 대입하면 $4t=16$, 즉 $t=4$입니다. ㉠에서 $a^{4}=2$이므로 $a=2^{\frac{1}{4}}$입니다.
+
+
+
+$$
+
+\begin{aligned}
+a\times t
+&=2^{\frac{1}{4}}\times 4 \\
+&=2^{\frac{1}{4}}\times 2^{2} \\
+&=2^{\frac{9}{4}}
+\end{aligned}
+
+$$
+
+
+
+따라서 정답은 **①**예요.

@@ -1,0 +1,91 @@
+## 문제
+정규분포 $N(m,   5^{2})$을 따르는 모집단에서 크기가 $49$인 표본을 임의추출하여 얻은 표본평균이 $\overline{x}$일 때, 모평균 $m$에 대한 신뢰도 $95\%$의 신뢰구간이 $a \leq m \leq \frac{6}{5}a$이다. $\overline{x}$의 값은? (단, $Z$가 표준정규분포를 따르는 확률변수일 때, $P(|Z| \leq 1.96) = 0.95$로 계산한다.) \[3점\]
+
+① $15.2$ ② $15.4$ ③ $15.6$ ④ $15.8$ ⑤ $16.0$
+
+
+## 힌트
+모표준편차 $\sigma=5$, 표본 크기 $n=49$이에요. 표준오차는 $\dfrac{\sigma}{\sqrt{n}}=\dfrac{5}{7}$이에요. $95\%$ 신뢰구간은 $\overline{x}\pm 1.96\times\dfrac{5}{7}$ 꼴이에요.
+
+
+## 힌트
+신뢰구간의 양 끝을 $a$와 $\dfrac{6}{5}a$에 맞추면 $a=\overline{x}-\dfrac{7}{5}$, $\dfrac{6}{5}a=\overline{x}+\dfrac{7}{5}$가 돼요. 이 연립식에서 $\overline{x}$를 구해요.
+
+
+## 풀이
+모표준편차 $\sigma=5$, 표본 크기 $n=49$이므로 아래와 같아요.
+
+
+
+$$
+
+\frac{\sigma}{\sqrt{n}}=\frac{5}{7}
+
+$$
+
+
+
+신뢰도 $95\%$의 신뢰구간은 아래와 같아요.
+
+
+
+$$
+
+\overline{x}-1.96\times\frac{5}{7}\le m\le \overline{x}+1.96\times\frac{5}{7}
+
+$$
+
+
+
+$1.96\times\dfrac{5}{7}=\dfrac{7}{5}$이므로 아래와 같아요.
+
+
+
+$$
+
+\overline{x}-\frac{7}{5}\le m\le \overline{x}+\frac{7}{5}
+
+$$
+
+
+
+문제에서 $a\le m\le\dfrac{6}{5}a$이므로 아래와 같아요.
+
+
+
+$$
+
+a=\overline{x}-\frac{7}{5},\quad
+\frac{6}{5}a=\overline{x}+\frac{7}{5}
+
+$$
+
+
+
+$\dfrac{6}{5}a=\overline{x}+\dfrac{7}{5}$에 $a=\overline{x}-\dfrac{7}{5}$를 대입하면 아래와 같아요.
+
+
+
+$$
+
+\frac{6}{5}\left(\overline{x}-\frac{7}{5}\right)=\overline{x}+\frac{7}{5}
+
+$$
+
+
+
+정리하면 아래와 같아요.
+
+
+
+$$
+
+\frac{1}{5}\overline{x}=\frac{77}{25}
+\quad\Rightarrow\quad
+\overline{x}=\frac{77}{5}=15.4
+
+$$
+
+
+
+따라서 정답은 **②**예요.

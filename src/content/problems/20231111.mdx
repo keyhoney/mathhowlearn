@@ -1,0 +1,107 @@
+## 문제
+그림과 같이 사각형 $ABCD$가 한 원에 내접하고
+
+$\overline{AB} = 5,\ \overline{AC} = 3\sqrt{5},\ \overline{AD} = 7,\ \angle BAC = \angle CAD$
+
+일 때, 이 원의 반지름의 길이는? \[4점\]
+
+![](/images/docx2mdx/231111-20260602-125627/media/image1.webp)
+
+① $\frac{5\sqrt{2}}{2}$ ② $\frac{8\sqrt{5}}{5}$ ③ $\frac{5\sqrt{5}}{3}$
+
+④ $\frac{8\sqrt{2}}{3}$ ⑤ $\frac{9\sqrt{3}}{4}$
+
+
+## 힌트
+$\angle BAC=\angle CAD=\theta$로 두면, 삼각형 $ABC$와 $ACD$에 코사인법칙을 쓰면 $\overline{BC}$, $\overline{CD}$를 $\cos\theta$로 나타낼 수 있어요. 같은 $\theta$이므로 두 변의 제곱을 비교해 보세요.
+
+
+## 힌트
+$\cos\theta$를 구한 뒤 $\overline{BC}$의 길이를 정하고, 삼각형 $ABC$에서 $\overline{BC}$와 $\angle BAC$에 대한 사인법칙 $\dfrac{\overline{BC}}{\sin\theta}=2R$을 이용하세요.
+
+
+## 풀이
+$\angle BAC=\angle CAD=\theta$라 하면, 삼각형 $ABC$에서 코사인법칙에 의해
+
+
+
+$$
+
+\overline{BC}^{2}
+=\overline{AB}^{2}+\overline{AC}^{2}-2\cdot\overline{AB}\cdot\overline{AC}\cos\theta
+=25+45-30\sqrt{5}\cos\theta
+=70-30\sqrt{5}\cos\theta
+$$
+
+
+
+삼각형 $ACD$에서도
+
+
+
+$$
+
+\overline{CD}^{2}
+=49+45-42\sqrt{5}\cos\theta
+=94-42\sqrt{5}\cos\theta
+$$
+
+
+
+$\angle BAC=\angle CAD$이므로 $AC$는 $\angle BAD$의 이등분선이고, 원에 내접할 때 이등분선은 호 $BC$와 호 $CD$를 같게 하므로 $\overline{BC}=\overline{CD}$, 즉 $\overline{BC}^{2}=\overline{CD}^{2}$이에요. 따라서
+
+
+
+$$
+
+70-30\sqrt{5}\cos\theta=94-42\sqrt{5}\cos\theta
+$$
+
+
+
+$$
+
+12\sqrt{5}\cos\theta=24,\qquad \cos\theta=\frac{2\sqrt{5}}{5}
+$$
+
+
+
+$$
+
+\overline{BC}^{2}
+=70-30\sqrt{5}\cdot\frac{2\sqrt{5}}{5}
+=70-60=10,\qquad \overline{BC}=\sqrt{10}
+$$
+
+
+
+$$
+
+\sin^{2}\theta=1-\cos^{2}\theta=1-\frac{4}{5}=\frac{1}{5},\qquad
+\sin\theta=\frac{\sqrt{5}}{5}
+$$
+
+
+
+( $\theta$는 예각 )
+
+원의 반지름을 $R$라 하면, 삼각형 $ABC$의 외접원이 곧 이 원이므로 사인법칙에 의해
+
+
+
+$$
+
+\frac{\overline{BC}}{\sin\theta}=2R,\qquad
+\frac{\sqrt{10}}{\dfrac{\sqrt{5}}{5}}=2R
+$$
+
+
+
+$$
+
+5\sqrt{2}=2R,\qquad R=\frac{5\sqrt{2}}{2}
+$$
+
+
+
+따라서 정답은 **①**예요.

@@ -1,0 +1,43 @@
+---
+import { CONTENT_SITE_URL } from '../../consts';
+---
+
+<section class="hub-feature-card mt-8">
+  <span class="hub-badge hub-badge--neutral">HowLearn</span>
+  <h2 class="type-subhead mt-3">학습 과학 콘텐츠</h2>
+  <p class="type-caption chrome-muted mt-2">
+    학부모 가이드, 수학 학습 칼럼, 학습 과학 개념은 HowLearn 콘텐츠 사이트에서 읽을 수 있습니다.
+  </p>
+  <ul class="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
+    <li>
+      <a
+        href={`${CONTENT_SITE_URL}/guides`}
+        class="type-caption font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        학부모 가이드 →
+      </a>
+    </li>
+    <li>
+      <a
+        href={`${CONTENT_SITE_URL}/columns`}
+        class="type-caption font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        수학 학습 칼럼 →
+      </a>
+    </li>
+    <li>
+      <a
+        href={`${CONTENT_SITE_URL}/concepts`}
+        class="type-caption font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        학습 과학 개념 →
+      </a>
+    </li>
+  </ul>
+</section>

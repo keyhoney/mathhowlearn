@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  buildProblemSubjectChapterTree,
+  getPublishedProblems,
+} from '../../lib/content-utils';
+import type { ConceptFrequencyRow, ExamType } from '../../lib/problem-concept-frequency';
+
+const allProblems = await getPublishedProblems();
+const subjectChapterTree = buildProblemSubjectChapterTree(allProblems);
+const subjects = Object.keys(subjectChapterTree);
+const years = Array.from(new Set(allProblems.map((p) => p.data.year))).sort((a, b) => a - b);
+const yearMin = years[0] ?? 2022;
+const yearMax = years[years.length - 1] ?? 2026;
+
+const rows: ConceptFrequencyRow[] = allProblems.map((p) => ({
+  id: p.id,
+  source: p.data.source,
+  subject: p.data.subject,
+  chapter: p.data.chapter,
+  subChapter: p.data.subChapter,
+  concept: p.data.concept,
+  year: p.data.year,
+  month: p.data.month,
+  examType: p.data.examType as ExamType,
+  difficulty: p.data.difficulty as ConceptFrequencyRow['difficulty'],
+  answerType: p.data.answerType,
+}));
+
+const pageConfig = { rows, subjectChapterTree, years, yearMin, yearMax };
+---
+
+<BaseLayout
+  title="개념별 출제 경향"
+  description="수능·모평 기출에서 선택한 개념의 난이도·정답형별 출제 경향을 확인합니다."
+>
+  <section class="pb-12">
+    <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h1 class="type-title">개념별 출제 경향</h1>
+        <p class="mt-2 max-w-2xl text-sm text-[var(--fg-muted)]">
+          과목·단원·개념을 고른 뒤 시험 유형과 연도 범위로 필터하면, 해당 조건의 기출 문항 수를 난이도·정답형별로 한눈에 볼 수 있습니다.
+        </p>
+        <p class="mt-2 text-sm">
+          <a href="/problems" class="font-medium text-[var(--accent)] hover:underline">수능·모평 문제 목록</a>
+          으로 이동해 바로 풀이할 수도 있어요.
+        </p>
+      </div>
+      <span class="app-badge app-badge-info">
+        조건 일치 <span data-concept-frequency-total>—</span>문항
+      </span>
+    </div>
+
+    <form
+      class="app-filter-panel app-filter-grid sm:grid-cols-2 lg:grid-cols-4"
+      data-concept-frequency-form
+    >
+      <label class="app-filter-field">
+        <span class="app-filter-label">과목</span>
+        <select name="subject" id="cf-filter-subject" class="app-select" required>
+          <option value="">과목 선택</option>
+          {subjects.map((v) => <option value={v}>{v}</option>)}
+        </select>
+      </label>
+      <label class="app-filter-field">
+        <span class="app-filter-label">단원</span>
+        <select name="chapter" id="cf-filter-chapter" class="app-select" disabled>
+          <option value="">과목을 먼저 선택</option>
+        </select>
+      </label>
+      <label class="app-filter-field">
+        <span class="app-filter-label">중단원</span>
+        <select name="subChapter" id="cf-filter-sub-chapter" class="app-select" disabled>
+          <option value="">단원을 먼저 선택</option>
+        </select>
+      </label>
+      <label class="app-filter-field">
+        <span class="app-filter-label">개념</span>
+        <select name="concept" id="cf-filter-concept" class="app-select" disabled>
+          <option value="">중단원을 먼저 선택</option>
+        </select>
+      </label>
+
+      <fieldset class="app-filter-field sm:col-span-2 lg:col-span-4">
+        <legend class="app-filter-label mb-2">시험 유형</legend>
+        <div class="flex flex-wrap gap-3">
+          <label class="app-filter-check">
+            <input type="radio" name="examScope" value="mock" class="h-4 w-4 accent-[var(--accent)]" />
+            모평만
+          </label>
+          <label class="app-filter-check">
+            <input type="radio" name="examScope" value="csat" class="h-4 w-4 accent-[var(--accent)]" />
+            수능만
+          </label>
+          <label class="app-filter-check">
+            <input
+              type="radio"
+              name="examScope"
+              value="all"
+              class="h-4 w-4 accent-[var(--accent)]"
+              checked
+            />
+            모평·수능 모두
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="app-filter-field">
+        <span class="app-filter-label">출제 연도 (최소)</span>
+        <select name="yearMin" class="app-select">
+          {years.map((y) => (
+            <option value={String(y)} selected={y === yearMin}>
+              {y}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label class="app-filter-field">
+        <span class="app-filter-label">출제 연도 (최대)</span>
+        <select name="yearMax" class="app-select">
+          {years.map((y) => (
+            <option value={String(y)} selected={y === yearMax}>
+              {y}
+            </option>
+          ))}
+        </select>
+      </label>
+    </form>
+
+    <div class="app-card mt-8 p-5">
+      <p class="text-sm text-[var(--fg-muted)]" data-concept-frequency-summary>
+        과목 → 단원 → 중단원 → 개념을 모두 선택하면 집계가 표시됩니다.
+      </p>
+      <p
+        class="mt-4 text-sm text-[var(--fg-muted)]"
+        data-concept-frequency-empty
+      >
+        개념을 선택하면 아래에 출제 빈도 표가 나타납니다.
+      </p>
+      <div class="mt-4 hidden overflow-x-auto" data-concept-frequency-table>
+        <div data-concept-frequency-table-root></div>
+      </div>
+
+      <div class="mt-8 hidden border-t border-[var(--card-border)] pt-6" data-concept-frequency-list-wrap>
+        <h2 class="text-lg font-bold tracking-tight text-[var(--fg)]">조건에 맞는 문항</h2>
+        <p class="mt-1 text-sm text-[var(--fg-muted)]">
+          아래 목록을 누르면 해당 기출 문제 풀이 화면으로 이동합니다.
+        </p>
+        <p class="mt-4 hidden text-sm text-[var(--fg-muted)]" data-concept-frequency-list-empty>
+          선택한 조건에 해당하는 문항이 없습니다.
+        </p>
+        <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-concept-frequency-list></ul>
+      </div>
+    </div>
+  </section>
+  <script
+    id="concept-frequency-config"
+    type="application/json"
+    set:html={JSON.stringify(pageConfig)}
+  />
+</BaseLayout>
+
+<script>
+  import { initConceptFrequencyPage } from '../../lib/client/concept-frequency-page';
+
+  const configEl = document.getElementById('concept-frequency-config');
+  if (configEl?.textContent) {
+    initConceptFrequencyPage(JSON.parse(configEl.textContent));
+  }
+</script>

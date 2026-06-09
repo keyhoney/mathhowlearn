@@ -1,0 +1,112 @@
+## 문제
+상수 $a\ (a> 1) $에 대하여 곡선 $y = a^{x} - 2$ 위의 점 중 제$1 $사분면에 있는 점 $A $를 지나고 $y $축에 평행한 직선이 $x $축과 만나는 점을 $B $, 곡선 $y = a^{x} - 2 $의 점근선과 만나는 점을 $C $라 하자.\
+$\overline{AB} = \overline{BC} $이고 삼각형 $AOC $의 넓이가 $8 $일 때, $a \times \overline{OB} $의 값은?\
+(단, $O $는 원점이다.) \[4점\]
+
+① $2^{\frac{13}{6}} $ ② $2^{\frac{7}{3}} $ ③ $2^{\frac{5}{2}} $ ④ $2^{\frac{8}{3}} $ ⑤ $2^{\frac{17}{6}}$
+
+![](/images/docx2mdx/261110-20260607-230326/media/image1.webp)
+
+
+## 힌트
+점 $A$의 $x$좌표를 $t$라 두면 $A(t,a^{t}-2)$, $B(t,0)$, $C(t,-2)$예요. $\overline{AB}=\overline{BC}$에서 $a^{t}$에 대한 식을 세워 보세요.
+
+
+## 힌트
+$\triangle AOC$에서 $A$와 $C$는 같은 $x=t$ 위에 있으므로 밑변 $\overline{AC}$, 높이 $\overline{OB}=t$로 넓이를 구할 수 있어요.
+
+
+## 풀이
+곡선 $y=a^{x}-2$의 점근선은 $y=-2$입니다. 점 $B$의 $x$좌표를 $t$라 하면
+
+
+
+$$
+
+A(t,a^{t}-2),\quad B(t,0),\quad C(t,-2)
+
+$$
+
+
+
+### $\overline{AB}=\overline{BC}$
+
+제$1$사분면의 점 $A$이므로 $a^{t}>2$입니다.
+
+
+
+$$
+
+\begin{aligned}
+\overline{AB}&=a^{t}-2 \\
+\overline{BC}&=2
+\end{aligned}
+
+$$
+
+
+
+$\overline{AB}=\overline{BC}$이므로 $a^{t}-2=2$, 즉 $a^{t}=4$입니다. 따라서
+
+
+
+$$
+
+\overline{AC}=a^{t}=4
+
+$$
+
+
+
+### $\triangle AOC$의 넓이
+
+$\overline{OB}=t$이므로
+
+
+
+$$
+
+\begin{aligned}
+\triangle AOC
+&=\frac{1}{2}\times \overline{AC}\times \overline{OB} \\
+&=\frac{1}{2}\times 4\times t \\
+&=2t
+\end{aligned}
+
+$$
+
+
+
+넓이가 $8$이므로 $2t=8$, 즉 $t=4$입니다. $a^{4}=4$에서
+
+
+
+$$
+
+\begin{aligned}
+a&=4^{\frac{1}{4}} \\
+&=2^{\frac{1}{2}}
+\end{aligned}
+
+$$
+
+
+
+따라서
+
+
+
+$$
+
+\begin{aligned}
+a\times \overline{OB}
+&=2^{\frac{1}{2}}\times 4 \\
+&=2^{\frac{1}{2}}\times 2^{2} \\
+&=2^{\frac{5}{2}}
+\end{aligned}
+
+$$
+
+
+
+따라서 정답은 **③**예요.

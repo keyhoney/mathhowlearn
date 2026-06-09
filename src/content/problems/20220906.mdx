@@ -1,0 +1,54 @@
+## 문제
+$\frac{\pi}{2}<\theta<\pi$인 $\theta$에 대하여 $\frac{\sin\,\theta}{1 - \sin\,\theta} - \frac{\sin\,\theta}{1 + \sin\,\theta} $ $= 4$일 때, $\cos \theta$의 값은? \[3점\]
+
+① $- \frac{\sqrt{3}}{3}$ ② $- \frac{1}{3}$ ③ $0$ ④ $\frac{1}{3}$ ⑤ $\frac{\sqrt{3}}{3}$
+
+
+## 힌트
+좌변을 통분하면 분모에 $1-\sin^2\theta$가 나와요. $1-\sin^2\theta=\cos^2\theta$로 바꿔 $\cos^2\theta$에 대한 방정식을 세워 보세요.
+
+## 힌트
+$\cos^2\theta$가 정해지면 $\cos\theta$는 두 가지 부호가 나올 수 있어요. $\tfrac{\pi}{2}<\theta<\pi$(제2사분면)에서 $\cos\theta$의 부호를 정하면 돼요.
+
+## 풀이
+
+주어진 식
+$$
+\frac{\sin\theta}{1-\sin\theta}-\frac{\sin\theta}{1+\sin\theta}=4
+$$
+에서 좌변을 통분하면
+
+$$
+\frac{\sin\theta(1+\sin\theta)-\sin\theta(1-\sin\theta)}{(1-\sin\theta)(1+\sin\theta)}=4
+$$
+가 되고,
+$$
+\frac{2\sin^2\theta}{1-\sin^2\theta}=4
+$$
+예요.
+
+$1-\sin^2\theta=\cos^2\theta$를 쓰면
+$$
+\frac{2(1-\cos^2\theta)}{\cos^2\theta}=4
+$$
+이고,
+$$
+1-\cos^2\theta=2\cos^2\theta
+$$
+이므로
+$$
+\cos^2\theta=\frac13
+$$
+이에요.
+
+따라서
+$$
+\cos\theta=\pm\frac{\sqrt3}{3}
+$$
+인데, $\tfrac{\pi}{2}<\theta<\pi$이면 제2사분면이라 $\cos\theta<0$이에요.
+
+그래서
+$$
+\cos\theta=-\frac{\sqrt3}{3}
+$$
+이고, 정답은 **①**이에요.

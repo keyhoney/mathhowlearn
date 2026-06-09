@@ -1,0 +1,188 @@
+## 문제
+$\overline{AB} = 2\sqrt{7} $인 삼각형 $ABC $에서 선분 $BC $의 중점을 $P$, 선분 $BC $를 $5 :  1 $로 내분하는 점을 $Q $라 하자.
+
+$\overline{AQ} = 3\sqrt{2}$, $\sin (\angle QAP) : \sin (\angle APQ) = \sqrt{2} :  3$
+
+일 때, 삼각형 $ABC $의 외접원의 넓이는? \[4점\]
+
+① $\frac{85}{9}\pi$ ② $\frac{88}{9}\pi$ ③ $\frac{91}{9}\pi$
+
+④ $\frac{94}{9}\pi$ ⑤ $\frac{97}{9}\pi$
+
+![](/images/docx2mdx/260614-20260604-150106/media/image1.webp)
+
+
+## 힌트
+$BC$를 $6$등분해 $\overline{CQ}=x$라 두면 $\overline{BC}=6x$이고, 중점 $P$ 때문에 $\overline{PQ}=2x$가 돼요. 삼각형 $APQ$에 사인법칙을 쓰면 $x$를 구할 수 있어요.
+
+
+## 힌트
+$\overline{BC}=6$이 정해지면 삼각형 $ABQ$에서 코사인법칙으로 $\cos(\angle ABQ)$를 구하고, $\sin(\angle ABQ)$를 구해 보세요.
+
+
+## 힌트
+삼각형 $ABC$에서 $\overline{AC}$를 코사인법칙으로 구한 뒤, 사인법칙 $\dfrac{\overline{AC}}{\sin(\angle ABC)}=2R$으로 외접원 반지름 $R$을 구하고 $\pi R^{2}$를 계산하면 돼요.
+
+
+## 풀이
+![](/images/docx2mdx/260614-20260604-150106/media/image2.webp)
+
+### $\overline{BC}$의 길이
+
+
+
+$\overline{CQ}=x$라 하면 $BC$를 $5:1$로 내분하므로 $\overline{BQ}=5x$, $\overline{BC}=6x$예요.
+
+
+
+$P$는 $BC$의 중점이므로 $\overline{BP}=\overline{PC}=3x$이고, $B$—$P$—$Q$—$C$ 순으로 놓이면
+
+
+
+$$
+
+\overline{PQ}=\overline{BQ}-\overline{BP}=5x-3x=2x
+
+$$
+
+
+
+삼각형 $APQ$에서 사인법칙에 의해
+
+
+
+$$
+
+\frac{\overline{PQ}}{\sin(\angle QAP)}=\frac{\overline{AQ}}{\sin(\angle APQ)}
+
+$$
+
+
+
+$\sin(\angle QAP):\sin(\angle APQ)=\sqrt{2}:3$이므로 $\sin(\angle QAP)=\sqrt{2}k$, $\sin(\angle APQ)=3k$ ($k>0$)라 두면
+
+
+
+$$
+
+\frac{2x}{\sqrt{2}k}=\frac{3\sqrt{2}}{3k}
+
+$$
+
+
+
+양변을 정리하면 $2x=2$, **$x=1$**이므로
+
+
+
+$$
+
+\overline{BC}=6,\quad \overline{BQ}=5
+
+$$
+
+
+
+---
+
+
+
+### $\angle ABQ$
+
+
+
+삼각형 $ABQ$에서 코사인법칙에 의해
+
+
+
+$$
+
+\cos(\angle ABQ)=\frac{\overline{AB}^{2}+\overline{BQ}^{2}-\overline{AQ}^{2}}{2\cdot\overline{AB}\cdot\overline{BQ}}
+
+=\frac{28+25-18}{2\cdot 2\sqrt{7}\cdot 5}
+
+=\frac{\sqrt{7}}{4}
+
+$$
+
+
+
+따라서
+
+
+
+$$
+
+\sin(\angle ABQ)=\sqrt{1-\cos^{2}(\angle ABQ)}=\frac{3}{4}
+
+$$
+
+
+
+---
+
+
+
+### $\overline{AC}$와 외접원
+
+
+
+$\angle ABC=\angle ABQ$이므로 삼각형 $ABC$에서
+
+
+
+$$
+
+\overline{AC}^{2}=\overline{AB}^{2}+\overline{BC}^{2}-2\cdot\overline{AB}\cdot\overline{BC}\cdot\cos(\angle ABC)
+
+=28+36-2\cdot 2\sqrt{7}\cdot 6\cdot\frac{\sqrt{7}}{4}=22
+
+$$
+
+
+
+$$
+
+\overline{AC}=\sqrt{22}
+
+$$
+
+
+
+외접원의 반지름을 $R$라 하면 사인법칙에 의해
+
+
+
+$$
+
+\frac{\overline{AC}}{\sin(\angle ABC)}=2R,
+
+\qquad
+
+\frac{\sqrt{22}}{\frac{3}{4}}=2R
+
+$$
+
+
+
+$$
+
+R=\frac{2\sqrt{22}}{3}
+
+$$
+
+
+
+외접원의 넓이는
+
+
+
+$$
+
+\pi R^{2}=\pi\left(\frac{2\sqrt{22}}{3}\right)^{2}=\frac{88}{9}\pi
+
+$$
+
+
+
+따라서 정답은 **②**예요.

@@ -1,0 +1,145 @@
+## 문제
+
+그림과 같이 $\overline{AB} = 3$, $\overline{BC} = 2$, $\overline{AC} > 3$이고 $\cos (\angle BAC) = \frac{7}{8}$인 삼각형 $ABC$가 있다. 선분 $AC$의 중점을 $M$, 삼각형 $ABC$의 외접원이 직선 $BM$과 만나는 점 중 $B$가 아닌 점을 $D$라 할 때, 선분 $MD$의 길이는? \[4점\]
+
+
+
+![](/images/docx2mdx/230610-20260602-110642/media/image2.webp)
+
+
+
+① $\frac{3\sqrt{10}}{5}$ ② $\frac{7\sqrt{10}}{10}$ ③ $\frac{4\sqrt{10}}{5}$
+
+
+
+④ $\frac{9\sqrt{10}}{10}$ ⑤ $\sqrt{10}$
+
+
+
+
+
+## 힌트
+
+$\angle BAC=\theta$, $\overline{AC}=a$로 두고 삼각형 $ABC$에 코사인법칙을 쓰면 $a$를 구할 수 있어요. $\overline{AC}>3$ 조건으로 해를 고르세요.
+
+
+
+## 힌트
+
+$M$은 $AC$의 중점이므로 $\overline{AM}=\overline{MC}$입니다. 삼각형 $ABM$에도 같은 $\cos\theta$로 코사인법칙을 써 $\overline{MB}$를 구해 보세요.
+
+
+
+## 힌트
+
+직선 $BM$이 외접원과 다시 만나는 점이 $D$일 때, 점 $M$의 거듭제곱 정리(또는 닮음)로 $\overline{MA}\cdot\overline{MC}=\overline{MB}\cdot\overline{MD}$가 성립해요.
+
+
+
+## 풀이
+
+$\angle BAC=\theta$, $\overline{AC}=a$라 하면 삼각형 $ABC$에서 코사인법칙에 의해
+
+
+
+$$
+
+\overline{BC}^{2}=\overline{AB}^{2}+\overline{AC}^{2}-2\cdot\overline{AB}\cdot\overline{AC}\cdot\cos\theta
+
+$$
+
+
+
+$$
+
+4=9+a^{2}-2\cdot 3\cdot a\cdot\frac{7}{8}
+
+=9+a^{2}-\frac{21}{4}a
+
+$$
+
+
+
+$$
+
+a^{2}-\frac{21}{4}a+5=0 \quad\Rightarrow\quad 4a^{2}-21a+20=0
+
+$$
+
+
+
+$$
+
+(4a-5)(a-4)=0
+
+$$
+
+
+
+$\overline{AC}>3$이므로 $a=4$, 즉 $\overline{AC}=4$예요.
+
+
+
+$M$은 $AC$의 중점이므로 $\overline{AM}=\overline{MC}=2$예요.
+
+
+
+삼각형 $ABM$에서 코사인법칙에 의해
+
+
+
+$$
+
+\overline{MB}^{2}
+
+=3^{2}+2^{2}-2\cdot 3\cdot 2\cdot\frac{7}{8}
+
+=13-\frac{21}{2}=\frac{5}{2}
+
+$$
+
+
+
+$$
+
+\overline{MB}=\sqrt{\frac{5}{2}}=\frac{\sqrt{10}}{2}
+
+$$
+
+
+
+점 $M$은 현 $AC$ 위에 있고, 직선 $BM$이 외접원과 $B$, $D$에서 만나므로
+
+
+
+$$
+
+\overline{MA}\cdot\overline{MC}=\overline{MB}\cdot\overline{MD}
+
+$$
+
+
+
+이에요.
+
+
+
+$$
+
+2\times 2=\frac{\sqrt{10}}{2}\times\overline{MD}
+
+$$
+
+
+
+$$
+
+\overline{MD}=\frac{8}{\sqrt{10}}=\frac{4\sqrt{10}}{5}
+
+$$
+
+
+
+따라서 정답은 **③**예요.
+
+

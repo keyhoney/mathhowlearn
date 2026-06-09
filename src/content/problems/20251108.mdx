@@ -1,0 +1,73 @@
+## 문제
+두 실수 $a = 2\log \frac{1}{\sqrt{10}} + \log _{2}  20$, $b = \log  2 $에 대하여 $a \times b $의 값은? \[3점\]
+
+① $1$ ② $2$ ③ $3$ ④ $4$ ⑤ $5$
+
+
+## 힌트
+$\log$는 밑이 $10$인 상용로그예요. $\dfrac{1}{\sqrt{10}}=10^{-\frac{1}{2}}$로 바꾸고, $\log_{2}20=\log_{2}(2\times 10)$으로 나누어 보세요.
+
+
+## 힌트
+$a$를 $\log_{2}10$ 꼴로 정리하면 $a\times b$에서 $\log_{2}10\times\log 2$가 되어요. 밑 변환 공식 $\log_{2}10=\dfrac{\log 10}{\log 2}$를 쓰면 돼요.
+
+
+## 풀이
+$\log$는 밑이 $10$인 상용로그이므로 $\log 10=1$이에요.
+
+
+
+### $a$ 정리
+
+
+
+$$
+
+\frac{1}{\sqrt{10}}=10^{-\frac{1}{2}}
+
+$$
+
+
+
+$$
+
+\begin{aligned}
+a
+&=2\log\frac{1}{\sqrt{10}}+\log_{2}20 \\
+&=2\log(10^{-\frac{1}{2}})+\log_{2}(2\times 10) \\
+&=2\cdot\left(-\frac{1}{2}\right)\log 10+\log_{2}2+\log_{2}10 \\
+&=-1+1+\log_{2}10 \\
+&=\log_{2}10
+\end{aligned}
+
+$$
+
+
+
+### $a\times b$
+
+
+
+$b=\log 2$이므로
+
+
+
+$$
+
+\begin{aligned}
+a\times b
+&=\log_{2}10\times\log 2 \\
+&=\frac{\log 10}{\log 2}\times\log 2 \\
+&=\log 10 \\
+&=1
+\end{aligned}
+
+$$
+
+
+
+(밑 변환: $\log_{2}10=\dfrac{\log 10}{\log 2}$)
+
+
+
+따라서 정답은 **①**예요.
