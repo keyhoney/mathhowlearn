@@ -13,6 +13,7 @@ const requiredPaths = [
   path.join('problems', 'bookmarks', 'index.html'),
   path.join('search', 'index.html'),
   'robots.txt',
+  'rss.xml',
   'sitemap-index.xml',
   path.join('pagefind', 'pagefind.js'),
 ];

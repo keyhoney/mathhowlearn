@@ -28,6 +28,7 @@
   "dependencies": {
     "@astrojs/mdx": "^5.0.4",
     "@astrojs/react": "^5.0.4",
+    "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.4",
@@ -45,8 +46,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "prettier": "3.8.3",
     "pagefind": "^1.5.2",
+    "prettier": "3.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tsx": "^4.19.3",
