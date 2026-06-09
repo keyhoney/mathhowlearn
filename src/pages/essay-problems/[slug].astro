@@ -48,8 +48,6 @@ const hintStepsHtml =
   hintSteps.length > 0 ? await Promise.all(hintSteps.map((s) => renderTrustedMarkdown(s))) : [];
 const solutionHtml = await renderTrustedMarkdown(solutionText);
 const allEssayProblems = await getCollection('essay-problems');
-const tinaPath = `essay-problems/${entry.id}.mdx`;
-const tinaField = (field: string) => `${tinaPath}#${field}`;
 const relatedProblems = allEssayProblems
   .filter((p) => {
     if (p.id === entry.id) return false;
@@ -95,7 +93,7 @@ const relatedProblems = allEssayProblems
     <p class="focus-only-note learn-callout learn-callout--warning not-prose mb-4">
       집중 모드가 켜져 있습니다. STEP 힌트와 최종 풀이는 계속 볼 수 있고, 관련 문제는 숨겨집니다.
     </p>
-    <div class="not-prose learn-surface learn-emphasis book-card" data-problem-card-root data-tina-field={tinaField('body')}>
+    <div class="not-prose learn-surface learn-emphasis book-card" data-problem-card-root>
       <h2 class="type-subhead mb-4">문제</h2>
       <div
         class="prose prose-slate dark:prose-invert max-w-none prose-headings:tracking-tight"

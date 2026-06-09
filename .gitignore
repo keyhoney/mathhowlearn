@@ -26,9 +26,6 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# Tina CLI 생성물(토큰·로컬 경로가 들어갈 수 있음 — CI에서 tinacms build로 생성)
-tina/__generated__/
-
 # Wrangler 로컬 상태
 .wrangler/
 

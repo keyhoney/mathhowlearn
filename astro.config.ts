@@ -11,7 +11,6 @@ import { remarkDfrac } from './src/lib/remark-dfrac';
 import { rehypeKatexSafeOptions } from './src/lib/katex-shared';
 import { rehypeImgPerformance } from './src/lib/rehype-img-performance';
 import { mathMdxHowlearnPlugin } from './src/vite-plugins/math-mdx-howlearn';
-import tinaDirective from './astro-tina-directive/register';
 import { shouldExcludeFromSitemap } from './src/lib/seo-paths';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -37,14 +36,11 @@ export default defineConfig({
       filter: (page) => !shouldExcludeFromSitemap(page),
     }),
     react(),
-    tinaDirective(),
   ],
   vite: {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),
-        tty: path.resolve(__dirname, 'src/shims/tty.ts'),
-        util: path.resolve(__dirname, 'src/shims/util.ts'),
       },
     },
     plugins: [tailwindcss(), mathMdxHowlearnPlugin()],
