@@ -2,6 +2,7 @@
 dist/
 # 로컬 dev용 pagefind 복사본 (npm run search:sync-dev)
 public/pagefind/
+public/search/problem-codes.json
 # generated types
 .astro/
 

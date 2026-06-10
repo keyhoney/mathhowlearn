@@ -74,6 +74,37 @@ export async function getPublishedEssayProblems() {
   return await getCollection('essay-problems');
 }
 
+const EXAM_MONTH_PRIORITY = new Map<number, number>([
+  [11, 0], // 수능
+  [9, 1], // 9월 모평
+  [6, 2], // 6월 모평
+]);
+
+/** 관련 문제·목록 정렬: 최신 회차 우선 (연도 ↓ → 시험 월 ↓ → ID ↓) */
+export function compareProblemsByRecency(
+  a: { id: string; data: { year: number; month: number } },
+  b: { id: string; data: { year: number; month: number } },
+): number {
+  if (a.data.year !== b.data.year) return b.data.year - a.data.year;
+
+  const aMonthOrder = EXAM_MONTH_PRIORITY.get(a.data.month) ?? 999;
+  const bMonthOrder = EXAM_MONTH_PRIORITY.get(b.data.month) ?? 999;
+  if (aMonthOrder !== bMonthOrder) return aMonthOrder - bMonthOrder;
+  if (a.data.month !== b.data.month) return b.data.month - a.data.month;
+
+  return b.id.localeCompare(a.id, undefined, { numeric: true });
+}
+
+export function compareEssayProblemsByRecency(
+  a: { id: string; data: { year: number; examYear?: number } },
+  b: { id: string; data: { year: number; examYear?: number } },
+): number {
+  const aYear = a.data.examYear ?? a.data.year;
+  const bYear = b.data.examYear ?? b.data.year;
+  if (aYear !== bYear) return bYear - aYear;
+  return b.id.localeCompare(a.id, undefined, { numeric: true });
+}
+
 type ProblemTaxonomy = {
   data: {
     source: string;

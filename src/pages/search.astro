@@ -1,6 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppPagination from '../components/ui/AppPagination.astro';
+import problemMetadata from '../content/problems/_metadata.json';
+import essayMetadata from '../content/essay-problems/_metadata.json';
+
+const problemSearchIndex = {
+  problems: Object.fromEntries(
+    Object.entries(problemMetadata).map(([id, meta]) => [id, meta.source]),
+  ),
+  essayProblems: Object.fromEntries(
+    Object.entries(essayMetadata).map(([id, meta]) => [id, meta.source]),
+  ),
+};
 ---
 
 <BaseLayout title="검색" description="GaeSaeGi Math 통합 검색">
@@ -49,7 +60,7 @@ import AppPagination from '../components/ui/AppPagination.astro';
     buildSearchResultCardHtml;
 </script>
 
-<script is:inline define:vars={{ pagefindScript: `${import.meta.env.BASE_URL}pagefind/pagefind.js` }}>
+<script is:inline define:vars={{ pagefindScript: `${import.meta.env.BASE_URL}pagefind/pagefind.js`, problemSearchIndex }}>
   const searchForm = document.getElementById('search-form');
   const input = document.getElementById('search-input');
   const sort = document.getElementById('search-sort');
@@ -119,6 +130,24 @@ import AppPagination from '../components/ui/AppPagination.astro';
     }
   }
 
+  function mergeProblemCodeResult(query, records) {
+    const raw = String(query || '').trim();
+    if (!/^\d{8}$/.test(raw)) return records;
+    const problemTitle = problemSearchIndex?.problems?.[raw];
+    if (problemTitle) {
+      const direct = { url: `/problems/${raw}`, meta: { title: problemTitle } };
+      const rest = records.filter((item) => item.url !== direct.url);
+      return [direct, ...rest];
+    }
+    const essayTitle = problemSearchIndex?.essayProblems?.[raw];
+    if (essayTitle) {
+      const direct = { url: `/essay-problems/${raw}`, meta: { title: essayTitle } };
+      const rest = records.filter((item) => item.url !== direct.url);
+      return [direct, ...rest];
+    }
+    return records;
+  }
+
   async function ensurePagefind() {
     if (pagefindLoadFailed) return null;
     if (pagefind) return pagefind;
@@ -185,15 +214,11 @@ import AppPagination from '../components/ui/AppPagination.astro';
     if (emptyEl) emptyEl.textContent = '검색 중…';
 
     const pf = await ensurePagefind();
-    if (!pf) {
-      allRecords = [];
-      if (resultList) resultList.innerHTML = '';
-      if (emptyEl) emptyEl.textContent = '검색 인덱스가 없습니다. `npm run build` 후 `npm run preview`에서 검색을 사용할 수 있습니다.';
-      if (paginationRoot) paginationRoot.classList.add('hidden');
-      return;
+    let records = [];
+    if (pf) {
+      const searched = await pf.search(q);
+      records = await Promise.all(searched.results.map((r) => r.data()));
     }
-    const searched = await pf.search(q);
-    let records = await Promise.all(searched.results.map((r) => r.data()));
 
     if (currentDomain !== 'all') {
       records = records.filter((item) => {
@@ -202,6 +227,16 @@ import AppPagination from '../components/ui/AppPagination.astro';
         if (currentDomain === 'essay-problems') return url.startsWith('/essay-problems/');
         return true;
       });
+    }
+
+    records = mergeProblemCodeResult(q, records);
+
+    if (!pf && records.length === 0) {
+      allRecords = [];
+      if (resultList) resultList.innerHTML = '';
+      if (emptyEl) emptyEl.textContent = '검색 인덱스가 없습니다. `npm run build` 후 `npm run preview`에서 검색을 사용할 수 있습니다.';
+      if (paginationRoot) paginationRoot.classList.add('hidden');
+      return;
     }
 
     if ((sort?.value || 'relevance') === 'title') {

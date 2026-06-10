@@ -4,6 +4,10 @@ import {
   getContentDomainLabel,
   inferContentDomainFromUrl,
 } from '../lib/content-domain-badge';
+import {
+  mergeProblemCodeResult,
+  type ProblemSearchIndex,
+} from '../lib/problem-search-code';
 import type { SearchResultItem } from '../lib/search-result-card';
 
 type PagefindModule = {
@@ -11,6 +15,7 @@ type PagefindModule = {
 };
 
 const PAGEFIND_SCRIPT = `${import.meta.env.BASE_URL}pagefind/pagefind.js`;
+const PROBLEM_SEARCH_INDEX_URL = `${import.meta.env.BASE_URL}search/problem-codes.json`;
 
 interface Props {
   open: boolean;
@@ -24,6 +29,8 @@ export function SearchOverlay({ open, onClose }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const pagefindRef = useRef<PagefindModule | null>(null);
   const pagefindFailedRef = useRef(false);
+  const problemSearchIndexRef = useRef<ProblemSearchIndex | null>(null);
+  const problemSearchIndexFailedRef = useRef(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const reset = useCallback(() => {
@@ -36,6 +43,21 @@ export function SearchOverlay({ open, onClose }: Props) {
     reset();
     onClose();
   }, [onClose, reset]);
+
+  const ensureProblemSearchIndex = useCallback(async (): Promise<ProblemSearchIndex | null> => {
+    if (problemSearchIndexFailedRef.current) return null;
+    if (problemSearchIndexRef.current) return problemSearchIndexRef.current;
+    try {
+      const response = await fetch(PROBLEM_SEARCH_INDEX_URL);
+      if (!response.ok) throw new Error('problem search index missing');
+      const data = (await response.json()) as ProblemSearchIndex;
+      problemSearchIndexRef.current = data;
+      return data;
+    } catch {
+      problemSearchIndexFailedRef.current = true;
+      return null;
+    }
+  }, []);
 
   const ensurePagefind = useCallback(async (): Promise<PagefindModule | null> => {
     if (pagefindFailedRef.current) return null;
@@ -60,16 +82,21 @@ export function SearchOverlay({ open, onClose }: Props) {
       }
 
       setStatus('loading');
-      const pf = await ensurePagefind();
-      if (!pf) {
-        setResults([]);
-        setStatus('error');
-        return;
-      }
+      const [pf, problemIndex] = await Promise.all([
+        ensurePagefind(),
+        ensureProblemSearchIndex(),
+      ]);
 
       try {
-        const searched = await pf.search(trimmed);
-        const records = await Promise.all(searched.results.map((r) => r.data()));
+        let records: SearchResultItem[] = [];
+        if (pf) {
+          const searched = await pf.search(trimmed);
+          records = await Promise.all(searched.results.map((r) => r.data()));
+        }
+        if (problemIndex) {
+          records = mergeProblemCodeResult(trimmed, problemIndex, records);
+        }
+
         const filtered = records.filter((item) => {
           const url = item.url || '';
           return (
@@ -81,13 +108,17 @@ export function SearchOverlay({ open, onClose }: Props) {
           );
         });
         setResults(filtered.slice(0, 8));
-        setStatus(filtered.length === 0 ? 'empty' : 'idle');
+        if (filtered.length === 0) {
+          setStatus(!pf && !problemIndex ? 'error' : 'empty');
+        } else {
+          setStatus('idle');
+        }
       } catch {
         setResults([]);
         setStatus('error');
       }
     },
-    [ensurePagefind],
+    [ensurePagefind, ensureProblemSearchIndex],
   );
 
   useEffect(() => {

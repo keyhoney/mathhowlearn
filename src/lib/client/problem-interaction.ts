@@ -200,7 +200,7 @@ function initProblemInteraction(root: Element): void {
 
     const isCorrect = String(Number(userValue)) === String(Number(answer));
     showResult(isCorrect ? '정답입니다.' : '오답입니다. 힌트를 확인해 보세요.', isCorrect ? 'success' : 'danger');
-    wrongNoteLink?.classList.toggle('hidden', isCorrect);
+    if (wrongNoteLink) wrongNoteLink.hidden = isCorrect;
     const latest = getProgressDetail(readProgressStore(progressKey), problemId);
     persist({
       status: isCorrect ? 'done' : 'progress',

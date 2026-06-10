@@ -97,10 +97,36 @@ body {
   font-weight: 600;
 }
 
-.exam-problem-page .prose :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
+.exam-problem-page [data-solution].prose h3 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.875rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--accent);
+  border-radius: 0.125rem;
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface-1));
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--fg);
+  line-height: 1.55 !important;
+}
+
+.exam-problem-page [data-solution].prose h3:not(:first-child) {
+  margin-top: 2.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--card-border);
+}
+
+.exam-problem-page .prose .problem-image-paragraph {
+  text-align: center !important;
+}
+
+.exam-problem-page .prose .problem-content-image {
+  display: inline-block !important;
   max-width: 100%;
   height: auto;
-  margin: 1rem 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  vertical-align: middle;
 }
 
 .exam-problem-page .prose :where(blockquote):not(:where([class~='not-prose'], [class~='not-prose'] *)) {

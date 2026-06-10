@@ -11,6 +11,7 @@ import {
 import { remarkDfrac } from './remark-dfrac';
 import { remarkExamBogi } from './remark-exam-bogi';
 import { remarkExamConditions } from './remark-exam-conditions';
+import { rehypeWrapKatexDisplay } from './rehype-wrap-katex-display';
 
 let processorPromise: ReturnType<typeof createMarkdownProcessor> | null = null;
 
@@ -18,7 +19,11 @@ async function getProcessor() {
   if (!processorPromise) {
     processorPromise = createMarkdownProcessor({
       remarkPlugins: [remarkExamConditions, remarkExamBogi, remarkMath, remarkDfrac],
-      rehypePlugins: [[rehypeKatex, rehypeKatexSafeOptions], rehypeImgPerformance],
+      rehypePlugins: [
+        [rehypeKatex, rehypeKatexSafeOptions],
+        rehypeWrapKatexDisplay,
+        rehypeImgPerformance,
+      ],
       gfm: true,
     });
   }

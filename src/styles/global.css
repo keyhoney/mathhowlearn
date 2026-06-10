@@ -2263,6 +2263,10 @@ html.dark [data-theme-toggle] [data-theme-icon-dark] {
   background-color: var(--surface-2);
   color: var(--fg);
 }
+
+[data-go-wrong-note][hidden] {
+  display: none !important;
+}
 .app-btn-secondary:hover {
   border-color: var(--accent);
   color: var(--accent);
@@ -3324,6 +3328,61 @@ html:not(.dark) .exam-problem-page [data-problem-card-root] .prose blockquote {
 .exam-problem-page [data-solution] :where(p):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-top: 1rem !important;
   margin-bottom: 1rem !important;
+}
+
+/* 풀이 본문: ### 단계·케이스 구분 (not-prose 아일랜드 안 prose도 포함) */
+.exam-problem-page [data-solution].prose h3 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.875rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--accent);
+  border-radius: 0.125rem;
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface-1));
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--fg);
+  line-height: 1.55 !important;
+}
+
+.exam-problem-page [data-solution].prose h3:not(:first-child) {
+  margin-top: 2.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--card-border);
+}
+
+/* 풀이·힌트·문제 본문: $$ display 수식 (가운데 정렬, 스크롤바 없음) */
+.exam-problem-page .prose .math-display-block {
+  display: block;
+  margin: 1em 0;
+  text-align: center;
+  line-height: normal !important;
+  overflow: visible;
+}
+
+.exam-problem-page .prose .math-display-block > .katex-display {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  overflow: visible;
+  max-width: 100%;
+}
+
+.exam-problem-page .prose .math-display-block .katex {
+  line-height: normal !important;
+}
+
+/* 문제·힌트·풀이 본문 이미지 가운데 정렬 */
+.exam-problem-page .prose .problem-image-paragraph {
+  text-align: center !important;
+}
+
+.exam-problem-page .prose .problem-content-image {
+  display: inline-block !important;
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  vertical-align: middle;
 }
 
 .exam-back-link {

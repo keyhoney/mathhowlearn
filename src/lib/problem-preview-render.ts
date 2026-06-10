@@ -130,7 +130,7 @@ export async function renderProblemPreviewBody(
     parts.push(
       '<section class="preview-section">',
       '<h2>풀이</h2>',
-      `<div class="prose prose-sm prose-slate">${applyAssets(solutionHtml)}</div>`,
+      `<div class="prose prose-sm prose-slate" data-solution>${applyAssets(solutionHtml)}</div>`,
       '</section>',
     );
   }

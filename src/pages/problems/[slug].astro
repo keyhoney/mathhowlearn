@@ -3,7 +3,7 @@ import MathLayout from '../../layouts/MathLayout.astro';
 import ProblemInteraction from '../../components/ProblemInteraction.astro';
 import ExamPracticeToolbar from '../../components/ExamPracticeToolbar.astro';
 import DifficultyStars from '../../components/DifficultyStars.astro';
-import { buildProblemOccurrenceStats } from '../../lib/content-utils';
+import { buildProblemOccurrenceStats, compareProblemsByRecency } from '../../lib/content-utils';
 import { getExamTypeBadgeClass } from '../../lib/exam-type-badge';
 import { STORAGE_KEYS } from '../../lib/storage-keys';
 import {
@@ -16,6 +16,7 @@ import {
 } from '../../lib/problem-markdown';
 import { getCollection, getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
+import { buildProblemSearchKeywords } from '../../lib/problem-search-code';
 
 export const getStaticPaths = (async () => {
   const items = await getCollection('problems');
@@ -74,9 +75,18 @@ const relatedProblems = allProblems
     score += Math.max(0, 15 - Math.abs((p.data.difficulty ?? 3) - (entry.data.difficulty ?? 3)) * 5);
     return { problem: p, score };
   })
-  .sort((a, b) => b.score - a.score)
+  .sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return compareProblemsByRecency(a.problem, b.problem);
+  })
   .slice(0, 6);
 const conceptByProblemId = Object.fromEntries(allProblems.map((p) => [p.id, p.data.concept]));
+const problemSearchKeywords = buildProblemSearchKeywords(entry.id, {
+  source,
+  year,
+  month,
+  examType,
+});
 ---
 
 <MathLayout
@@ -94,6 +104,7 @@ const conceptByProblemId = Object.fromEntries(allProblems.map((p) => [p.id, p.da
     data-wrong-note-key={STORAGE_KEYS.WRONG_NOTE}
   >
     <ExamPracticeToolbar problemId={entry.id} />
+    <p class="sr-only" aria-hidden="true">{problemSearchKeywords}</p>
     <header class="not-prose book-card--compact mb-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
       <a href="/problems" class="type-caption font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400" data-list-back-link data-list-base-path="/problems">← 목록으로 돌아가기</a>
       <div class="exam-meta-row mt-4 flex flex-wrap items-center gap-2 focus-hide-in-exam">
@@ -117,7 +128,7 @@ const conceptByProblemId = Object.fromEntries(allProblems.map((p) => [p.id, p.da
     <div class="not-prose learn-surface learn-emphasis book-card" data-problem-card-root>
       <h2 class="type-subhead mb-4">문제</h2>
       <div
-        class="prose prose-slate dark:prose-invert max-w-none prose-headings:tracking-tight"
+        class="prose prose-slate dark:prose-invert max-w-none prose-headings:tracking-tight prose-img:mx-auto prose-img:block"
         set:html={problemHtml}
       />
       <div class="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/50">
@@ -142,26 +153,32 @@ const conceptByProblemId = Object.fromEntries(allProblems.map((p) => [p.id, p.da
               </div>
             </fieldset>
           ) : (
-            <input
-              type="text"
-              inputmode="numeric"
-              placeholder="정답 입력"
-              aria-label="단답형 정답 입력"
-              class="app-input"
-              data-answer-short
-            />
+            <div class="flex items-stretch gap-2">
+              <input
+                type="text"
+                inputmode="numeric"
+                placeholder="정답 입력"
+                aria-label="단답형 정답 입력"
+                maxlength="3"
+                class="app-input min-w-0 flex-1"
+                data-answer-short
+              />
+              <button
+                type="button"
+                class="gsg-btn-primary shrink-0 !min-h-[2.5rem] !px-4 !py-2 !text-sm"
+                data-check-answer
+              >
+                정답 확인
+              </button>
+            </div>
           )}
         </div>
         <div class="mt-3 flex flex-wrap items-center gap-2">
           {answerType === 'mcq' ? (
             <p class="type-caption chrome-muted m-0">선택지를 클릭하면 바로 채점됩니다.</p>
-          ) : (
-            <button type="button" class="gsg-btn-primary !min-h-0 !px-4 !py-2 !text-sm" data-check-answer>
-              정답 확인
-            </button>
-          )}
+          ) : null}
           <p class="hidden" data-answer-result role="status" aria-live="polite"></p>
-          <a href="/problems/wrong-note" class="app-btn-secondary hidden" data-go-wrong-note>
+          <a href="/problems/wrong-note" class="app-btn-secondary" data-go-wrong-note hidden>
             오답노트로 이동
           </a>
         </div>

@@ -96,7 +96,7 @@ export function HintReveal({ problemId, totalHints, hintContents, solutionHtml }
                     <CheckCircle2 className="h-4 w-4 text-slate-400 dark:text-slate-500" />
                   </button>
                   <div
-                    className="motion-hint-expand type-body text-slate-600 bg-slate-50 p-4 rounded border-l-4 border-indigo-400 italic dark:text-slate-300 dark:bg-slate-900/60 dark:border-indigo-500 prose prose-book max-w-none"
+                    className="motion-hint-expand type-body text-slate-600 bg-slate-50 p-4 rounded border-l-4 border-indigo-400 dark:text-slate-300 dark:bg-slate-900/60 dark:border-indigo-500 prose prose-book max-w-none prose-img:mx-auto prose-img:block"
                     dangerouslySetInnerHTML={{ __html: hintHtml }}
                   />
                 </div>
@@ -163,7 +163,8 @@ export function HintReveal({ problemId, totalHints, hintContents, solutionHtml }
                 </button>
               </div>
               <div
-                className="type-body text-slate-900 dark:text-slate-100 font-medium prose prose-book max-w-none"
+                data-solution
+                className="type-body text-slate-900 dark:text-slate-100 font-medium prose prose-book max-w-none prose-img:mx-auto prose-img:block"
                 dangerouslySetInnerHTML={{ __html: solutionHtml }}
               />
             </div>

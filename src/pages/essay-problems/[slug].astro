@@ -9,6 +9,7 @@ import {
   extractSections,
   renderTrustedMarkdown,
 } from '../../lib/problem-markdown';
+import { compareEssayProblemsByRecency } from '../../lib/content-utils';
 import { getCollection, getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { STORAGE_KEYS } from '../../lib/storage-keys';
@@ -59,7 +60,10 @@ const relatedProblems = allEssayProblems
     score += Math.max(0, 25 - Math.abs((p.data.examYear ?? p.data.year) - (entry.data.examYear ?? entry.data.year)) * 3);
     return { problem: p, score };
   })
-  .sort((a, b) => b.score - a.score)
+  .sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return compareEssayProblemsByRecency(a.problem, b.problem);
+  })
   .slice(0, 6);
 ---
 
@@ -96,7 +100,7 @@ const relatedProblems = allEssayProblems
     <div class="not-prose learn-surface learn-emphasis book-card" data-problem-card-root>
       <h2 class="type-subhead mb-4">문제</h2>
       <div
-        class="prose prose-slate dark:prose-invert max-w-none prose-headings:tracking-tight"
+        class="prose prose-slate dark:prose-invert max-w-none prose-headings:tracking-tight prose-img:mx-auto prose-img:block"
         set:html={problemHtml}
       />
     </div>
