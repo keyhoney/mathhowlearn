@@ -1,0 +1,51 @@
+---
+import MathLayout from '../../../layouts/MathLayout.astro';
+import MockExamApp from '../../../components/exam/MockExamApp';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import {
+  buildMockExamSessions,
+  extractQuestionNumber,
+  toMockExamSessionId,
+} from '../../../lib/exam-session';
+import { buildConversionForSession, buildMockExamProblemPayload } from '../../../lib/mock-exam-build';
+
+export const getStaticPaths = (async () => {
+  const items = await getCollection('problems');
+  const sessions = buildMockExamSessions(items);
+  return sessions.map((session) => ({
+    params: { sessionId: session.sessionId },
+    props: { session },
+  }));
+}) satisfies GetStaticPaths;
+
+export const prerender = true;
+
+const { session } = Astro.props;
+const allProblems = await getCollection('problems');
+const sessionProblems = allProblems
+  .filter((p) => toMockExamSessionId(p) === session.sessionId)
+  .sort((a, b) => extractQuestionNumber(a) - extractQuestionNumber(b));
+
+const problems = await Promise.all(sessionProblems.map(buildMockExamProblemPayload));
+const conversion = buildConversionForSession(session.year, session.month);
+---
+
+<MathLayout title={`모의 수능 — ${session.label}`} description={`${session.label} 30문항 100분 모의고사`}>
+  <div class="pb-12 px-4">
+    <p class="mb-4 max-w-5xl mx-auto">
+      <a href="/problems/mock-exam" class="type-caption font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
+        ← 회차 선택
+      </a>
+    </p>
+    <MockExamApp
+      client:load
+      sessionId={session.sessionId}
+      label={session.label}
+      year={session.year}
+      month={session.month}
+      problems={problems}
+      conversion={conversion}
+    />
+  </div>
+</MathLayout>

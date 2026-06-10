@@ -7,6 +7,7 @@ export const STORAGE_KEYS = {
   FOCUS_HISTORY: 'howlearn-focus-history',
   FOCUS_GOAL_MS: 'howlearn-focus-goal-ms',
   THEME: 'theme',
+  MOCK_EXAM_SESSION: 'howlearn-mock-exam-session',
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
