@@ -5,6 +5,7 @@ import {
   Calculator,
   ClipboardList,
   LayoutDashboard,
+  Map,
   Newspaper,
   PenLine,
   Timer,
@@ -54,6 +55,7 @@ export const navGroups: NavGroup[] = [
     label: "나의 학습",
     items: [
       { href: "/dashboard", label: "대시보드", icon: BarChart3 },
+      { href: "/problems/concept-map", label: "개념 지도", icon: Map },
       { href: "/problems/wrong-note", label: "오답 노트", icon: ClipboardList },
       { href: "/problems/bookmarks", label: "스크랩", icon: Bookmark },
     ],

@@ -10,6 +10,7 @@ import {
   type QuestionResult,
   type SessionConversionBundle,
 } from '../../lib/mock-exam-score';
+import { recordProblemActivity } from '../../lib/client/learning-streak';
 import { STORAGE_KEYS } from '../../lib/storage-keys';
 
 export type MockExamProblemPayload = {
@@ -537,6 +538,7 @@ export default function MockExamApp({
       setAnswers((prev) => {
         const next = { ...prev, [problemId]: value };
         persist({ answers: next });
+        if (value.trim()) recordProblemActivity(problemId);
         return next;
       });
     },

@@ -1,17 +1,32 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { getPublishedProblems } from '../lib/content-utils';
+import { buildConceptIndex } from '../lib/concept-progress';
+import { SITE_TITLE, SITE_URL } from '../consts';
 import DashboardHeader from '../components/dashboard/DashboardHeader.astro';
 import FocusSummaryCard from '../components/dashboard/FocusSummaryCard.astro';
 import ReviewSummaryCard from '../components/dashboard/ReviewSummaryCard.astro';
 import ProgressSummaryCard from '../components/dashboard/ProgressSummaryCard.astro';
 import DashboardContentStrip from '../components/dashboard/DashboardContentStrip.astro';
 import { DashboardApp } from '../components/dashboard/DashboardApp';
+import { LearningStreakApp } from '../components/dashboard/LearningStreakApp';
+import { ShareCardApp } from '../components/dashboard/ShareCardApp';
 
-const [problems, essayProblems] = await Promise.all([
+const [problems, essayProblems, publishedProblems] = await Promise.all([
   getCollection('problems'),
   getCollection('essay-problems'),
+  getPublishedProblems(),
 ]);
+const conceptIndex = buildConceptIndex(
+  publishedProblems.map((p) => ({
+    id: p.id,
+    subject: p.data.subject,
+    chapter: p.data.chapter,
+    subChapter: p.data.subChapter,
+    concept: p.data.concept,
+  })),
+);
 const problemIds = problems.map((item) => item.id);
 const essayProblemIds = essayProblems.map((item) => item.id);
 const focusHelpHref = problemIds[0] ? `/problems/${problemIds[0]}` : '/problems';
@@ -33,6 +48,13 @@ const focusHelpHref = problemIds[0] ? `/problems/${problemIds[0]}` : '/problems'
       problemIds={problemIds}
       essayProblemIds={essayProblemIds}
       focusHelpHref={focusHelpHref}
+    />
+    <LearningStreakApp client:load />
+    <ShareCardApp
+      client:load
+      conceptIndex={conceptIndex}
+      siteTitle={SITE_TITLE}
+      siteUrl={SITE_URL}
     />
     <DashboardContentStrip />
   </section>

@@ -6,6 +6,7 @@ import {
   writeProgressStore,
 } from './problem-state';
 import { emitDashboardRefresh } from './dashboard-stats';
+import { recordProblemActivity } from './learning-streak';
 
 async function syncProgress(
   problemId: string,
@@ -184,6 +185,7 @@ function initProblemInteraction(root: Element): void {
     }
     revealedHintCount += 1;
     persist({ status: 'progress', hintRevealedCount: revealedHintCount });
+    recordProblemActivity(problemId);
     if (revealHintBtn && revealedHintCount >= hintEls.length) {
       revealHintBtn.disabled = true;
       revealHintBtn.textContent = '힌트 모두 공개됨';
@@ -207,6 +209,7 @@ function initProblemInteraction(root: Element): void {
       lastAnswer: userValue,
       attemptCount: latest.attemptCount + 1,
     });
+    recordProblemActivity(problemId);
 
     if (!isCorrect) {
       const wrongTs = Date.now();
@@ -267,6 +270,7 @@ function initProblemInteraction(root: Element): void {
       solutionEl.classList.remove('hidden');
       solutionEl.classList.add('motion-block-reveal');
       persist({ status: 'done', solutionRevealed: true });
+      recordProblemActivity(problemId);
       syncSolutionGate();
       return;
     }

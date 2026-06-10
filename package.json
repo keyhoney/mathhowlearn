@@ -21,7 +21,7 @@
     "astro": "astro",
     "problem:validate": "tsx scripts/validate-problems.ts",
     "smoke:check": "tsx scripts/smoke-check.ts",
-    "test:unit": "tsx --test src/lib/client/dashboard-stats.test.ts src/lib/problem-concept-frequency.test.ts src/lib/problem-search-code.test.ts",
+    "test:unit": "tsx --test src/lib/client/dashboard-stats.test.ts src/lib/client/learning-streak.test.ts src/lib/share-card-stats.test.ts src/lib/problem-concept-frequency.test.ts src/lib/problem-search-code.test.ts src/lib/concept-progress.test.ts",
     "metadata:from-xlsm": "python scripts/xlsm_to_metadata.py",
     "preview:problem": "tsx scripts/render-problem-preview.ts"
   },

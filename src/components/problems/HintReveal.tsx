@@ -6,6 +6,7 @@ import {
   writeProgressStore,
 } from '../../lib/client/problem-state';
 import { emitDashboardRefresh } from '../../lib/client/dashboard-stats';
+import { recordProblemActivity } from '../../lib/client/learning-streak';
 import { STORAGE_KEYS } from '../../lib/storage-keys';
 
 interface Props {
@@ -65,11 +66,13 @@ export function HintReveal({ problemId, totalHints, hintContents, solutionHtml }
     const next = Math.min(totalHints, revealedHints + 1);
     setRevealedHints(next);
     persist({ status: 'progress', hintRevealedCount: next });
+    recordProblemActivity(problemId);
   }
 
   function revealSolution() {
     setShowAnswer(true);
     persist({ status: 'done', solutionRevealed: true });
+    recordProblemActivity(problemId);
   }
 
   return (

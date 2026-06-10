@@ -3918,3 +3918,585 @@ body.mock-exam-omr-open {
   overflow: hidden;
 }
 
+/* ─── 개념 지도 ─────────────────────────────────────────────── */
+.concept-map-summary__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .concept-map-summary__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.concept-map-summary__card {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--card-border);
+  background: var(--surface-1);
+}
+
+.concept-map-summary__card--conquered {
+  border-color: color-mix(in srgb, #22c55e 35%, var(--card-border));
+  background: color-mix(in srgb, #22c55e 8%, var(--surface-1));
+}
+
+.concept-map-summary__card--progress {
+  border-color: color-mix(in srgb, #f59e0b 35%, var(--card-border));
+  background: color-mix(in srgb, #f59e0b 8%, var(--surface-1));
+}
+
+.concept-map-summary__card--none {
+  border-color: color-mix(in srgb, var(--fg-muted) 25%, var(--card-border));
+}
+
+.concept-map-summary__label {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+.concept-map-summary__value {
+  margin: 0.25rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.concept-map-summary__unit {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.concept-map-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.concept-map-filter {
+  padding: 0.45rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid var(--card-border);
+  background: var(--surface-1);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+
+.concept-map-filter--active {
+  border-color: color-mix(in srgb, var(--learn-accent) 35%, var(--card-border));
+  background: color-mix(in srgb, var(--learn-accent) 10%, var(--surface-1));
+  color: var(--learn-accent);
+}
+
+.concept-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.concept-map-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+}
+
+.concept-map-legend__item::before {
+  content: '';
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 0.2rem;
+}
+
+.concept-map-legend__item--conquered::before {
+  background: #22c55e;
+}
+
+.concept-map-legend__item--progress::before {
+  background: #f59e0b;
+}
+
+.concept-map-legend__item--none::before {
+  background: color-mix(in srgb, var(--fg-muted) 35%, transparent);
+}
+
+.concept-map-subject + .concept-map-subject {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--card-border);
+}
+
+.concept-map-subject__title {
+  margin: 0 0 1.25rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--learn-accent);
+}
+
+.concept-map-chapter + .concept-map-chapter {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--card-border);
+}
+
+.concept-map-chapter__title {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.concept-map-subchapter + .concept-map-subchapter {
+  margin-top: 1.25rem;
+}
+
+.concept-map-subchapter__title {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.concept-map-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .concept-map-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .concept-map-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.concept-map-chip {
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  padding: 0.9rem 1rem;
+  background: var(--surface-1);
+}
+
+.concept-map-chip--conquered {
+  border-color: color-mix(in srgb, #22c55e 40%, var(--card-border));
+  background: color-mix(in srgb, #22c55e 7%, var(--surface-1));
+}
+
+.concept-map-chip--in-progress {
+  border-color: color-mix(in srgb, #f59e0b 40%, var(--card-border));
+  background: color-mix(in srgb, #f59e0b 7%, var(--surface-1));
+}
+
+.concept-map-chip--not-started {
+  opacity: 0.92;
+}
+
+.concept-map-chip__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.concept-map-chip__title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.concept-map-chip__badge {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--fg-muted) 12%, transparent);
+  color: var(--fg-muted);
+}
+
+.concept-map-chip--conquered .concept-map-chip__badge {
+  background: color-mix(in srgb, #22c55e 18%, transparent);
+  color: #15803d;
+}
+
+.concept-map-chip--in-progress .concept-map-chip__badge {
+  background: color-mix(in srgb, #f59e0b 18%, transparent);
+  color: #b45309;
+}
+
+.concept-map-chip__meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+.concept-map-chip__progress {
+  margin-top: 0.65rem;
+  height: 0.35rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--fg-muted) 12%, transparent);
+  overflow: hidden;
+}
+
+.concept-map-chip__progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--learn-accent);
+}
+
+.concept-map-chip--conquered .concept-map-chip__progress-fill {
+  background: #22c55e;
+}
+
+.concept-map-chip--in-progress .concept-map-chip__progress-fill {
+  background: #f59e0b;
+}
+
+.concept-map-chip__count {
+  margin: 0.45rem 0 0;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+.concept-map-chip__actions {
+  margin-top: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.concept-map-chip__cta {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--learn-accent);
+}
+
+.concept-map-chip__link {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+/* ── 학습 스트릭 · 연간 히트맵 ── */
+.learning-streak-flame {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, #f97316 35%, var(--card-border));
+  background: color-mix(in srgb, #f97316 10%, var(--surface-1));
+}
+
+.learning-streak-flame__icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.learning-streak-flame__count {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--fg);
+}
+
+.learning-streak-flame__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.learning-streak-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+@media (min-width: 640px) {
+  .learning-streak-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.learning-streak-stat {
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--card-border);
+  background: var(--surface-2);
+}
+
+.learning-streak-stat__label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+}
+
+.learning-streak-stat__value {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.learning-heatmap {
+  --heatmap-gap: clamp(1px, 0.22vw, 3px);
+  --heatmap-weeks: 53;
+  width: 100%;
+  min-width: 0;
+}
+
+.learning-heatmap__head {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.35rem;
+}
+
+.learning-heatmap__period {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.learning-heatmap__months {
+  display: grid;
+  grid-template-columns: clamp(0.9rem, 2.5vw, 1.15rem) repeat(var(--heatmap-weeks), minmax(0, 1fr));
+  gap: var(--heatmap-gap);
+  margin-bottom: 0.35rem;
+  min-width: 0;
+}
+
+.learning-heatmap__month--spacer {
+  visibility: hidden;
+}
+
+.learning-heatmap__month {
+  font-size: clamp(0.55rem, 1.6vw, 0.65rem);
+  color: var(--fg-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.learning-heatmap__body {
+  display: grid;
+  gap: var(--heatmap-gap);
+  width: 100%;
+  min-width: 0;
+}
+
+.learning-heatmap__row {
+  display: grid;
+  grid-template-columns: clamp(0.9rem, 2.5vw, 1.15rem) repeat(var(--heatmap-weeks), minmax(0, 1fr));
+  gap: var(--heatmap-gap);
+  align-items: center;
+  min-width: 0;
+}
+
+.learning-heatmap__dow-label {
+  font-size: clamp(0.52rem, 1.5vw, 0.6rem);
+  line-height: 1;
+  color: var(--fg-muted);
+  text-align: right;
+  padding-right: 0.1rem;
+}
+
+.learning-heatmap__dow-label--muted {
+  visibility: hidden;
+}
+
+.learning-heatmap__cell {
+  width: 100%;
+  aspect-ratio: 1;
+  min-width: 0;
+  border-radius: clamp(1px, 0.25vw, 2px);
+  background: color-mix(in srgb, var(--fg-muted) 12%, var(--surface-2));
+  box-sizing: border-box;
+}
+
+.learning-heatmap__cell--l0 {
+  background: color-mix(in srgb, var(--fg-muted) 10%, var(--surface-2));
+}
+
+.learning-heatmap__cell--l1 {
+  background: color-mix(in srgb, var(--success) 28%, var(--surface-2));
+}
+
+.learning-heatmap__cell--l2 {
+  background: color-mix(in srgb, var(--success) 48%, var(--surface-2));
+}
+
+.learning-heatmap__cell--l3 {
+  background: color-mix(in srgb, var(--success) 68%, var(--surface-2));
+}
+
+.learning-heatmap__cell--l4 {
+  background: color-mix(in srgb, var(--success) 88%, var(--surface-2));
+}
+
+.learning-heatmap__cell--active {
+  outline: 1.5px solid color-mix(in srgb, #f97316 75%, transparent);
+  outline-offset: -1px;
+}
+
+.learning-heatmap__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+  padding-left: clamp(0.9rem, 2.5vw, 1.15rem);
+  font-size: 0.68rem;
+  color: var(--fg-muted);
+}
+
+.learning-heatmap__legend .learning-heatmap__cell {
+  width: clamp(8px, 2vw, 11px);
+  flex: 0 0 auto;
+}
+
+.learning-heatmap__legend-active {
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--card-border);
+}
+
+/* ── 학습 현황 공유 카드 ── */
+.share-card-preview {
+  max-width: 24rem;
+  border-radius: 1.25rem;
+  padding: 1px;
+  background: linear-gradient(135deg, #4338ca 0%, #312e81 55%, #1e1b4b 100%);
+}
+
+.share-card-preview__inner {
+  border-radius: calc(1.25rem - 1px);
+  padding: 1.35rem 1.5rem 1.5rem;
+  background: linear-gradient(160deg, rgba(49, 46, 129, 0.95) 0%, rgba(30, 27, 75, 0.98) 100%);
+  color: #eef2ff;
+}
+
+.share-card-preview__brand {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c7d2fe;
+}
+
+.share-card-preview__month {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  color: #ddd6fe;
+}
+
+.share-card-preview__headline {
+  margin: 1rem 0 0;
+  font-size: 1.55rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.share-card-preview__headline strong {
+  font-weight: 800;
+}
+
+.share-card-preview__meta {
+  margin: 0.65rem 0 0;
+  font-size: 0.92rem;
+  color: #ddd6fe;
+}
+
+.share-card-preview__insights {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+}
+
+.share-card-preview__insight {
+  border-radius: 0.85rem;
+  padding: 0.75rem 0.85rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.share-card-preview__insight--strength {
+  border-color: rgba(52, 211, 153, 0.55);
+}
+
+.share-card-preview__insight--weakness {
+  border-color: rgba(251, 146, 60, 0.55);
+}
+
+.share-card-preview__insight-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.share-card-preview__insight--strength .share-card-preview__insight-label {
+  color: #6ee7b7;
+}
+
+.share-card-preview__insight--weakness .share-card-preview__insight-label {
+  color: #fdba74;
+}
+
+.share-card-preview__insight strong {
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #fff;
+}
+
+.share-card-preview__cta {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.share-card-preview__url {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: #a5b4fc;
+}
+
+.share-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.share-card-actions .app-btn-primary,
+.share-card-actions .app-btn-secondary,
+.share-card-actions .app-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.share-card-empty {
+  font-size: 0.88rem;
+  color: var(--fg-muted);
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px dashed var(--card-border);
+  background: var(--surface-2);
+}
+

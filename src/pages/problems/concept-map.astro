@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedProblems } from '../../lib/content-utils';
+import { buildConceptIndex } from '../../lib/concept-progress';
+
+const allProblems = await getPublishedProblems();
+const conceptIndex = buildConceptIndex(
+  allProblems.map((p) => ({
+    id: p.id,
+    subject: p.data.subject,
+    chapter: p.data.chapter,
+    subChapter: p.data.subChapter,
+    concept: p.data.concept,
+  })),
+);
+const pageConfig = { conceptIndex };
+---
+
+<BaseLayout
+  title="개념 지도"
+  description="개념별 기출 완주 현황을 한눈에 확인하고, 정복한 개념과 아직 풀지 않은 개념을 구분합니다."
+>
+  <section class="pb-12">
+    <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h1 class="type-title">개념 지도</h1>
+        <p class="mt-2 max-w-2xl text-sm text-[var(--fg-muted)]">
+          같은 개념의 기출 문제를 모두 완료하면 <strong>완주</strong>로 표시됩니다.
+          정복한 개념과 아직 풀어보지 않은 개념을 색으로 구분해 볼 수 있어요.
+        </p>
+        <p class="mt-2 text-sm">
+          <a href="/problems" class="font-medium text-[var(--accent)] hover:underline">수능·모평 문제 목록</a>
+          ·
+          <a href="/problems/concept-frequency" class="font-medium text-[var(--accent)] hover:underline">출제 경향</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="app-filter-panel">
+      <div class="app-filter-field">
+        <span class="app-filter-label">상태 필터</span>
+        <div class="concept-map-filter-row" data-concept-map-status-filter></div>
+      </div>
+    </div>
+
+    <div class="mt-6" data-concept-map-summary></div>
+
+    <div class="concept-map-legend mt-4">
+      <span class="concept-map-legend__item concept-map-legend__item--conquered">완주</span>
+      <span class="concept-map-legend__item concept-map-legend__item--progress">진행 중</span>
+      <span class="concept-map-legend__item concept-map-legend__item--none">미시작</span>
+    </div>
+
+    <div class="app-card mt-6 p-5" data-concept-map-root>
+      <p class="text-sm text-[var(--fg-muted)]">개념 지도를 불러오는 중…</p>
+    </div>
+  </section>
+
+  <script
+    id="concept-map-config"
+    type="application/json"
+    set:html={JSON.stringify(pageConfig)}
+  />
+</BaseLayout>
+
+<script>
+  import { initConceptMapPage } from '../../lib/client/concept-map-page';
+
+  const configEl = document.getElementById('concept-map-config');
+  if (configEl?.textContent) {
+    initConceptMapPage(JSON.parse(configEl.textContent));
+  }
+</script>
