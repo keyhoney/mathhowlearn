@@ -31,7 +31,7 @@ const problems = await Promise.all(sessionProblems.map(buildMockExamProblemPaylo
 const conversion = buildConversionForSession(session.year, session.month);
 ---
 
-<MathLayout title={`모의 수능 — ${session.label}`} description={`${session.label} 30문항 100분 모의고사`}>
+<MathLayout title={`모의 시험 — ${session.label}`} description={`${session.label} 30문항 100분 모의고사`}>
   <div class="pb-12 px-4">
     <p class="mb-4 max-w-5xl mx-auto">
       <a href="/problems/mock-exam" class="type-caption font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">

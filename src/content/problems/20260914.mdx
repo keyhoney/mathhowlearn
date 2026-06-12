@@ -1,8 +1,105 @@
 ## 문제
+양수 $k$에 대하여 집합 $\displaystyle\left\{ x \,\middle|\, 0 \leq x < \frac{3k\pi}{2},\ x \neq \frac{k\pi}{2} \right\}$에서 정의된 함수 $f(x)=\tan\dfrac{x}{k}$가 있다. 점 $P(0,   p)\ (p> 0) $을 지나며 $x $축에 평행한 직선이 함수 $y = f(x) $의 그래프와 만나는 두 점을 $A $, $B\ (\overline{PA}<\overline{PB}) $라 하고, 직선 $y =   - p $가 함수 $y = f(x) $의 그래프와 만나는 점을 $C $라 하자. $\overline{AB} = 3\overline{PA} $이고 삼각형 $OCB $의 넓이가 $\frac{5\pi}{3} $일 때, $k + p $의 값은? (단, $O $는 원점이다.) \[4점\]
+
+① $\frac{4\sqrt{3}}{3} $ ② $\frac{13\sqrt{3}}{9} $ ③ $\frac{14\sqrt{3}}{9} $
+
+④ $\frac{5\sqrt{3}}{3} $ ⑤ $\frac{16\sqrt{3}}{9}$
+
+![](/images/docx2mdx/260914-20260607-223954/media/image1.webp)
 
 
 ## 힌트
+$f(x)=\tan\dfrac{x}{k}$의 주기는 $k\pi$입니다. 직선 $y=p$와 만나는 두 점의 $x$좌표를 $\alpha,\ \beta$ $(\alpha<\beta)$라 하면 $\overline{PA}=\alpha$, $\overline{AB}=\beta-\alpha=k\pi$입니다. $\overline{AB}=3\overline{PA}$에서 $\alpha$를 $k$로 나타내 보세요.
+
+
+## 힌트
+점 $A$는 그래프 위의 점이므로 $p=f(\alpha)$로 $p$를 구할 수 있습니다. $y=-p$와의 교점 $C$의 $x$좌표는 정의역 $0\le x<\dfrac{3k\pi}{2}$ 안에서 $\tan\dfrac{x}{k}=-p$를 만족하는 값을 고르면 됩니다.
 
 
 ## 풀이
+함수 $y=\tan\dfrac{x}{k}$의 주기는 $k\pi$입니다.
 
+직선 $y=p$와 그래프가 만나는 두 점 $A$, $B$의 $x$좌표를 각각 $\alpha$, $\beta$ $(\alpha<\beta)$라 하면 $\overline{PA}<\overline{PB}$이므로
+
+
+
+$$
+
+\begin{aligned}
+\beta=\alpha+k\pi,\qquad \overline{PA}=\alpha,\qquad \overline{AB}=k\pi
+\end{aligned}
+
+$$
+
+
+
+$\overline{AB}=3\overline{PA}$이므로 $k\pi=3\alpha$, 즉 $\alpha=\dfrac{k\pi}{3}$입니다.
+
+점 $A$는 그래프 위의 점이므로
+
+
+
+$$
+
+\begin{aligned}
+p&=f\!\left(\frac{k\pi}{3}\right)=\tan\!\left(\frac{1}{k}\cdot\frac{k\pi}{3}\right) \\
+&=\tan\frac{\pi}{3}=\sqrt{3}
+\end{aligned}
+
+$$
+
+
+
+직선 $y=-p=-\sqrt{3}$과 그래프의 교점 $C$의 $x$좌표를 $\gamma$라 하면 $\tan\dfrac{\gamma}{k}=-\sqrt{3}$입니다.
+
+$0\le x<\dfrac{3k\pi}{2}$에서 $0\le\dfrac{x}{k}<\dfrac{3\pi}{2}$이므로 $\dfrac{\gamma}{k}=\dfrac{2\pi}{3}$, $\gamma=\dfrac{2k\pi}{3}$입니다.
+
+따라서
+
+
+
+$$
+
+\begin{aligned}
+A\!\left(\frac{k\pi}{3},\ \sqrt{3}\right),\quad
+B\!\left(\frac{4k\pi}{3},\ \sqrt{3}\right),\quad
+C\!\left(\frac{2k\pi}{3},\ -\sqrt{3}\right)
+\end{aligned}
+
+$$
+
+
+
+원점 $O$와 함께 $\triangle OCB$의 넓이를 구하면
+
+
+
+$$
+
+\begin{aligned}
+\triangle OCB
+&=\frac{1}{2}\left|\frac{4k\pi}{3}\cdot(-\sqrt{3})-\frac{2k\pi}{3}\cdot\sqrt{3}\right| \\
+&=\frac{1}{2}\cdot\frac{6k\pi\sqrt{3}}{3}=k\pi\sqrt{3}
+\end{aligned}
+
+$$
+
+
+
+$k\pi\sqrt{3}=\dfrac{5\pi}{3}$이므로 $k=\dfrac{5}{3\sqrt{3}}=\dfrac{5\sqrt{3}}{9}$입니다.
+
+따라서
+
+
+
+$$
+
+\begin{aligned}
+k+p=\frac{5\sqrt{3}}{9}+\sqrt{3}=\frac{14\sqrt{3}}{9}
+\end{aligned}
+
+$$
+
+
+
+따라서 정답은 **③**예요.

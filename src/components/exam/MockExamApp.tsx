@@ -624,7 +624,7 @@ export default function MockExamApp({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="type-caption chrome-muted m-0">{label}</p>
-            <h1 className="type-subhead m-0">모의 수능 — 수학(확률과 통계)</h1>
+            <h1 className="type-subhead m-0">모의 시험 — 수학(확률과 통계)</h1>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <div

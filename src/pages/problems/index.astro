@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import {
   buildProblemSubjectChapterTree,
@@ -62,75 +62,77 @@ const months = Array.from(new Set(sortedProblems.map((p) => p.data.month))).sort
 
     <form class="mt-6 rounded-xl border border-slate-200/80 bg-white/80 p-4 dark:border-slate-700/80 dark:bg-slate-900/50" data-problem-filter-form>
       <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-      <label class="flex flex-col gap-1.5">
-        <span class="type-caption chrome-muted">시험 유형</span>
-        <select name="examType" class="gsg-filter-select">
-          <option value="">전체 시험</option>
-          {examTypes.map((v) => <option value={v}>{v}</option>)}
-        </select>
-      </label>
-      <label class="flex flex-col gap-1.5">
-        <span class="type-caption chrome-muted">과목</span>
-        <select name="subject" id="filter-subject" class="gsg-filter-select">
-          <option value="">전체 과목</option>
-          {subjects.map((v) => <option value={v}>{v}</option>)}
-        </select>
-      </label>
-      <label class="flex flex-col gap-1.5">
-        <span class="type-caption chrome-muted">풀이 상태</span>
-        <select name="status" class="gsg-filter-select">
-          <option value="all">전체 상태</option>
-          <option value="none">미시작</option>
-          <option value="progress">진행 중</option>
-          <option value="done">완료</option>
-        </select>
-      </label>
-      <div class="flex flex-wrap items-end gap-2">
+        <label class="flex flex-col gap-1.5">
+          <span class="type-caption chrome-muted">과목</span>
+          <select name="subject" id="filter-subject" class="gsg-filter-select">
+            <option value="">전체 과목</option>
+            {subjects.map((v) => <option value={v}>{v}</option>)}
+          </select>
+        </label>
+        <label class="flex flex-col gap-1.5">
+          <span class="type-caption chrome-muted">대단원</span>
+          <select name="chapter" id="filter-chapter" class="gsg-filter-select">
+            <option value="">과목을 먼저 선택</option>
+          </select>
+        </label>
+        <label class="flex flex-col gap-1.5">
+          <span class="type-caption chrome-muted">중단원</span>
+          <select name="subChapter" id="filter-sub-chapter" class="gsg-filter-select">
+            <option value="">단원을 먼저 선택</option>
+          </select>
+        </label>
+        <label class="flex flex-col gap-1.5">
+          <span class="type-caption chrome-muted">개념</span>
+          <select name="concept" id="filter-concept" class="gsg-filter-select">
+            <option value="">중단원을 먼저 선택</option>
+          </select>
+        </label>
+      </div>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <label class="flex flex-col gap-1.5">
+          <span class="type-caption chrome-muted">시험 유형</span>
+          <select name="examType" class="gsg-filter-select">
+            <option value="">전체 시험</option>
+            {examTypes.map((v) => <option value={v}>{v}</option>)}
+          </select>
+        </label>
+        <label class="flex flex-col gap-1.5">
+          <span class="type-caption chrome-muted">연도</span>
+          <select name="year" class="gsg-filter-select">
+            <option value="">전체 연도</option>
+            {years.map((v) => <option value={String(v)}>{v}</option>)}
+          </select>
+        </label>
+        <label class="flex flex-col gap-1.5">
+          <span class="type-caption chrome-muted">월</span>
+          <select name="month" class="gsg-filter-select">
+            <option value="">전체 월</option>
+            {months.map((v) => <option value={String(v)}>{v}월</option>)}
+          </select>
+        </label>
+      </div>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <label class="flex flex-col gap-1.5">
+          <span class="type-caption chrome-muted">풀이 상태</span>
+          <select name="status" class="gsg-filter-select">
+            <option value="all">전체 상태</option>
+            <option value="none">미시작</option>
+            <option value="progress">진행 중</option>
+            <option value="done">완료</option>
+          </select>
+        </label>
+        <label class="app-filter-check self-end">
+          <input type="checkbox" name="wrongOnly" value="1" class="h-4 w-4 accent-indigo-600" />
+          오답만
+        </label>
+        <label class="app-filter-check self-end">
+          <input type="checkbox" name="bookmarkedOnly" value="1" class="h-4 w-4 accent-indigo-600" />
+          스크랩만
+        </label>
+      </div>
+      <div class="mt-4 flex flex-wrap items-center gap-2 border-t border-[var(--card-border)] pt-4">
         <button class="gsg-btn-primary !min-h-0 !px-4 !py-2 !text-sm" type="submit">적용</button>
         <a href="/problems" class="gsg-btn-outline !min-h-0 !px-4 !py-2 !text-sm">초기화</a>
-      </div>
-      </div>
-      <div class="mt-4 grid gap-3 border-t border-[var(--card-border)] pt-4 sm:grid-cols-2 lg:grid-cols-4">
-      <label class="flex flex-col gap-1.5">
-        <span class="type-caption chrome-muted">대단원</span>
-        <select name="chapter" id="filter-chapter" class="gsg-filter-select">
-          <option value="">과목을 먼저 선택</option>
-        </select>
-      </label>
-      <label class="flex flex-col gap-1.5">
-        <span class="type-caption chrome-muted">중단원</span>
-        <select name="subChapter" id="filter-sub-chapter" class="gsg-filter-select">
-          <option value="">단원을 먼저 선택</option>
-        </select>
-      </label>
-      <label class="flex flex-col gap-1.5">
-        <span class="type-caption chrome-muted">개념</span>
-        <select name="concept" id="filter-concept" class="gsg-filter-select">
-          <option value="">중단원을 먼저 선택</option>
-        </select>
-      </label>
-      <label class="flex flex-col gap-1.5">
-        <span class="type-caption chrome-muted">연도</span>
-        <select name="year" class="gsg-filter-select">
-          <option value="">전체 연도</option>
-          {years.map((v) => <option value={String(v)}>{v}</option>)}
-        </select>
-      </label>
-      <label class="flex flex-col gap-1.5">
-        <span class="type-caption chrome-muted">월</span>
-        <select name="month" class="gsg-filter-select">
-          <option value="">전체 월</option>
-          {months.map((v) => <option value={String(v)}>{v}월</option>)}
-        </select>
-      </label>
-      <label class="flex items-center gap-2 text-sm chrome-muted sm:col-span-2">
-        <input type="checkbox" name="wrongOnly" value="1" class="h-4 w-4 accent-indigo-600" />
-        오답만
-      </label>
-      <label class="flex items-center gap-2 text-sm chrome-muted sm:col-span-2">
-        <input type="checkbox" name="bookmarkedOnly" value="1" class="h-4 w-4 accent-indigo-600" />
-        스크랩한 문제만 보기
-      </label>
       </div>
     </form>
 

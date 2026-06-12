@@ -1,110 +1,133 @@
 ## 문제
-양수 $k $에 대하여 집합 $\{ x|  0 \leq x<\frac{3k\pi}{2},   x \neq \frac{k\pi}{2}\} $에서 정의된 함수 $f(x) = \tan \frac{x}{k} $가 있다. 점 $P(0,   p)\ (p> 0) $을 지나며 $x $축에 평행한 직선이 함수 $y = f(x) $의 그래프와 만나는 두 점을 $A $, $B\ (\overline{PA}<\overline{PB}) $라 하고, 직선 $y =   - p $가 함수 $y = f(x) $의 그래프와 만나는 점을 $C $라 하자. $\overline{AB} = 3\overline{PA} $이고 삼각형 $OCB $의 넓이가 $\frac{5\pi}{3} $일 때, $k + p $의 값은? (단, $O $는 원점이다.) \[4점\]
+최고차항의 계수가 양수이고 $f(0)=0$인 삼차함수 $f(x)$에 대하여 함수
 
-① $\frac{4\sqrt{3}}{3} $ ② $\frac{13\sqrt{3}}{9} $ ③ $\frac{14\sqrt{3}}{9} $
+$$
+g(x)=\int_{0}^{x}\bigl(|f(t)|-|t|\bigr)\,dt
+$$
 
-④ $\frac{5\sqrt{3}}{3} $ ⑤ $\frac{16\sqrt{3}}{9}$
+가 다음 조건을 만족시킨다.
 
-![](/images/docx2mdx/260914-20260607-223954/media/image1.webp)
+> **조건**
+>
+> **(가)** 방정식 $g'(x)=0$의 서로 다른 실근의 개수는 $4$이다.
+>
+> **(나)** 함수 $g(x)$는 $x=2$, $x=6$에서 극값을 갖는다.
+
+$f(6)\times g(2)<0$일 때, $f(8)$의 값은? \[4점\]
+
+① $16$ ② $22$ ③ $28$ ④ $34$ ⑤ $40$
 
 
 ## 힌트
-$y=\tan\dfrac{x}{k}$의 주기는 $k\pi$예요. 직선 $y=p$와의 교점 $A$, $B$의 $x$좌표를 $\alpha$, $\beta$ $(\beta=\alpha+k\pi)$라 두고 $\overline{AB}=3\overline{PA}$로 $\alpha$를 구해 보세요.
+$g'(x)=|f(x)|-|x|$이므로 $g'(x)=0$은 $|f(x)|=|x|$와 같습니다. $f(0)=0$이면 $x=0$은 항상 근이고, (나)에서 $x=2,\ 6$도 근이에요. (가)를 만족하려면 $|f(x)|=|x|$의 실근이 정확히 네 개여야 합니다.
 
 
 ## 힌트
-$p$를 구한 뒤 $y=-p$와의 교점 $C$의 $x$좌표를 정의역 $0\le x<\dfrac{3k\pi}{2}$ 안에서 찾으세요. $\triangle OCB$는 $x$축 위의 점 $D(k\pi,0)$을 이용해 $\triangle OBD$와 $\triangle OCD$로 나누면 넓이를 쉽게 구할 수 있어요.
+$f(6)$의 부호에 따라 $y=f(x)$ 그래프를 나눠 보세요. $f(6)>0$이고 직선 $y=x$에 접할 때만 (가)와 $f(6)g(2)<0$을 동시에 만족합니다. $f(x)-x$에 인수 $x^2(x-6)$을 두면 $f(8)$을 구할 수 있어요.
 
 
 ## 풀이
-$y=\tan\dfrac{x}{k}$의 주기는 $k\pi$입니다.
-
-직선 $y=p$와 그래프의 교점 $A$, $B$의 $x$좌표를 각각 $\alpha$, $\beta$ $(\alpha<\beta)$라 하면
+미적분학의 기본정리에 의해
 
 
 
 $$
 
-\beta=\alpha+k\pi
+g'(x)=|f(x)|-|x|
 
 $$
 
 
 
-점 $P$는 $(0,p)$이므로 $\overline{PA}=\alpha$, $\overline{AB}=\beta-\alpha=k\pi$입니다. $\overline{AB}=3\overline{PA}$에서
+$f(0)=0$이므로 $g'(0)=0$입니다.
+
+### 조건 해석
+
+(나)에서 $g$가 $x=2$, $x=6$에서 극값을 가지므로
+
+
+
+$$
+
+g'(2)=g'(6)=0
+
+$$
+
+
+
+(가)에서 $g'(x)=0$의 서로 다른 실근은 정확히 $4$개이므로, 방정식 $|f(x)|=|x|$의 서로 다른 실근도 $4$개입니다. 이미 $0$, $2$, $6$이 근이므로, 나머지 근 하나를 $\alpha$ $(2<\alpha<6)$라 두면 실근은 $0$, $2$, $\alpha$, $6$입니다.
+
+### $f(6)\le 0$인 경우
+
+$f(6)\le 0$이면 $0\le x\le 2$에서 $|f(x)|\le |x|$이므로 $g'(x)\le 0$, 따라서 $g(2)\le 0$입니다.
+
+**$f(2)=-2$인 경우**
+
+
+
+![](/images/docx2mdx/260915-20260610-151402/media/image0.webp)
+
+
+
+이때 $|f(x)|=|x|$의 실근이 $4$개가 되려면 그래프가 $y=x$에 접하고 $y=-x$와의 교점이 $0$, $2$, $6$이어야 합니다. 그러면 $f(6)<0$이므로 $g(2)<0$, $f(6)g(2)>0$이 되어 조건 $f(6)g(2)<0$과 모순입니다.
+
+**$f(2)=2$인 경우**
+
+
+
+![](/images/docx2mdx/260915-20260610-151402/media/image1.webp)
+
+
+
+$2<x<6$에서 $|f(x)|=|x|$를 만족하는 실근이 하나 더 생기면 $g'(x)=0$의 서로 다른 실근이 $5$개가 되어 (가)를 만족하지 못합니다.
+
+### $f(6)>0$인 경우
+
+
+
+![](/images/docx2mdx/260915-20260610-151402/media/image2.webp)
+
+
+
+$f(\alpha)=-\alpha$ $(2<\alpha<6)$이고 $y=f(x)$가 직선 $y=x$에 접하면 $|f(x)|=|x|$의 서로 다른 실근은 $0$, $2$, $\alpha$, $6$으로 $4$개입니다.
+
+이때 $0\le x\le 2$에서 $|f(x)|\le |x|$이므로 $g'(x)\le 0$, $g(2)<0$입니다. $f(6)>0$이므로
+
+
+
+$$
+
+f(6)g(2)<0
+
+$$
+
+
+
+을 만족합니다.
+
+### $f(x)$ 결정
+
+위 경우 그래프는 $y=x$에 접하고 $f(6)=6$이므로, $f(x)-x$는 $x^2$과 $(x-6)$을 인수로 가집니다. 최고차항의 계수가 양수이므로
+
+
+
+$$
+
+f(x)-x=kx^2(x-6)\quad (k>0)
+
+$$
+
+
+
+즉 $f(x)=kx^2(x-6)+x$라 하면 $f(2)=-2$에서
 
 
 
 $$
 
 \begin{aligned}
-k\pi&=3\alpha \\
-\alpha&=\frac{k\pi}{3}
-\end{aligned}
-
-$$
-
-
-
-점 $A$는 곡선 위의 점이므로
-
-
-
-$$
-
-\begin{aligned}
-p&=f\!\left(\frac{k\pi}{3}\right) \\
-&=\tan\!\left(\frac{1}{k}\cdot\frac{k\pi}{3}\right) \\
-&=\tan\frac{\pi}{3} \\
-&=\sqrt{3}
-\end{aligned}
-
-$$
-
-
-
-직선 $y=-p=-\sqrt{3}$과의 교점 $C$의 $x$좌표를 $\gamma$라 하면 $\tan\dfrac{\gamma}{k}=-\sqrt{3}$입니다. $0\le x<\dfrac{3k\pi}{2}$에서 $0\le\dfrac{x}{k}<\dfrac{3\pi}{2}$이므로
-
-
-
-$$
-
-\frac{\gamma}{k}=\frac{2\pi}{3}
-\quad\Rightarrow\quad
-\gamma=\frac{2k\pi}{3}
-
-$$
-
-
-
-또 $\beta=\alpha+k\pi=\dfrac{4k\pi}{3}$이므로 $B\!\left(\dfrac{4k\pi}{3},\ \sqrt{3}\right)$, $C\!\left(\dfrac{2k\pi}{3},\ -\sqrt{3}\right)$입니다.
-
-$y=f(x)$가 $(k\pi,0)$을 지나므로 이 점을 $D$라 하면 $\triangle OCB$를 $\triangle OBD$와 $\triangle OCD$로 나눌 수 있습니다.
-
-
-
-$$
-
-\begin{aligned}
-\triangle OBC
-&=\triangle OBD+\triangle OCD \\
-&=\frac{1}{2}\times k\pi\times\sqrt{3}+\frac{1}{2}\times k\pi\times\sqrt{3} \\
-&=\sqrt{3}\,k\pi
-\end{aligned}
-
-$$
-
-
-
-조건에서 $\sqrt{3}\,k\pi=\dfrac{5\pi}{3}$이므로
-
-
-
-$$
-
-\begin{aligned}
-k&=\frac{5}{3\sqrt{3}} \\
-&=\frac{5\sqrt{3}}{9}
+-2&=k\cdot 2^2\cdot(2-6)+2 \\
+k&=\frac{1}{4}
 \end{aligned}
 
 $$
@@ -118,13 +141,13 @@ $$
 $$
 
 \begin{aligned}
-k+p
-&=\frac{5\sqrt{3}}{9}+\sqrt{3} \\
-&=\frac{14\sqrt{3}}{9}
+f(x)&=\frac{1}{4}x^2(x-6)+x \\
+f(8)&=\frac{1}{4}\cdot 8^2\cdot(8-6)+8 \\
+&=40
 \end{aligned}
 
 $$
 
 
 
-따라서 정답은 **③**예요.
+따라서 정답은 **⑤**예요.

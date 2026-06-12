@@ -226,10 +226,18 @@ export function initConceptMapPage(config: ConceptMapPageConfig): void {
     renderSummary(summaryRoot, summarizeConceptTotals(allItems));
     renderMap(mapRoot, filtered);
     syncUrl(currentStatus);
+
+    statusRoot.removeAttribute('aria-busy');
+    summaryRoot.removeAttribute('aria-busy');
+    mapRoot.removeAttribute('aria-busy');
   }
 
-  renderStatusFilters();
-  apply();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      renderStatusFilters();
+      apply();
+    });
+  });
 
   statusRoot.addEventListener('click', (event) => {
     const target = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-status-filter]');

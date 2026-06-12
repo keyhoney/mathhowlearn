@@ -82,6 +82,10 @@ body {
   margin-bottom: 1.25em;
 }
 
+.exam-problem-page [data-problem-card-root] .prose > p:not(.problem-image-paragraph) .katex {
+  vertical-align: middle;
+}
+
 .exam-problem-page .prose :where(h2):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
   margin-top: 2em;
   margin-bottom: 1em;
@@ -116,31 +120,78 @@ body {
   border-top: 1px solid var(--card-border);
 }
 
-.exam-problem-page .prose .problem-image-paragraph {
+.exam-problem-page .prose .problem-image-paragraph,
+.exam-problem-page [data-hint-content] .problem-image-paragraph,
+.exam-problem-page [data-solution] .problem-image-paragraph {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100%;
   text-align: center !important;
 }
 
-.exam-problem-page .prose .problem-content-image {
-  display: inline-block !important;
+.exam-problem-page .prose .problem-content-image,
+.exam-problem-page [data-hint-content] .problem-content-image,
+.exam-problem-page [data-solution] .problem-content-image {
+  display: block !important;
   max-width: 100%;
   height: auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  vertical-align: middle;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .exam-problem-page .prose :where(blockquote):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
   font-style: normal;
 }
 
+.exam-problem-page .math-display-block {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100%;
+  margin: 0.75em 0;
+  overflow: visible;
+}
+
+.exam-problem-page .math-display-block > .katex-display {
+  flex: 0 1 auto;
+  width: auto;
+  max-width: 100%;
+  margin: 0 !important;
+  overflow: visible;
+}
+
+.exam-problem-page .math-display-block .katex-display > .katex {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  white-space: normal;
+}
+
 .exam-problem-page .prose .katex-display {
   margin: 0.75em 0;
-  overflow-x: auto;
+  overflow: visible;
 }
 
 .exam-problem-page .prose .katex {
   font-family: KaTeX_Main, "Times New Roman", serif;
   font-size: 1.05em;
+}
+
+.exam-problem-page .prose .katex .text,
+.exam-problem-page .prose .katex .hangul_fallback {
+  font-family: var(--font-kr), var(--font-sans), ui-serif, Georgia, serif;
+}
+
+.exam-problem-page .prose .katex .text .hangul_fallback {
+  font-size: 1.05em;
+  line-height: 1.45;
+}
+
+.exam-problem-page .prose .katex-display .text .hangul_fallback,
+.exam-problem-page .prose .math-display-block .katex .text .hangul_fallback {
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 /* 조건 / 보기 카드 (global.css 와 동일 토큰) */

@@ -18,7 +18,11 @@ export function rehypeWrapKatexDisplay() {
       const wrapper: Element = {
         type: 'element',
         tagName: 'div',
-        properties: { className: ['math-display-block'] },
+        properties: {
+          className: ['math-display-block'],
+          style:
+            'display:flex;justify-content:center;width:100%;margin:1em 0;line-height:normal;overflow:visible',
+        },
         children: [node],
       };
       parent.children[index] = wrapper;

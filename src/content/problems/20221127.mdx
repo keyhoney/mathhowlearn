@@ -1,62 +1,117 @@
-## 문제
-어느 자동차 회사에서 생산하는 전기 자동차의 $1$회 충전 주행 거리는 평균이 $m$이고 표준편차가 $\sigma$인 정규분포를 따른다고 한다. 이 자동차 회사에서 생산한 전기 자동차 $100$대를 임의추출하여 얻은 $1$회 충전 주행 거리의 표본평균이 $\overline{x_{1}}$일 때, 모평균 $m$에 대한 신뢰도 $95\%$의 신뢰구간이 $a \leq m \leq b$이다.\
-이 자동차 회사에서 생산한 전기 자동차 $400$대를 임의추출하여 얻은 $1$회 충전 주행 거리의 표본평균이 $\overline{x_{2}}$일 때, 모평균 $m$에 대한 신뢰도 $99\%$의 신뢰구간이 $c \leq m \leq d$이다.\
-$\overline{x_{1}} - \overline{x_{2}} = 1.34$이고 $a = c$일 때, $b - a$의 값은?\
-(단, 주행 거리의 단위는 $km$이고, $Z$가 표준정규분포를 따르는 확률변수일 때, $P(|Z| \leq 1.96) = 0.95$, $P(|Z| \leq 2.58) = 0.99$로 계산한다.) \[3점\]
-
-① $5.88$ ② $7.84$ ③ $9.80$ ④ $11.76$ ⑤ $13.72$
-
-
-## 힌트
-표본 크기 $n$일 때 모평균의 신뢰구간은 $\overline{x}\pm z_{\alpha/2}\cdot\dfrac{\sigma}{\sqrt{n}}$ 형태예요. $n=100$, $95\%$와 $n=400$, $99\%$ 구간을 각각 써 보세요.
-
-## 힌트
-신뢰구간의 **왼쪽 끝** $a$, $c$가 같다고 했으니 $\overline{x_{1}}-\dfrac{1.96\sigma}{10}=\overline{x_{2}}-\dfrac{2.58\sigma}{20}$과 $\overline{x_{1}}-\overline{x_{2}}=1.34$를 연립해 $\sigma$를 구한 뒤, $b-a$는 구간의 **길이**입니다.
-
-## 풀이
-표본 크기 $100$, 신뢰도 $95\%$이므로
-
-$$
-a=\overline{x_{1}}-1.96\cdot\frac{\sigma}{\sqrt{100}}=\overline{x_{1}}-1.96\cdot\frac{\sigma}{10}
-$$
-
-$$
-b=\overline{x_{1}}+1.96\cdot\frac{\sigma}{10}
-$$
-
-표본 크기 $400$, 신뢰도 $99\%$이므로
-
-$$
-c=\overline{x_{2}}-2.58\cdot\frac{\sigma}{\sqrt{400}}=\overline{x_{2}}-2.58\cdot\frac{\sigma}{20}
-$$
-
-$$
-d=\overline{x_{2}}+2.58\cdot\frac{\sigma}{20}
-$$
-
-$a=c$이므로
-
-$$
-\overline{x_{1}}-1.96\cdot\frac{\sigma}{10}=\overline{x_{2}}-2.58\cdot\frac{\sigma}{20}
-$$
-
-양변을 정리하면
-
-$$
-\overline{x_{1}}-\overline{x_{2}}=1.96\cdot\frac{\sigma}{10}-2.58\cdot\frac{\sigma}{20}=\frac{3.92\sigma-2.58\sigma}{20}=\frac{1.34\sigma}{20}
-$$
-
-$\overline{x_{1}}-\overline{x_{2}}=1.34$이므로
-
-$$
-\frac{1.34\sigma}{20}=1.34 \quad\Rightarrow\quad \sigma=20
-$$
-
-신뢰구간의 길이는
-
-$$
-b-a=2\times 1.96\times\frac{\sigma}{10}=2\times 1.96\times 2=7.84
-$$
-
-따라서 정답은 **②**예요.
-
+## 문제
+
+어느 자동차 회사에서 생산하는 전기 자동차의 $1$회 충전 주행 거리는 평균이 $m$이고 표준편차가 $\sigma$인 정규분포를 따른다고 한다. 이 자동차 회사에서 생산한 전기 자동차 $100$대를 임의추출하여 얻은 $1$회 충전 주행 거리의 표본평균이 $\overline{x_{1}}$일 때, 모평균 $m$에 대한 신뢰도 $95\%$의 신뢰구간이 $a \leq m \leq b$이다. 이 자동차 회사에서 생산한 전기 자동차 $400$대를 임의추출하여 얻은 $1$회 충전 주행 거리의 표본평균이 $\overline{x_{2}}$일 때, 모평균 $m$에 대한 신뢰도 $99\%$의 신뢰구간이 $c \leq m \leq d$이다. $\overline{x_{1}} - \overline{x_{2}} = 1.34$이고 $a = c$일 때, $b - a$의 값은? (단, 주행 거리의 단위는 $km$이고, $Z$가 표준정규분포를 따르는 확률변수일 때, $P(|Z| \leq 1.96) = 0.95$, $P(|Z| \leq 2.58) = 0.99$로 계산한다.) \[3점\]
+
+
+
+① $5.88$ ② $7.84$ ③ $9.80$ ④ $11.76$ ⑤ $13.72$
+
+
+
+
+
+## 힌트
+
+표본 크기 $n$일 때 모평균의 신뢰구간은 $\overline{x}\pm z_{\alpha/2}\cdot\dfrac{\sigma}{\sqrt{n}}$ 형태예요. $n=100$, $95\%$와 $n=400$, $99\%$ 구간을 각각 써 보세요.
+
+
+
+## 힌트
+
+신뢰구간의 **왼쪽 끝** $a$, $c$가 같다고 했으니 $\overline{x_{1}}-\dfrac{1.96\sigma}{10}=\overline{x_{2}}-\dfrac{2.58\sigma}{20}$과 $\overline{x_{1}}-\overline{x_{2}}=1.34$를 연립해 $\sigma$를 구한 뒤, $b-a$는 구간의 **길이**입니다.
+
+
+
+## 풀이
+
+표본 크기 $100$, 신뢰도 $95\%$이므로
+
+
+
+$$
+
+a=\overline{x_{1}}-1.96\cdot\frac{\sigma}{\sqrt{100}}=\overline{x_{1}}-1.96\cdot\frac{\sigma}{10}
+
+$$
+
+
+
+$$
+
+b=\overline{x_{1}}+1.96\cdot\frac{\sigma}{10}
+
+$$
+
+
+
+표본 크기 $400$, 신뢰도 $99\%$이므로
+
+
+
+$$
+
+c=\overline{x_{2}}-2.58\cdot\frac{\sigma}{\sqrt{400}}=\overline{x_{2}}-2.58\cdot\frac{\sigma}{20}
+
+$$
+
+
+
+$$
+
+d=\overline{x_{2}}+2.58\cdot\frac{\sigma}{20}
+
+$$
+
+
+
+$a=c$이므로
+
+
+
+$$
+
+\overline{x_{1}}-1.96\cdot\frac{\sigma}{10}=\overline{x_{2}}-2.58\cdot\frac{\sigma}{20}
+
+$$
+
+
+
+양변을 정리하면
+
+
+
+$$
+
+\overline{x_{1}}-\overline{x_{2}}=1.96\cdot\frac{\sigma}{10}-2.58\cdot\frac{\sigma}{20}=\frac{3.92\sigma-2.58\sigma}{20}=\frac{1.34\sigma}{20}
+
+$$
+
+
+
+$\overline{x_{1}}-\overline{x_{2}}=1.34$이므로
+
+
+
+$$
+
+\frac{1.34\sigma}{20}=1.34 \quad\Rightarrow\quad \sigma=20
+
+$$
+
+
+
+신뢰구간의 길이는
+
+
+
+$$
+
+b-a=2\times 1.96\times\frac{\sigma}{10}=2\times 1.96\times 2=7.84
+
+$$
+
+
+
+따라서 정답은 **②**예요.
+
+

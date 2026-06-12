@@ -329,6 +329,24 @@ html.dark .prose {
     font-family: KaTeX_Main, "Times New Roman", serif;
   }
 
+  /* \text{}·hangul_fallback: 본문 폰트(Hahmlet). KaTeX는 한글을 hangul_fallback 으로 렌더 */
+  .katex .text,
+  .katex .hangul_fallback {
+    font-family: var(--font-kr), var(--font-sans), ui-serif, Georgia, serif;
+  }
+
+  .katex .text .hangul_fallback {
+    font-size: 1.05em;
+    line-height: 1.45;
+  }
+
+  /* display 수식(cases 등) 안 한글은 본문 1rem 에 맞춤 */
+  .katex-display .text .hangul_fallback,
+  .math-display-block .katex .text .hangul_fallback {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
   .dark .katex {
     color: rgb(226 232 240);
   }
@@ -3330,6 +3348,11 @@ html:not(.dark) .exam-problem-page [data-problem-card-root] .prose blockquote {
   margin-bottom: 1rem !important;
 }
 
+/* displaystyle 등 큰 인라인 수식: 줄 높이 안에서 세로 중앙 정렬 (flex는 줄바꿈이 수식 단위로 깨짐) */
+.exam-problem-page [data-problem-card-root] .prose > p:not(.problem-image-paragraph) .katex {
+  vertical-align: middle;
+}
+
 /* 풀이 본문: ### 단계·케이스 구분 (not-prose 아일랜드 안 prose도 포함) */
 .exam-problem-page [data-solution].prose h3 {
   margin-top: 2.25rem;
@@ -3351,38 +3374,60 @@ html:not(.dark) .exam-problem-page [data-problem-card-root] .prose blockquote {
 }
 
 /* 풀이·힌트·문제 본문: $$ display 수식 (가운데 정렬, 스크롤바 없음) */
-.exam-problem-page .prose .math-display-block {
-  display: block;
+.exam-problem-page .math-display-block {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center;
+  width: 100%;
   margin: 1em 0;
-  text-align: center;
   line-height: normal !important;
   overflow: visible;
 }
 
-.exam-problem-page .prose .math-display-block > .katex-display {
+.exam-problem-page .math-display-block > .katex-display {
   display: block;
-  margin: 0 auto;
+  flex: 0 1 auto;
+  width: auto;
+  max-width: 100%;
+  margin: 0 !important;
+  padding: 0;
   text-align: center;
   overflow: visible;
-  max-width: 100%;
 }
 
-.exam-problem-page .prose .math-display-block .katex {
+.exam-problem-page .math-display-block .katex-display > .katex {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  white-space: normal;
+  line-height: normal !important;
+  text-align: center;
+}
+
+.exam-problem-page .math-display-block .katex {
   line-height: normal !important;
 }
 
 /* 문제·힌트·풀이 본문 이미지 가운데 정렬 */
-.exam-problem-page .prose .problem-image-paragraph {
+.exam-problem-page .prose .problem-image-paragraph,
+.exam-problem-page [data-hint-content] .problem-image-paragraph,
+.exam-problem-page [data-solution] .problem-image-paragraph {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100%;
   text-align: center !important;
 }
 
-.exam-problem-page .prose .problem-content-image {
-  display: inline-block !important;
+.exam-problem-page .prose .problem-content-image,
+.exam-problem-page [data-hint-content] .problem-content-image,
+.exam-problem-page [data-solution] .problem-content-image {
+  display: block !important;
   max-width: 100%;
   height: auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  vertical-align: middle;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .exam-back-link {
@@ -3919,6 +3964,111 @@ body.mock-exam-omr-open {
 }
 
 /* ─── 개념 지도 ─────────────────────────────────────────────── */
+@keyframes app-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.app-skeleton {
+  display: block;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--fg-muted) 7%, var(--surface-2)) 25%,
+    color-mix(in srgb, var(--fg-muted) 13%, var(--surface-2)) 50%,
+    color-mix(in srgb, var(--fg-muted) 7%, var(--surface-2)) 75%
+  );
+  background-size: 200% 100%;
+  animation: app-skeleton-shimmer 1.35s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-skeleton {
+    animation: none;
+  }
+}
+
+.concept-map-skeleton-filter {
+  width: 4.5rem;
+  height: 2rem;
+  border-radius: 9999px;
+}
+
+.concept-map-skeleton-summary-card {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--card-border);
+  background: var(--surface-1);
+  display: grid;
+  gap: 0.55rem;
+}
+
+.concept-map-skeleton-summary__label {
+  width: 42%;
+  height: 0.75rem;
+}
+
+.concept-map-skeleton-summary__value {
+  width: 36%;
+  height: 1.5rem;
+}
+
+.concept-map-skeleton__subject {
+  width: 28%;
+  height: 1.35rem;
+  margin-bottom: 1.25rem;
+}
+
+.concept-map-skeleton__chapter {
+  width: 52%;
+  height: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.concept-map-skeleton__chapter--offset {
+  margin-top: 2rem;
+}
+
+.concept-map-skeleton__subchapter {
+  width: 38%;
+  height: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.concept-map-skeleton-chip {
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  padding: 0.9rem 1rem;
+  background: var(--surface-1);
+  display: grid;
+  gap: 0.55rem;
+}
+
+.concept-map-skeleton-chip__title {
+  width: 72%;
+  height: 0.95rem;
+}
+
+.concept-map-skeleton-chip__meta {
+  width: 88%;
+  height: 0.75rem;
+}
+
+.concept-map-skeleton-chip__bar {
+  width: 100%;
+  height: 0.35rem;
+  border-radius: 9999px;
+}
+
+.concept-map-skeleton-chip__count {
+  width: 46%;
+  height: 0.75rem;
+}
+
 .concept-map-summary__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

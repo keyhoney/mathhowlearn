@@ -1,7 +1,9 @@
 ## 문제
 최고차항의 계수가 $1$인 삼차함수 $f(x)$에 대하여 함수
 
-$\displaystyle g(x) = f(x - 3) \times \lim\limits_{h \rightarrow 0 +}\ \frac{|f(x + h)| - |f(x - h)|}{h}$
+$$
+\displaystyle g(x) = f(x - 3) \times \lim\limits_{h \rightarrow 0 +}\ \frac{|f(x + h)| - |f(x - h)|}{h}
+$$
 
 가 다음 조건을 만족시킬 때, $f(5)$의 값을 구하시오. \[4점\]
 
@@ -35,22 +37,22 @@ $$
 **가능한 그래프 모양**  
 $f$는 최고차항 계수가 $1$인 삼차함수예요. 아래 그림들은 원문 해설에서 쓰이던 대표적인 분기예요.
 
-**(ⅰ) 단순 실근 $\alpha$에서 $f'(\alpha)\neq 0$**  
+### (ⅰ) 단순 실근 $\alpha$에서 $f'(\alpha)\neq 0$
 $|f|$가 꺾이므로 $x<\alpha$와 $x>\alpha$에서 위 극한식이 각각 $-2f'(x)$, $2f'(x)$처럼 **부호가 반대**가 돼요. $g$가 $x=\alpha$에서 연속이려면 $f(\alpha-3)\cdot(\pm 2f'(\alpha))$가 같아야 하는데, $f'(\alpha)\neq 0$이면 $f(\alpha-3)=0$이 필요해요. 그런데 보통 $f(\alpha-3)\neq 0$이라 **모순**이 나와요.
 
 ![](/images/docx2mdx/220922-20260430-112450/media/image4.webp)
 
-**(ⅱ) $f(\alpha)=f'(\alpha)=0$인 중근 꼴(극값 없음에 가깝게)**  
+### (ⅱ) $f(\alpha)=f'(\alpha)=0$인 중근 꼴(극값 없음에 가깝게)
 $g$는 $\alpha$에서 연속으로 맞출 수 있지만, $g(x)=0$의 실근이 $\alpha$와 $\alpha+3$ 정도로만 잡혀 **두 개뿐**이라 (나)와 맞지 않아요.
 
 ![](/images/docx2mdx/220922-20260430-112450/media/image5.webp)
 
-**(ⅲ) 극값이 있으나 근 배치가 $k<\alpha<\beta$처럼 어긋난 경우**  
+### (ⅲ) 극값이 있으나 근 배치가 $k<\alpha<\beta$처럼 어긋난 경우
 단순 실근 $k$에서 (ⅰ)와 비슷하게 $g$가 연속이기 어렵고, 세 실근·두 극값만 두는 다른 배치도 (가)·(나)와 동시에 맞기 어려워요.
 
 ![](/images/docx2mdx/220922-20260430-112450/media/image6.webp)
 
-**(ⅳ) 이차 중근 $\alpha$, 단순 실근 $k$, 극값 $\beta$가 $\alpha<\beta<k$인 경우**  
+### (ⅳ) 이차 중근 $\alpha$, 단순 실근 $k$, 극값 $\beta$가 $\alpha<\beta<k$인 경우 
 $x<k$와 $x>k$에서 극한 계수가 $\pm 2f'(x)$로 갈라지고, 아래 그림과 같이 (가)(나)를 동시에 만족시키는 유일한 형태로 정리돼요.
 
 ![](/images/docx2mdx/220922-20260430-112450/media/image7.webp)

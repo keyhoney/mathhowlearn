@@ -39,11 +39,23 @@ const pageConfig = { conceptIndex };
     <div class="app-filter-panel">
       <div class="app-filter-field">
         <span class="app-filter-label">상태 필터</span>
-        <div class="concept-map-filter-row" data-concept-map-status-filter></div>
+        <div class="concept-map-filter-row" data-concept-map-status-filter aria-busy="true">
+          <span class="app-skeleton concept-map-skeleton-filter"></span>
+          <span class="app-skeleton concept-map-skeleton-filter"></span>
+          <span class="app-skeleton concept-map-skeleton-filter"></span>
+          <span class="app-skeleton concept-map-skeleton-filter"></span>
+        </div>
       </div>
     </div>
 
-    <div class="mt-6" data-concept-map-summary></div>
+    <div class="mt-6" data-concept-map-summary aria-busy="true">
+      <div class="concept-map-summary__grid">
+        <div class="concept-map-skeleton-summary-card"><span class="app-skeleton concept-map-skeleton-summary__label"></span><span class="app-skeleton concept-map-skeleton-summary__value"></span></div>
+        <div class="concept-map-skeleton-summary-card"><span class="app-skeleton concept-map-skeleton-summary__label"></span><span class="app-skeleton concept-map-skeleton-summary__value"></span></div>
+        <div class="concept-map-skeleton-summary-card"><span class="app-skeleton concept-map-skeleton-summary__label"></span><span class="app-skeleton concept-map-skeleton-summary__value"></span></div>
+        <div class="concept-map-skeleton-summary-card"><span class="app-skeleton concept-map-skeleton-summary__label"></span><span class="app-skeleton concept-map-skeleton-summary__value"></span></div>
+      </div>
+    </div>
 
     <div class="concept-map-legend mt-4">
       <span class="concept-map-legend__item concept-map-legend__item--conquered">완주</span>
@@ -51,8 +63,26 @@ const pageConfig = { conceptIndex };
       <span class="concept-map-legend__item concept-map-legend__item--none">미시작</span>
     </div>
 
-    <div class="app-card mt-6 p-5" data-concept-map-root>
-      <p class="text-sm text-[var(--fg-muted)]">개념 지도를 불러오는 중…</p>
+    <div class="app-card mt-6 p-5" data-concept-map-root aria-busy="true" aria-label="개념 지도 불러오는 중">
+      <div class="concept-map-skeleton">
+        <span class="app-skeleton concept-map-skeleton__subject"></span>
+        <span class="app-skeleton concept-map-skeleton__chapter"></span>
+        <span class="app-skeleton concept-map-skeleton__subchapter"></span>
+        <div class="concept-map-grid">
+          <div class="concept-map-skeleton-chip"><span class="app-skeleton concept-map-skeleton-chip__title"></span><span class="app-skeleton concept-map-skeleton-chip__meta"></span><span class="app-skeleton concept-map-skeleton-chip__bar"></span><span class="app-skeleton concept-map-skeleton-chip__count"></span></div>
+          <div class="concept-map-skeleton-chip"><span class="app-skeleton concept-map-skeleton-chip__title"></span><span class="app-skeleton concept-map-skeleton-chip__meta"></span><span class="app-skeleton concept-map-skeleton-chip__bar"></span><span class="app-skeleton concept-map-skeleton-chip__count"></span></div>
+          <div class="concept-map-skeleton-chip"><span class="app-skeleton concept-map-skeleton-chip__title"></span><span class="app-skeleton concept-map-skeleton-chip__meta"></span><span class="app-skeleton concept-map-skeleton-chip__bar"></span><span class="app-skeleton concept-map-skeleton-chip__count"></span></div>
+          <div class="concept-map-skeleton-chip"><span class="app-skeleton concept-map-skeleton-chip__title"></span><span class="app-skeleton concept-map-skeleton-chip__meta"></span><span class="app-skeleton concept-map-skeleton-chip__bar"></span><span class="app-skeleton concept-map-skeleton-chip__count"></span></div>
+          <div class="concept-map-skeleton-chip"><span class="app-skeleton concept-map-skeleton-chip__title"></span><span class="app-skeleton concept-map-skeleton-chip__meta"></span><span class="app-skeleton concept-map-skeleton-chip__bar"></span><span class="app-skeleton concept-map-skeleton-chip__count"></span></div>
+          <div class="concept-map-skeleton-chip"><span class="app-skeleton concept-map-skeleton-chip__title"></span><span class="app-skeleton concept-map-skeleton-chip__meta"></span><span class="app-skeleton concept-map-skeleton-chip__bar"></span><span class="app-skeleton concept-map-skeleton-chip__count"></span></div>
+        </div>
+        <span class="app-skeleton concept-map-skeleton__chapter concept-map-skeleton__chapter--offset"></span>
+        <div class="concept-map-grid">
+          <div class="concept-map-skeleton-chip"><span class="app-skeleton concept-map-skeleton-chip__title"></span><span class="app-skeleton concept-map-skeleton-chip__meta"></span><span class="app-skeleton concept-map-skeleton-chip__bar"></span><span class="app-skeleton concept-map-skeleton-chip__count"></span></div>
+          <div class="concept-map-skeleton-chip"><span class="app-skeleton concept-map-skeleton-chip__title"></span><span class="app-skeleton concept-map-skeleton-chip__meta"></span><span class="app-skeleton concept-map-skeleton-chip__bar"></span><span class="app-skeleton concept-map-skeleton-chip__count"></span></div>
+          <div class="concept-map-skeleton-chip"><span class="app-skeleton concept-map-skeleton-chip__title"></span><span class="app-skeleton concept-map-skeleton-chip__meta"></span><span class="app-skeleton concept-map-skeleton-chip__bar"></span><span class="app-skeleton concept-map-skeleton-chip__count"></span></div>
+        </div>
+      </div>
     </div>
   </section>
 
