@@ -33,7 +33,7 @@ export interface WrongStore {
   byId: Record<string, { entries: WrongEntry[] }>;
 }
 
-function parseJson<T>(raw: string | null, fallback: T): T {
+export function parseStorageJson<T>(raw: string | null, fallback: T): T {
   if (!raw) return fallback;
   try {
     return JSON.parse(raw) as T;
@@ -43,7 +43,7 @@ function parseJson<T>(raw: string | null, fallback: T): T {
 }
 
 export function readProgressStore(key: string): ProgressStore {
-  return parseJson<ProgressStore>(localStorage.getItem(key), { v: 1, byId: {} });
+  return parseStorageJson<ProgressStore>(localStorage.getItem(key), { v: 1, byId: {} });
 }
 
 export function writeProgressStore(key: string, store: ProgressStore): void {
@@ -51,7 +51,7 @@ export function writeProgressStore(key: string, store: ProgressStore): void {
 }
 
 export function readWrongStore(key: string): WrongStore {
-  return parseJson<WrongStore>(localStorage.getItem(key), { v: 1, byId: {} });
+  return parseStorageJson<WrongStore>(localStorage.getItem(key), { v: 1, byId: {} });
 }
 
 export function appendWrongEntry(

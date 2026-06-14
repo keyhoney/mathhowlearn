@@ -17,6 +17,7 @@ import {
 import { getCollection, getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { buildProblemSearchKeywords } from '../../lib/problem-search-code';
+import { SITE_URL } from '../../consts';
 
 export const getStaticPaths = (async () => {
   const items = await getCollection('problems');
@@ -87,11 +88,33 @@ const problemSearchKeywords = buildProblemSearchKeywords(entry.id, {
   month,
   examType,
 });
+const problemUrl = `${SITE_URL}/problems/${entry.id}`;
+const problemJsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LearningResource',
+    name: source,
+    description: `${year}년 ${month}월 ${examType} · ${chapter} · ${subChapter} · ${concept}`,
+    url: problemUrl,
+    educationalLevel: '고등학교',
+    learningResourceType: 'Practice problem',
+    about: concept,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Quiz',
+    name: source,
+    url: problemUrl,
+    about: concept,
+    educationalLevel: '고등학교',
+  },
+];
 ---
 
 <MathLayout
   title={source}
   description={`${year}년 ${month}월 ${examType} · ${chapter} · ${subChapter} · ${concept}`}
+  jsonLd={problemJsonLd}
 >
   <article
     class="max-w-4xl mx-auto prose prose-book prose-slate dark:prose-invert exam-problem-page"
@@ -104,6 +127,14 @@ const problemSearchKeywords = buildProblemSearchKeywords(entry.id, {
     data-wrong-note-key={STORAGE_KEYS.WRONG_NOTE}
   >
     <ExamPracticeToolbar problemId={entry.id} />
+    <div class="sr-only" aria-hidden="true">
+      <span data-pagefind-meta="subject">{entry.data.subject}</span>
+      <span data-pagefind-meta="chapter">{chapter}</span>
+      <span data-pagefind-meta="subChapter">{subChapter}</span>
+      <span data-pagefind-meta="concept">{concept}</span>
+      <span data-pagefind-meta="year">{String(year)}</span>
+      <span data-pagefind-meta="difficulty">{String(difficulty)}</span>
+    </div>
     <p class="sr-only" aria-hidden="true">{problemSearchKeywords}</p>
     <header class="not-prose book-card--compact mb-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
       <a href="/problems" class="type-caption font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400" data-list-back-link data-list-base-path="/problems">← 목록으로 돌아가기</a>
@@ -263,7 +294,7 @@ const problemSearchKeywords = buildProblemSearchKeywords(entry.id, {
   </article>
 </MathLayout>
 
-<script is:inline define:vars={{ conceptByProblemId }}>
+<script is:inline define:vars={{ conceptByProblemId, storageKeys: STORAGE_KEYS }}>
   (() => {
     const backLink = document.querySelector('[data-list-back-link]');
     if (!(backLink instanceof HTMLAnchorElement)) return;
@@ -272,8 +303,8 @@ const problemSearchKeywords = buildProblemSearchKeywords(entry.id, {
     }
   })();
 
-  const wrongStore = JSON.parse(localStorage.getItem('howlearn-wrong-note') || '{"byId":{}}');
-  const progressStore = JSON.parse(localStorage.getItem('howlearn-problem-progress') || '{"byId":{}}');
+  const wrongStore = JSON.parse(localStorage.getItem(storageKeys.WRONG_NOTE) || '{"byId":{}}');
+  const progressStore = JSON.parse(localStorage.getItem(storageKeys.PROBLEM_PROGRESS) || '{"byId":{}}');
   const conceptFreq = new Map();
   Object.entries(wrongStore.byId || {}).forEach(([problemId, bucket]) => {
     const concept = conceptByProblemId[problemId];

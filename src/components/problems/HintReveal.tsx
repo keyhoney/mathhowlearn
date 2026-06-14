@@ -8,6 +8,8 @@ import {
 import { emitDashboardRefresh } from '../../lib/client/dashboard-stats';
 import { recordProblemActivity } from '../../lib/client/learning-streak';
 import { STORAGE_KEYS } from '../../lib/storage-keys';
+import { updateReviewSchedule } from '../../lib/client/review-queue';
+import { appendTimelineEvent } from '../../lib/client/learning-timeline';
 
 interface Props {
   problemId: string;
@@ -72,6 +74,8 @@ export function HintReveal({ problemId, totalHints, hintContents, solutionHtml }
   function revealSolution() {
     setShowAnswer(true);
     persist({ status: 'done', solutionRevealed: true });
+    updateReviewSchedule(problemId, totalHints > 0 || revealedHints > 0 ? 'correct-with-hint' : 'correct-no-hint');
+    appendTimelineEvent({ type: 'solution-opened', problemId, label: '최종 풀이를 확인했습니다.' });
     recordProblemActivity(problemId);
   }
 

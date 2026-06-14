@@ -7,6 +7,9 @@ import {
 } from './problem-state';
 import { emitDashboardRefresh } from './dashboard-stats';
 import { recordProblemActivity } from './learning-streak';
+import { updateReviewSchedule } from './review-queue';
+import { appendTimelineEvent } from './learning-timeline';
+import { STORAGE_KEYS } from '../storage-keys';
 
 async function syncProgress(
   problemId: string,
@@ -47,8 +50,8 @@ function initProblemInteraction(root: Element): void {
   const totalHints = Number(root.getAttribute('data-total-hints') || '0');
   const answerType = root.getAttribute('data-answer-type') || 'short';
   const answer = root.getAttribute('data-answer') || '';
-  const progressKey = root.getAttribute('data-progress-key') || 'howlearn-problem-progress';
-  const wrongKey = root.getAttribute('data-wrong-note-key') || 'howlearn-wrong-note';
+  const progressKey = root.getAttribute('data-progress-key') || STORAGE_KEYS.PROBLEM_PROGRESS;
+  const wrongKey = root.getAttribute('data-wrong-note-key') || STORAGE_KEYS.WRONG_NOTE;
 
   const resultEl = root.querySelector<HTMLElement>('[data-answer-result]');
   const wrongNoteLink = root.querySelector<HTMLElement>('[data-go-wrong-note]');
@@ -209,6 +212,11 @@ function initProblemInteraction(root: Element): void {
       lastAnswer: userValue,
       attemptCount: latest.attemptCount + 1,
     });
+    appendTimelineEvent({
+      type: isCorrect ? 'answer-correct' : 'answer-wrong',
+      problemId,
+      label: isCorrect ? '정답을 맞혔습니다.' : '오답을 기록했습니다.',
+    });
     recordProblemActivity(problemId);
 
     if (!isCorrect) {
@@ -222,6 +230,7 @@ function initProblemInteraction(root: Element): void {
       );
       const wrongStore = readWrongStore(wrongKey);
       const wrongCount = wrongStore.byId?.[problemId]?.entries?.length ?? 0;
+      updateReviewSchedule(problemId, wrongCount >= 2 ? 'repeat-wrong' : 'wrong', wrongTs);
       void import('./firebase-sync').then(({ enqueueSyncPatch }) => {
         enqueueSyncPatch(
           'wrongSummary',
@@ -234,6 +243,11 @@ function initProblemInteraction(root: Element): void {
           { increments: { wrongCount: 1 } },
         );
       });
+    } else {
+      updateReviewSchedule(
+        problemId,
+        latest.hintRevealedCount > 0 || latest.solutionRevealed ? 'correct-with-hint' : 'correct-no-hint',
+      );
     }
   };
 

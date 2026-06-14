@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DifficultyStars from '../../components/DifficultyStars.astro';
+import { getPublishedProblems } from '../../lib/content-utils';
+import type { GetStaticPaths } from 'astro';
+import conceptGraph from '../../data/concept-graph.json';
+
+export const getStaticPaths = (async () => {
+  const problems = await getPublishedProblems();
+  const byConcept = new Map<string, typeof problems>();
+  for (const problem of problems) {
+    const bucket = byConcept.get(problem.data.concept) ?? [];
+    bucket.push(problem);
+    byConcept.set(problem.data.concept, bucket);
+  }
+  return Array.from(byConcept.entries()).map(([concept, items]) => ({
+    params: { slug: concept.trim() },
+    props: { concept, items },
+  }));
+}) satisfies GetStaticPaths;
+
+const { concept, items } = Astro.props;
+const sorted = [...items].sort((a, b) => {
+  if (a.data.year !== b.data.year) return b.data.year - a.data.year;
+  if (a.data.month !== b.data.month) return b.data.month - a.data.month;
+  return a.data.source.localeCompare(b.data.source, 'ko');
+});
+const latestYear = sorted.reduce((max, item) => Math.max(max, item.data.year), 0);
+const recentCount = sorted.filter((item) => item.data.year >= latestYear - 2).length;
+const averageDifficulty =
+  sorted.reduce((sum, item) => sum + Number(item.data.difficulty || 3), 0) / Math.max(1, sorted.length);
+const sample = sorted.slice(0, 9);
+const graphInfo = (conceptGraph as Record<string, { prerequisites?: string[]; related?: string[] }>)[concept] ?? null;
+---
+
+<BaseLayout
+  title={`${concept} 개념 문제`}
+  description={`${concept} 개념이 출제된 수능·모의평가 수학 문제와 최근 출제 경향`}
+>
+  <section class="pb-12">
+    <header class="hub-atmosphere rounded-2xl border border-indigo-500/10 bg-[var(--surface-1)] p-6 shadow-[var(--shadow-brand)]">
+      <p class="type-caption chrome-muted">수학 개념 사전</p>
+      <h1 class="type-title brand-gradient-text mt-2">{concept}</h1>
+      <p class="type-lead mt-3 max-w-2xl">
+        이 개념이 포함된 기출 문제를 모았습니다. 대표 문제를 풀고, 개념별 출제 빈도도 함께 확인해 보세요.
+      </p>
+    </header>
+
+    <div class="mt-6 grid gap-3 sm:grid-cols-3">
+      <div class="app-card p-4">
+        <p class="type-caption chrome-muted">등록 문제</p>
+        <p class="type-subhead mt-1">{sorted.length}문항</p>
+      </div>
+      <div class="app-card p-4">
+        <p class="type-caption chrome-muted">최근 3개년</p>
+        <p class="type-subhead mt-1">{recentCount}문항</p>
+      </div>
+      <div class="app-card p-4">
+        <p class="type-caption chrome-muted">평균 난이도</p>
+        <p class="type-subhead mt-1">{averageDifficulty.toFixed(2)}</p>
+      </div>
+    </div>
+
+    {graphInfo ? (
+      <section class="hub-feature-card mt-8">
+        <h2 class="type-subhead">개념 연결</h2>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+          <div>
+            <p class="type-caption chrome-muted">먼저 확인하면 좋은 개념</p>
+            <div class="mt-2 flex flex-wrap gap-2">
+              {(graphInfo.prerequisites ?? []).map((name) => (
+                <a href={`/concepts/${encodeURIComponent(name)}`} class="app-badge app-badge-neutral">{name}</a>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p class="type-caption chrome-muted">함께 보면 좋은 개념</p>
+            <div class="mt-2 flex flex-wrap gap-2">
+              {(graphInfo.related ?? []).map((name) => (
+                <a href={`/concepts/${encodeURIComponent(name)}`} class="app-badge app-badge-info">{name}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    ) : null}
+
+    <section class="hub-feature-card mt-8">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h2 class="type-subhead">대표 문제</h2>
+          <p class="type-caption chrome-muted mt-2">최신 출제순으로 표시합니다.</p>
+        </div>
+        <a href={`/problems?concept=${encodeURIComponent(concept)}`} class="app-btn-secondary">
+          전체 문제 보기
+        </a>
+      </div>
+      <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {sample.map((problem) => (
+          <li>
+            <a
+              href={`/problems/${problem.id}`}
+              class="block h-full rounded-lg border border-[var(--card-border)] bg-[var(--surface-1)] p-4 transition-colors hover:bg-[var(--surface-2)]"
+            >
+              <h3 class="type-heading">{problem.data.source}</h3>
+              <p class="type-caption chrome-muted mt-2">
+                {problem.data.year}년 {problem.data.month}월 · {problem.data.subject} · {problem.data.chapter}
+              </p>
+              <div class="mt-3">
+                <DifficultyStars value={problem.data.difficulty} />
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </section>
+</BaseLayout>

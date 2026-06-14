@@ -12,6 +12,10 @@ import DashboardContentStrip from '../components/dashboard/DashboardContentStrip
 import { DashboardApp } from '../components/dashboard/DashboardApp';
 import { LearningStreakApp } from '../components/dashboard/LearningStreakApp';
 import { ShareCardApp } from '../components/dashboard/ShareCardApp';
+import { LearningBackupApp } from '../components/dashboard/LearningBackupApp';
+import { ReviewQueueApp } from '../components/dashboard/ReviewQueueApp';
+import { WeakConceptApp } from '../components/dashboard/WeakConceptApp';
+import { LearningTimelineApp } from '../components/dashboard/LearningTimelineApp';
 
 const [problems, essayProblems, publishedProblems] = await Promise.all([
   getCollection('problems'),
@@ -30,6 +34,18 @@ const conceptIndex = buildConceptIndex(
 const problemIds = problems.map((item) => item.id);
 const essayProblemIds = essayProblems.map((item) => item.id);
 const focusHelpHref = problemIds[0] ? `/problems/${problemIds[0]}` : '/problems';
+const reviewProblems = publishedProblems.map((p) => ({
+  id: p.id,
+  href: `/problems/${p.id}`,
+  title: p.data.source,
+  meta: `${p.data.year}년 ${p.data.month}월 · ${p.data.examType}`,
+  subject: p.data.subject,
+  chapter: p.data.chapter,
+  subChapter: p.data.subChapter,
+  concept: p.data.concept,
+  year: p.data.year,
+  difficulty: p.data.difficulty,
+}));
 ---
 
 <BaseLayout
@@ -50,12 +66,16 @@ const focusHelpHref = problemIds[0] ? `/problems/${problemIds[0]}` : '/problems'
       focusHelpHref={focusHelpHref}
     />
     <LearningStreakApp client:load />
+    <ReviewQueueApp client:load problems={reviewProblems} />
+    <WeakConceptApp client:load problems={reviewProblems} />
+    <LearningTimelineApp client:load />
     <ShareCardApp
       client:load
       conceptIndex={conceptIndex}
       siteTitle={SITE_TITLE}
       siteUrl={SITE_URL}
     />
+    <LearningBackupApp client:load />
     <DashboardContentStrip />
   </section>
 

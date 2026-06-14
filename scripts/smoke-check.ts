@@ -27,6 +27,23 @@ async function exists(filepath: string): Promise<boolean> {
   }
 }
 
+async function readIfExists(filepath: string): Promise<string> {
+  try {
+    return await fs.readFile(filepath, 'utf8');
+  } catch {
+    return '';
+  }
+}
+
+async function readSitemapText(): Promise<string> {
+  const entries = await fs.readdir(DIST_DIR);
+  const sitemapFiles = entries.filter((name) => /^sitemap.*\.xml$/i.test(name));
+  const chunks = await Promise.all(
+    sitemapFiles.map((name) => readIfExists(path.join(DIST_DIR, name))),
+  );
+  return chunks.join('\n');
+}
+
 async function main() {
   const missing: string[] = [];
 
@@ -42,6 +59,20 @@ async function main() {
     for (const rel of missing) {
       console.error(`- ${rel}`);
     }
+    process.exit(1);
+  }
+
+  const representativeProblemHtml = await readIfExists(
+    path.join(DIST_DIR, 'problems', '20250622', 'index.html'),
+  );
+  if (!representativeProblemHtml.includes('katex')) {
+    console.error('smoke-check failed: representative problem page has no KaTeX output');
+    process.exit(1);
+  }
+
+  const sitemapText = await readSitemapText();
+  if (!sitemapText.includes('/problems/')) {
+    console.error('smoke-check failed: sitemap does not include problem URLs');
     process.exit(1);
   }
 

@@ -7,6 +7,7 @@ import {
 import AppPagination from '../../components/ui/AppPagination.astro';
 import DifficultyStars from '../../components/DifficultyStars.astro';
 import { getExamTypeBadgeClass } from '../../lib/exam-type-badge';
+import { STORAGE_KEYS } from '../../lib/storage-keys';
 
 const allProblems = await getPublishedProblems();
 const monthPriority = new Map<number, number>([
@@ -189,8 +190,9 @@ const months = Array.from(new Set(sortedProblems.map((p) => p.data.month))).sort
   </section>
 </BaseLayout>
 
-<script is:inline define:vars={{ subjectChapterTree }}>
+<script is:inline define:vars={{ subjectChapterTree, storageKeys: STORAGE_KEYS }}>
   (function () {
+    return;
     const tree = subjectChapterTree;
     const sub = document.getElementById('filter-subject');
     const ch = document.getElementById('filter-chapter');
@@ -325,9 +327,9 @@ const months = Array.from(new Set(sortedProblems.map((p) => p.data.month))).sort
       form.appendChild(pageField);
     });
 
-    const progress = JSON.parse(localStorage.getItem('howlearn-problem-progress') || '{"byId":{}}');
-    const bookmarks = JSON.parse(localStorage.getItem('howlearn-bookmark') || '{"byId":{}}');
-    const wrongNotes = JSON.parse(localStorage.getItem('howlearn-wrong-note') || '{"byId":{}}');
+    const progress = JSON.parse(localStorage.getItem(storageKeys.PROBLEM_PROGRESS) || '{"byId":{}}');
+    const bookmarks = JSON.parse(localStorage.getItem(storageKeys.BOOKMARK) || '{"byId":{}}');
+    const wrongNotes = JSON.parse(localStorage.getItem(storageKeys.WRONG_NOTE) || '{"byId":{}}');
     const currentQuery = window.location.search;
     if (currentQuery) {
       document.querySelectorAll('a[data-preserve-list-state-link]').forEach((anchor) => {
@@ -415,4 +417,17 @@ const months = Array.from(new Set(sortedProblems.map((p) => p.data.month))).sort
       tick();
     }
   })();
+</script>
+<script
+  id="problem-list-config"
+  type="application/json"
+  set:html={JSON.stringify({ subjectChapterTree, storageKeys: STORAGE_KEYS })}
+/>
+<script>
+  import { initProblemListPage } from '../../lib/client/problem-list-page';
+
+  const configEl = document.getElementById('problem-list-config');
+  if (configEl?.textContent) {
+    initProblemListPage(JSON.parse(configEl.textContent));
+  }
 </script>

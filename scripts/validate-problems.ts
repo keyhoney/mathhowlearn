@@ -1,10 +1,16 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {
+  findMcqChoiceBlockRange,
+  parseMcqChoiceBodies,
+} from '../src/lib/math-mdx-normalize';
 
 type ProblemDoc = {
   id: string;
   collection: 'problems' | 'essay-problems';
   data: Record<string, unknown>;
+  filePath: string;
+  body: string;
 };
 
 const ROOT = process.cwd();
@@ -63,7 +69,8 @@ async function loadProblems(
       errors.push(`${collection}/${id}: MDX exists but no _metadata.json entry`);
       continue;
     }
-    docs.push({ id, collection, data });
+    const body = await fs.readFile(filePath, 'utf8');
+    docs.push({ id, collection, data, filePath, body });
   }
 
   for (const key of Object.keys(registry)) {
@@ -73,6 +80,94 @@ async function loadProblems(
   }
 
   return { docs, errors };
+}
+
+function extractSection(body: string, heading: string): string {
+  const marker = `## ${heading}`;
+  const start = body.indexOf(marker);
+  if (start < 0) return '';
+  const after = start + marker.length;
+  const next = body.indexOf('\n## ', after);
+  return body.slice(after, next < 0 ? undefined : next).trim();
+}
+
+function hasHeading(body: string, heading: string): boolean {
+  return new RegExp(`^##\\s+${heading}\\s*$`, 'm').test(body);
+}
+
+function extractQuestionNumber(source: string): number | null {
+  const matched = source.match(/(\d+)\s*번(?!.*\d+\s*번)/);
+  if (!matched) return null;
+  const n = Number.parseInt(matched[1] ?? '', 10);
+  return Number.isFinite(n) ? n : null;
+}
+
+function validateProblemBody(problem: ProblemDoc): string[] {
+  const errors: string[] = [];
+  if (problem.collection !== 'problems') return errors;
+
+  if (!hasHeading(problem.body, '문제')) {
+    errors.push(`${problem.collection}/${problem.id}: missing ## 문제 section`);
+  }
+  if (!hasHeading(problem.body, '풀이')) {
+    errors.push(`${problem.collection}/${problem.id}: missing ## 풀이 section`);
+  }
+
+  if (String(problem.data.answerType) === 'mcq') {
+    const problemSection = extractSection(problem.body, '문제');
+    const lines = problemSection.split('\n');
+    const range = findMcqChoiceBlockRange(lines);
+    const choiceBlock = range
+      ? lines
+          .slice(range.start, range.end + 1)
+          .map((line) => line.trim())
+          .filter(Boolean)
+          .join(' ')
+      : '';
+    const choices = choiceBlock ? parseMcqChoiceBodies(choiceBlock) : [];
+    if (choices.length !== 5) {
+      errors.push(
+        `${problem.collection}/${problem.id}: mcq problem must contain 5 choices, found ${choices.length}`,
+      );
+    }
+  }
+
+  return errors;
+}
+
+function validateDuplicateProblemKeys(problems: ProblemDoc[]): string[] {
+  const errors: string[] = [];
+  const seen = new Map<string, string>();
+  for (const problem of problems) {
+    if (problem.collection !== 'problems') continue;
+    const { source, year, month } = problem.data;
+    const questionNumber = extractQuestionNumber(String(source || ''));
+    const key = [
+      String(year || ''),
+      String(month || ''),
+      questionNumber == null ? String(source || '').trim() : String(questionNumber),
+    ].join(':');
+    const prev = seen.get(key);
+    if (prev) {
+      errors.push(`${problem.collection}/${problem.id}: duplicate problem key with ${prev} (${key})`);
+      continue;
+    }
+    seen.set(key, problem.id);
+  }
+  return errors;
+}
+
+function collectWarnings(problem: ProblemDoc): string[] {
+  const warnings: string[] = [];
+  const currentYear = new Date().getFullYear();
+  const year = Number(problem.data.year || 0);
+  if (year > currentYear) {
+    warnings.push(`${problem.collection}/${problem.id}: future year ${year}`);
+  }
+  if (problem.collection === 'problems' && !hasHeading(problem.body, '힌트')) {
+    warnings.push(`${problem.collection}/${problem.id}: no ## 힌트 section`);
+  }
+  return warnings;
 }
 
 function validateCommon(problem: ProblemDoc): string[] {
@@ -125,7 +220,7 @@ function validateEssay(problem: ProblemDoc): string[] {
   if (!isInteger(d.year)) {
     errors.push(`${problem.collection}/${problem.id}: year must be integer`);
   }
-  if (!isInteger(d.difficulty)) {
+  if (d.difficulty !== undefined && !isInteger(d.difficulty)) {
     errors.push(`${problem.collection}/${problem.id}: difficulty must be integer`);
   }
   if (String(d.examType) !== '논술') {
@@ -148,18 +243,22 @@ async function main() {
   const errors = [
     ...p1.errors,
     ...p2.errors,
+    ...validateDuplicateProblemKeys(docs),
     ...docs.flatMap((doc) => [
       ...validateCommon(doc),
       ...validateProblem(doc),
       ...validateEssay(doc),
+      ...validateProblemBody(doc),
     ]),
   ];
+  const warnings = docs.flatMap(collectWarnings);
 
   if (errors.length > 0) {
     for (const e of errors) console.error(`- ${e}`);
     process.exit(1);
   }
 
+  for (const warning of warnings) console.warn(`- warning: ${warning}`);
   console.log(`problem validation passed: ${docs.length} documents`);
 }
 

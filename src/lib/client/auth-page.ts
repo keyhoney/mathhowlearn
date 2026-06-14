@@ -154,6 +154,8 @@ function initAuthPage(root: HTMLElement): void {
   });
 }
 
-document.querySelectorAll<HTMLElement>('[data-auth-page]').forEach((root) => {
-  initAuthPage(root);
-});
+if (typeof document !== 'undefined') {
+  document.querySelectorAll<HTMLElement>('[data-auth-page]').forEach((root) => {
+    initAuthPage(root);
+  });
+}

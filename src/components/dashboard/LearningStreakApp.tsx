@@ -171,7 +171,6 @@ export function LearningStreakApp() {
                       cell.problemCount > 0 ? ' learning-heatmap__cell--active' : ''
                     }`}
                     title={formatCellTitle(cell)}
-                    aria-label={formatCellTitle(cell) || undefined}
                   />
                 );
               })}

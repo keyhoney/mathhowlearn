@@ -4,6 +4,7 @@ import {
   getPublishedEssayProblems,
 } from '../../lib/content-utils';
 import AppPagination from '../../components/ui/AppPagination.astro';
+import { STORAGE_KEYS } from '../../lib/storage-keys';
 
 const allProblems = await getPublishedEssayProblems();
 const universities = Array.from(new Set(allProblems.map((p) => p.data.university)));
@@ -101,8 +102,9 @@ const years = Array.from(new Set(allProblems.map((p) => p.data.year))).sort((a, 
   </section>
 </BaseLayout>
 
-<script is:inline>
+<script is:inline define:vars={{ storageKeys: STORAGE_KEYS }}>
   (() => {
+  return;
   function getProgressDetail(raw) {
     if (!raw) return { status: 'none', hintRevealedCount: 0, solutionRevealed: false, lastSeenAt: 0 };
     if (typeof raw === 'string') return { status: raw, hintRevealedCount: 0, solutionRevealed: false, lastSeenAt: 0 };
@@ -140,8 +142,8 @@ const years = Array.from(new Set(allProblems.map((p) => p.data.year))).sort((a, 
     form.appendChild(pageField);
   });
 
-  const progress = JSON.parse(localStorage.getItem('howlearn-problem-progress') || '{"byId":{}}');
-  const bookmarks = JSON.parse(localStorage.getItem('howlearn-bookmark') || '{"byId":{}}');
+  const progress = JSON.parse(localStorage.getItem(storageKeys.PROBLEM_PROGRESS) || '{"byId":{}}');
+  const bookmarks = JSON.parse(localStorage.getItem(storageKeys.BOOKMARK) || '{"byId":{}}');
   const currentQuery = window.location.search;
   if (currentQuery) {
     document.querySelectorAll('a[data-preserve-list-state-link]').forEach((anchor) => {
@@ -221,4 +223,17 @@ const years = Array.from(new Set(allProblems.map((p) => p.data.year))).sort((a, 
     tick();
   }
   })();
+</script>
+<script
+  id="essay-problem-list-config"
+  type="application/json"
+  set:html={JSON.stringify({ storageKeys: STORAGE_KEYS })}
+/>
+<script>
+  import { initEssayProblemListPage } from '../../lib/client/problem-list-page';
+
+  const configEl = document.getElementById('essay-problem-list-config');
+  if (configEl?.textContent) {
+    initEssayProblemListPage(JSON.parse(configEl.textContent));
+  }
 </script>

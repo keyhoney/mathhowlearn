@@ -1,3 +1,5 @@
+import { STORAGE_KEYS } from '../storage-keys';
+
 function parse<T>(raw: string | null, fallback: T): T {
   if (!raw) return fallback;
   try {
@@ -34,9 +36,9 @@ function emitDashboardRefresh(): void {
 }
 
 document.querySelectorAll<HTMLElement>('[data-focus-toolbar]').forEach((root) => {
-  const focusKey = root.getAttribute('data-focus-key') || 'howlearn-focus-state';
-  const focusHistoryKey = root.getAttribute('data-focus-history-key') || 'howlearn-focus-history';
-  const bookmarkKey = root.getAttribute('data-bookmark-key') || 'howlearn-bookmark';
+  const focusKey = root.getAttribute('data-focus-key') || STORAGE_KEYS.FOCUS_STATE;
+  const focusHistoryKey = root.getAttribute('data-focus-history-key') || STORAGE_KEYS.FOCUS_HISTORY;
+  const bookmarkKey = root.getAttribute('data-bookmark-key') || STORAGE_KEYS.BOOKMARK;
   const problemId = root.getAttribute('data-problem-id') || '';
   const timerEl = root.querySelector<HTMLElement>('[data-focus-timer]');
   const bookmarkBtn = root.querySelector<HTMLButtonElement>('[data-bookmark-toggle]');

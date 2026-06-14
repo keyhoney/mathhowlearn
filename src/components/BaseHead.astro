@@ -17,6 +17,15 @@ const noindex = shouldNoIndexPathname(Astro.url.pathname);
 ---
 
 {import.meta.env.PROD && <GoogleAnalytics />}
+{import.meta.env.PROD && (
+  <script is:inline>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+)}
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />

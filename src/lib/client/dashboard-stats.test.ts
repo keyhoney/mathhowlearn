@@ -11,6 +11,7 @@ import {
   msValuesToBarHeights,
   toDateKey,
 } from './dashboard-stats';
+import { STORAGE_KEYS } from '../storage-keys';
 
 describe('formatDuration', () => {
   it('formats minutes and hours', () => {
@@ -145,18 +146,18 @@ describe('computeDashboardStats', () => {
 
     try {
       storage.set(
-        'howlearn-problem-progress',
+        STORAGE_KEYS.PROBLEM_PROGRESS,
         JSON.stringify({ v: 1, byId: { p1: 'done', p2: 'progress' } }),
       );
       storage.set(
-        'howlearn-wrong-note',
+        STORAGE_KEYS.WRONG_NOTE,
         JSON.stringify({
           v: 1,
           byId: { p1: { entries: [{ ts: Date.now() }, { ts: Date.now() }] } },
         }),
       );
       storage.set(
-        'howlearn-focus-history',
+        STORAGE_KEYS.FOCUS_HISTORY,
         JSON.stringify({ v: 1, byDate: { [toDateKey(Date.now())]: 30 * 60 * 1000 } }),
       );
 

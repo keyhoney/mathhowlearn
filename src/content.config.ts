@@ -23,6 +23,7 @@ const essayProblemSchema = z.object({
   examType: z.literal('논술').default('논술'),
   university: z.string(),
   examYear: z.coerce.number().int().optional(),
+  difficulty: z.coerce.number().int().min(1).max(5).default(3),
 });
 
 const problems = defineCollection({

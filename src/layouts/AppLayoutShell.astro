@@ -2,6 +2,7 @@
 import { GaeSaeGiNav } from '../components/GaeSaeGiNav';
 import HubTopGrid from '../components/hub/HubTopGrid.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { THEME_STORAGE_KEY } from '../lib/theme';
 
 interface Props {
   pathname: string;
@@ -28,7 +29,7 @@ const { pathname } = Astro.props;
 
   <SiteFooter />
 
-  <script is:inline define:vars={{ themeKey: 'gaesaegi-theme' }}>
+  <script is:inline define:vars={{ themeKey: THEME_STORAGE_KEY }}>
     (function () {
       try {
         var t = localStorage.getItem(themeKey);

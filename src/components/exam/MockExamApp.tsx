@@ -359,6 +359,12 @@ function ResultPanel({
   const conv = conversion ? lookupConversion(conversion.lookup, scaled.common, scaled.elective) : null;
   const commonCorrect = questions.filter((q) => q.number <= 22 && q.correct).length;
   const electiveCorrect = questions.filter((q) => q.number > 22 && q.correct).length;
+  const byPoints = [2, 3, 4].map((points) => {
+    const rows = questions.filter((q) => q.points === points);
+    const correct = rows.filter((q) => q.correct).length;
+    return { points, total: rows.length, correct, rate: rows.length > 0 ? Math.round((correct / rows.length) * 100) : 0 };
+  });
+  const wrongQuestions = questions.filter((q) => !q.correct).map((q) => q.number);
 
   return (
     <div className="mock-exam-result space-y-6">
@@ -410,6 +416,26 @@ function ResultPanel({
           <GradeCutTable gradeCuts={conversion.gradeCuts} userGrade={conv.grade} raw={raw} />
         </section>
       ) : null}
+
+      <section className="learn-surface book-card p-6">
+        <h3 className="type-subhead mb-4">풀이 분석 리포트</h3>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {byPoints.map((row) => (
+            <div key={row.points} className="rounded-lg border border-[var(--card-border)] bg-[var(--surface-1)] p-4">
+              <p className="type-caption chrome-muted">{row.points}점 문항</p>
+              <p className="type-subhead mt-1">
+                {row.correct}/{row.total} 정답
+              </p>
+              <p className="type-caption mt-1 text-[var(--fg-muted)]">정답률 {row.rate}%</p>
+            </div>
+          ))}
+        </div>
+        <p className="type-caption chrome-muted mt-4">
+          {wrongQuestions.length > 0
+            ? `다시 볼 문항: ${wrongQuestions.join(', ')}번`
+            : '모든 문항을 맞혔습니다. 같은 회차를 시간 단축 목표로 다시 풀어보세요.'}
+        </p>
+      </section>
 
       <section className="learn-surface book-card p-6">
         <h3 className="type-subhead mb-4">문항별 채점</h3>
