@@ -183,15 +183,21 @@ body {
   font-family: var(--font-kr), var(--font-sans), ui-serif, Georgia, serif;
 }
 
-.exam-problem-page .prose .katex .text .hangul_fallback {
+.exam-problem-page .prose .katex:not(.katex-display) .mord.text .hangul_fallback {
   font-size: 1.05em;
   line-height: 1.45;
 }
 
-.exam-problem-page .prose .katex-display .text .hangul_fallback,
-.exam-problem-page .prose .math-display-block .katex .text .hangul_fallback {
-  font-size: 1rem;
-  line-height: 1.5;
+.exam-problem-page .prose .katex-display .mord.text,
+.exam-problem-page .prose .math-display-block .katex .mord.text {
+  font-size: 0.875em;
+  line-height: 1.45;
+}
+
+.exam-problem-page .prose .katex-display .mord.text .hangul_fallback,
+.exam-problem-page .prose .math-display-block .katex .mord.text .hangul_fallback {
+  font-size: 1em;
+  line-height: inherit;
 }
 
 /* 조건 / 보기 카드 (global.css 와 동일 토큰) */

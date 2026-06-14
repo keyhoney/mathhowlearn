@@ -335,16 +335,26 @@ html.dark .prose {
     font-family: var(--font-kr), var(--font-sans), ui-serif, Georgia, serif;
   }
 
-  .katex .text .hangul_fallback {
+  /* 인라인 수식 \text{}: 본문과 비슷한 크기 */
+  .katex:not(.katex-display) .mord.text .hangul_fallback {
     font-size: 1.05em;
     line-height: 1.45;
   }
 
-  /* display 수식(cases 등) 안 한글은 본문 1rem 에 맞춤 */
-  .katex-display .text .hangul_fallback,
-  .math-display-block .katex .text .hangul_fallback {
-    font-size: 1rem;
-    line-height: 1.5;
+  /*
+   * display 수식(cases·aligned 등) 안 \text{}: 수식마다 \small 붙이지 않도록 전역 축소.
+   * 한글(hangul_fallback)과 \text 안 중첩 수식($X$ 등)이 함께 줄어듦.
+   */
+  .katex-display .mord.text,
+  .math-display-block .katex .mord.text {
+    font-size: 0.875em;
+    line-height: 1.45;
+  }
+
+  .katex-display .mord.text .hangul_fallback,
+  .math-display-block .katex .mord.text .hangul_fallback {
+    font-size: 1em;
+    line-height: inherit;
   }
 
   .dark .katex {
