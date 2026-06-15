@@ -17,6 +17,7 @@ import {
 import { getCollection, getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { buildProblemSearchKeywords } from '../../lib/problem-search-code';
+import { buildProblemPageDescription, buildProblemPageTitle } from '../../lib/problem-seo';
 import { SITE_URL } from '../../consts';
 
 export const getStaticPaths = (async () => {
@@ -88,13 +89,25 @@ const problemSearchKeywords = buildProblemSearchKeywords(entry.id, {
   month,
   examType,
 });
+const seoInput = {
+  id: entry.id,
+  source,
+  year,
+  month,
+  examType,
+  subject: entry.data.subject,
+  concept,
+  hintCount: hintStepsHtml.length,
+};
+const pageTitle = buildProblemPageTitle(seoInput);
+const pageDescription = buildProblemPageDescription(seoInput);
 const problemUrl = `${SITE_URL}/problems/${entry.id}`;
 const problemJsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'LearningResource',
-    name: source,
-    description: `${year}년 ${month}월 ${examType} · ${chapter} · ${subChapter} · ${concept}`,
+    name: pageTitle,
+    description: pageDescription,
     url: problemUrl,
     educationalLevel: '고등학교',
     learningResourceType: 'Practice problem',
@@ -103,7 +116,7 @@ const problemJsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'Quiz',
-    name: source,
+    name: pageTitle,
     url: problemUrl,
     about: concept,
     educationalLevel: '고등학교',
@@ -112,8 +125,8 @@ const problemJsonLd = [
 ---
 
 <MathLayout
-  title={source}
-  description={`${year}년 ${month}월 ${examType} · ${chapter} · ${subChapter} · ${concept}`}
+  title={pageTitle}
+  description={pageDescription}
   jsonLd={problemJsonLd}
 >
   <article
