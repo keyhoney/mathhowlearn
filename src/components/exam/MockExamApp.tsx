@@ -308,28 +308,21 @@ function GradeCutTable({
             <th>등급</th>
             <th>최소 표준점수</th>
             <th>백분위</th>
-            <th>최소 합산 원점수</th>
-            <th>예시 (공통/선택)</th>
             <th>내 점수</th>
           </tr>
         </thead>
         <tbody>
           {gradeCuts.map((cut) => {
             const isUserGrade = userGrade === cut.grade;
-            const reached = raw.total >= cut.minTotalRaw;
             return (
               <tr
                 key={cut.grade}
-                className={isUserGrade ? 'mock-exam-cut-table__row--mine' : reached ? 'mock-exam-cut-table__row--reached' : ''}
+                className={isUserGrade ? 'mock-exam-cut-table__row--mine' : ''}
               >
                 <td>{cut.grade}등급</td>
                 <td>{cut.minStandard}</td>
                 <td>{cut.percentile}</td>
-                <td>{cut.minTotalRaw}</td>
-                <td>
-                  {cut.exampleCommon} / {cut.exampleElective}
-                </td>
-                <td>{isUserGrade ? '●' : reached ? '○' : '—'}</td>
+                <td>{isUserGrade ? '●' : '—'}</td>
               </tr>
             );
           })}

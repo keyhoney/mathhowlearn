@@ -1,7 +1,7 @@
 /**
- * 수능 수학 문항별 배점
- * 1~2: 2점 | 3~13: 3점 | 14~15: 4점 | 16~17: 2점 | 18~21: 3점 | 22: 4점
- * 23~27: 3점 | 28~30: 4점
+ * 수능 수학 문항별 배점 (공통 74 + 선택 26 = 100)
+ * 공통 1~2: 2 | 3~8: 3 | 9~15: 4 | 16~19: 3 | 20~22: 4
+ * 선택 23: 2 | 24~27: 3 | 28: 4 | 29~30: 4
  */
 export const SAT_MATH_POINTS: Record<number, number> = {
   1: 2,
@@ -12,21 +12,21 @@ export const SAT_MATH_POINTS: Record<number, number> = {
   6: 3,
   7: 3,
   8: 3,
-  9: 3,
-  10: 3,
-  11: 3,
-  12: 3,
-  13: 3,
+  9: 4,
+  10: 4,
+  11: 4,
+  12: 4,
+  13: 4,
   14: 4,
   15: 4,
-  16: 2,
-  17: 2,
+  16: 3,
+  17: 3,
   18: 3,
   19: 3,
-  20: 3,
-  21: 3,
+  20: 4,
+  21: 4,
   22: 4,
-  23: 3,
+  23: 2,
   24: 3,
   25: 3,
   26: 3,
@@ -75,10 +75,6 @@ export type GradeCutRow = {
   grade: string;
   minStandard: number;
   percentile: string;
-  /** 해당 등급 달성에 필요한 최소 합산 원점수(공통+선택) */
-  minTotalRaw: number;
-  exampleCommon: number;
-  exampleElective: number;
 };
 
 export type SessionConversionBundle = {
@@ -174,14 +170,10 @@ function buildGradeCuts(conversions: ConversionRow[]): GradeCutRow[] {
     const rows = byGrade.get(grade);
     if (!rows?.length) continue;
     const best = rows.reduce((min, row) => (row.standard < min.standard ? row : min));
-    const minTotal = rows.reduce((min, row) => (row.total < min.total ? row : min));
     cuts.push({
       grade,
       minStandard: best.standard,
       percentile: best.percentile,
-      minTotalRaw: minTotal.total,
-      exampleCommon: minTotal.common,
-      exampleElective: minTotal.elective,
     });
   }
 
