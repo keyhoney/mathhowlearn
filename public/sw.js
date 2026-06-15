@@ -1,8 +1,25 @@
-const CACHE_NAME = 'math-howlearn-static-v1';
-const CORE_ASSETS = ['/', '/problems', '/dashboard', '/search', '/favicon.png', '/site.webmanifest'];
+const CACHE_NAME = 'math-howlearn-static-v2';
+const CORE_ASSETS = ['/', '/problems/', '/dashboard/', '/search/', '/favicon.png', '/site.webmanifest'];
+
+function isNavigationRequest(request) {
+  if (request.mode === 'navigate') return true;
+  const accept = request.headers.get('accept') || '';
+  return accept.includes('text/html');
+}
+
+async function cacheCoreAssets(cache) {
+  await Promise.allSettled(
+    CORE_ASSETS.map(async (url) => {
+      const response = await fetch(url, { redirect: 'follow' });
+      if (response.ok) {
+        await cache.put(url, response);
+      }
+    }),
+  );
+}
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)));
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cacheCoreAssets(cache)));
   self.skipWaiting();
 });
 
@@ -18,6 +35,26 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET') return;
+
+  if (isNavigationRequest(request)) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok && new URL(request.url).origin === self.location.origin) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(async () => {
+          const cached = await caches.match(request);
+          if (cached) return cached;
+          return caches.match('/');
+        }),
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
