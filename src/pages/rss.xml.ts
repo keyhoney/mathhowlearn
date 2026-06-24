@@ -3,6 +3,11 @@ import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from '../consts';
+import {
+  OG_IMAGE_HEIGHT,
+  OG_IMAGE_WIDTH,
+  resolveOgImageUrl,
+} from '../lib/og-image';
 
 function problemPubDate(data: { year: number; month?: number; examYear?: number }): Date {
   const year = data.examYear ?? data.year;
@@ -27,8 +32,16 @@ function problemDescription(data: {
   return parts.filter(Boolean).join(' · ');
 }
 
+function mediaContentXml(imageUrl: string): string {
+  return (
+    `<media:content url="${imageUrl}" medium="image" type="image/png"` +
+    ` width="${OG_IMAGE_WIDTH}" height="${OG_IMAGE_HEIGHT}" />`
+  );
+}
+
 /** 수능·모평·논술 기출 문제 — 최근 100건 */
 export const GET: APIRoute = async (context) => {
+  const site = String(context.site ?? SITE_URL);
   const [problems, essayProblems] = await Promise.all([
     getCollection('problems'),
     getCollection('essay-problems'),
@@ -37,20 +50,34 @@ export const GET: APIRoute = async (context) => {
   const feedItems = [
     ...problems
       .filter((entry) => !entry.id.startsWith('_'))
-      .map((entry) => ({
-        title: entry.data.source,
-        description: problemDescription(entry.data),
-        pubDate: problemPubDate(entry.data),
-        link: `/problems/${entry.id}`,
-      })),
+      .map((entry) => {
+        const imageUrl = new URL(
+          resolveOgImageUrl({ type: 'problems', slug: entry.id }),
+          site,
+        ).href;
+        return {
+          title: entry.data.source,
+          description: problemDescription(entry.data),
+          pubDate: problemPubDate(entry.data),
+          link: `/problems/${entry.id}`,
+          customData: mediaContentXml(imageUrl),
+        };
+      }),
     ...essayProblems
       .filter((entry) => !entry.id.startsWith('_'))
-      .map((entry) => ({
-        title: entry.data.source,
-        description: problemDescription(entry.data),
-        pubDate: problemPubDate(entry.data),
-        link: `/essay-problems/${entry.id}`,
-      })),
+      .map((entry) => {
+        const imageUrl = new URL(
+          resolveOgImageUrl({ type: 'essay-problems', slug: entry.id }),
+          site,
+        ).href;
+        return {
+          title: entry.data.source,
+          description: problemDescription(entry.data),
+          pubDate: problemPubDate(entry.data),
+          link: `/essay-problems/${entry.id}`,
+          customData: mediaContentXml(imageUrl),
+        };
+      }),
   ]
     .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf())
     .slice(0, 100);
@@ -58,7 +85,10 @@ export const GET: APIRoute = async (context) => {
   return rss({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    site: context.site ?? SITE_URL,
+    site,
+    xmlns: {
+      media: 'http://search.yahoo.com/mrss/',
+    },
     items: feedItems,
   });
 };

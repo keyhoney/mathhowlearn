@@ -13,6 +13,8 @@ import { compareEssayProblemsByRecency } from '../../lib/content-utils';
 import { getCollection, getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { STORAGE_KEYS } from '../../lib/storage-keys';
+import { resolveOgImageUrl } from '../../lib/og-image';
+import HiddenRepresentativeImage from '../../components/HiddenRepresentativeImage.astro';
 
 export const getStaticPaths = (async () => {
   const items = await getCollection('essay-problems');
@@ -65,17 +67,21 @@ const relatedProblems = allEssayProblems
     return compareEssayProblemsByRecency(a.problem, b.problem);
   })
   .slice(0, 6);
+const pageDescription = `${university} 대학별 고사 수학 문제`;
+const pageOgImage = resolveOgImageUrl({ type: 'essay-problems', slug: entry.id });
 ---
 
 <MathLayout
   title={source}
-  description={`${university} 대학별 고사 수학 문제`}
+  description={pageDescription}
+  image={pageOgImage}
 >
   <article
     class="max-w-4xl mx-auto prose prose-book prose-slate dark:prose-invert exam-problem-page"
     data-problem-id={entry.id}
     data-progress-key={STORAGE_KEYS.PROBLEM_PROGRESS}
   >
+    <HiddenRepresentativeImage src={pageOgImage} />
     <ExamPracticeToolbar problemId={entry.id} />
     <header class="not-prose book-card--compact mb-4 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
       <a href="/essay-problems" class="type-caption font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400" data-list-back-link data-list-base-path="/essay-problems">← 목록으로 돌아가기</a>

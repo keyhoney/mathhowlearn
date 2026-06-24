@@ -18,6 +18,8 @@ import { getCollection, getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { buildProblemSearchKeywords } from '../../lib/problem-search-code';
 import { buildProblemPageDescription, buildProblemPageTitle } from '../../lib/problem-seo';
+import { resolveOgImageUrl } from '../../lib/og-image';
+import HiddenRepresentativeImage from '../../components/HiddenRepresentativeImage.astro';
 import { SITE_URL } from '../../consts';
 
 export const getStaticPaths = (async () => {
@@ -101,6 +103,7 @@ const seoInput = {
 };
 const pageTitle = buildProblemPageTitle(seoInput);
 const pageDescription = buildProblemPageDescription(seoInput);
+const pageOgImage = resolveOgImageUrl({ type: 'problems', slug: entry.id });
 const problemUrl = `${SITE_URL}/problems/${entry.id}`;
 const problemJsonLd = [
   {
@@ -109,6 +112,7 @@ const problemJsonLd = [
     name: pageTitle,
     description: pageDescription,
     url: problemUrl,
+    image: new URL(pageOgImage, SITE_URL).toString(),
     educationalLevel: '고등학교',
     learningResourceType: 'Practice problem',
     about: concept,
@@ -127,6 +131,7 @@ const problemJsonLd = [
 <MathLayout
   title={pageTitle}
   description={pageDescription}
+  image={pageOgImage}
   jsonLd={problemJsonLd}
 >
   <article
@@ -139,6 +144,7 @@ const problemJsonLd = [
     data-progress-key={STORAGE_KEYS.PROBLEM_PROGRESS}
     data-wrong-note-key={STORAGE_KEYS.WRONG_NOTE}
   >
+    <HiddenRepresentativeImage src={pageOgImage} />
     <ExamPracticeToolbar problemId={entry.id} />
     <div class="sr-only" aria-hidden="true">
       <span data-pagefind-meta="subject">{entry.data.subject}</span>
