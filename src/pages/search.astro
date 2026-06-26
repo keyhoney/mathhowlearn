@@ -6,6 +6,7 @@ import essayMetadata from '../content/essay-problems/_metadata.json';
 import searchSynonyms from '../data/search-synonyms.json';
 
 const problemMetaEntries = Object.entries(problemMetadata);
+const hasEssayProblems = Object.keys(essayMetadata).length > 0;
 const searchSubjects = Array.from(new Set(problemMetaEntries.map(([, meta]) => meta.subject).filter(Boolean))).sort((a, b) => String(a).localeCompare(String(b), 'ko'));
 const searchConcepts = Array.from(new Set(problemMetaEntries.map(([, meta]) => meta.concept).filter(Boolean))).sort((a, b) => String(a).localeCompare(String(b), 'ko'));
 const searchYears = Array.from(new Set(problemMetaEntries.map(([, meta]) => meta.year).filter(Boolean))).sort((a, b) => Number(b) - Number(a));
@@ -27,7 +28,7 @@ const problemSearchIndex = {
   <section class="py-8">
     <h1 class="type-title">검색</h1>
     <p class="type-lead mt-3">
-      수능·모평 및 대학별 고사 수학 문제를 검색할 수 있습니다.
+      수능·모평 수학 기출 문제를 검색할 수 있습니다.
     </p>
 
     <form id="search-form" class="book-card mt-6 border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900/90" role="search">
@@ -52,7 +53,9 @@ const problemSearchIndex = {
       <div class="mt-3 flex flex-wrap gap-2" id="search-domain-tabs">
         <button type="button" data-domain="all" class="gsg-btn-primary !min-h-0 !px-4 !py-2 !text-sm">전체</button>
         <button type="button" data-domain="problems" class="gsg-btn-outline !min-h-0 !px-4 !py-2 !text-sm">수능·모평</button>
-        <button type="button" data-domain="essay-problems" class="gsg-btn-secondary !min-h-0 !px-4 !py-2 !text-sm">대학별 고사</button>
+        {hasEssayProblems && (
+          <button type="button" data-domain="essay-problems" class="gsg-btn-secondary !min-h-0 !px-4 !py-2 !text-sm">대학별 고사</button>
+        )}
       </div>
       <div class="mt-3 grid gap-3 sm:grid-cols-3">
         <select id="search-subject" class="gsg-filter-select" aria-label="과목 필터">

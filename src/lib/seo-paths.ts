@@ -8,7 +8,7 @@ const NOINDEX_EXACT = new Set([
 ]);
 
 /** sitemap·robots noindex에서 제외할 경로 접두사 */
-const NOINDEX_PREFIXES = ['/admin/'] as const;
+const NOINDEX_PREFIXES = ['/admin/', '/essay-problems'] as const;
 
 function normalizePathname(pathname: string): string {
   if (pathname.length > 1 && pathname.endsWith('/')) {

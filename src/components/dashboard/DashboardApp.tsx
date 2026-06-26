@@ -126,7 +126,15 @@ function applyViewModel(vm: DashboardViewModel): void {
     }
   };
   applyProgressListCard('problem', vm.progress.problemList);
-  applyProgressListCard('essay', vm.progress.essayList);
+  const essayCard = document.querySelector<HTMLAnchorElement>('[data-progress-list="essay"]');
+  if (essayCard) {
+    if (vm.progress.essayTotal > 0) {
+      essayCard.removeAttribute('hidden');
+      applyProgressListCard('essay', vm.progress.essayList);
+    } else {
+      essayCard.setAttribute('hidden', '');
+    }
+  }
 }
 
 function bindFocusGoalDialog(refresh: () => void): void {

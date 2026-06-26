@@ -39,46 +39,26 @@ function mediaContentXml(imageUrl: string): string {
   );
 }
 
-/** 수능·모평·논술 기출 문제 — 최근 100건 */
+/** 수능·모평 기출 문제 — 최근 100건 */
 export const GET: APIRoute = async (context) => {
   const site = String(context.site ?? SITE_URL);
-  const [problems, essayProblems] = await Promise.all([
-    getCollection('problems'),
-    getCollection('essay-problems'),
-  ]);
+  const problems = await getCollection('problems');
 
-  const feedItems = [
-    ...problems
-      .filter((entry) => !entry.id.startsWith('_'))
-      .map((entry) => {
-        const imageUrl = new URL(
-          resolveOgImageUrl({ type: 'problems', slug: entry.id }),
-          site,
-        ).href;
-        return {
-          title: entry.data.source,
-          description: problemDescription(entry.data),
-          pubDate: problemPubDate(entry.data),
-          link: `/problems/${entry.id}`,
-          customData: mediaContentXml(imageUrl),
-        };
-      }),
-    ...essayProblems
-      .filter((entry) => !entry.id.startsWith('_'))
-      .map((entry) => {
-        const imageUrl = new URL(
-          resolveOgImageUrl({ type: 'essay-problems', slug: entry.id }),
-          site,
-        ).href;
-        return {
-          title: entry.data.source,
-          description: problemDescription(entry.data),
-          pubDate: problemPubDate(entry.data),
-          link: `/essay-problems/${entry.id}`,
-          customData: mediaContentXml(imageUrl),
-        };
-      }),
-  ]
+  const feedItems = problems
+    .filter((entry) => !entry.id.startsWith('_'))
+    .map((entry) => {
+      const imageUrl = new URL(
+        resolveOgImageUrl({ type: 'problems', slug: entry.id }),
+        site,
+      ).href;
+      return {
+        title: entry.data.source,
+        description: problemDescription(entry.data),
+        pubDate: problemPubDate(entry.data),
+        link: `/problems/${entry.id}`,
+        customData: mediaContentXml(imageUrl),
+      };
+    })
     .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf())
     .slice(0, 100);
 

@@ -461,7 +461,10 @@ export function computeDashboardStats(input: DashboardStatsInput): DashboardView
       essayDone,
       essayTotal,
       essayRate,
-      subtitle: `수능 ${problemDone}/${problemTotal} · 논술 ${essayDone}/${essayTotal}`,
+      subtitle:
+        essayTotal > 0
+          ? `수능 ${problemDone}/${problemTotal} · 논술 ${essayDone}/${essayTotal}`
+          : `수능 ${problemDone}/${problemTotal}`,
       problemList,
       essayList,
       empty: progressEmpty,

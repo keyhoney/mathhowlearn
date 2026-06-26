@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   Map,
   Newspaper,
-  PenLine,
   Timer,
   TrendingUp,
 } from "lucide-react";
@@ -47,7 +46,6 @@ export const navGroups: NavGroup[] = [
     items: [
       { href: "/problems", label: "수능 기출", icon: Calculator },
       { href: "/problems/mock-exam", label: "모의 시험", icon: Timer },
-      { href: "/essay-problems", label: "논술 기출", icon: PenLine },
     ],
   },
   {

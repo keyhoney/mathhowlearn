@@ -7,6 +7,9 @@ import AppPagination from '../../components/ui/AppPagination.astro';
 import { STORAGE_KEYS } from '../../lib/storage-keys';
 
 const allProblems = await getPublishedEssayProblems();
+if (allProblems.length === 0) {
+  return Astro.redirect('/problems');
+}
 const universities = Array.from(new Set(allProblems.map((p) => p.data.university)));
 const years = Array.from(new Set(allProblems.map((p) => p.data.year))).sort((a, b) => b - a);
 ---
